@@ -12,7 +12,7 @@
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="agregarLlantaForm" action="/agregarLlanta" method="POST">
+                <form class="needs-validation" novalidate id="agregarLlantaForm" action="/agregarLlanta" method="POST">
                     @csrf
                     <div class="col-md-12">
                         <label class="form-label">Ingresa la medida: </label>
@@ -60,25 +60,22 @@
         });
 
         document.getElementById('agregarLlantaForm').addEventListener('submit', function(event) {
-            // Selecciona todos los campos del formulario
-            const fields = document.querySelectorAll('#agregarLlantaForm input[required]');
-
-            // Verifica si todos los campos están llenos
+            const form = this;
+            const fields = form.querySelectorAll('input[required]');
             let allFilled = true;
+
             fields.forEach(function(field) {
                 if (!field.value) {
                     allFilled = false;
-                    field.classList.add(
-                    'is-invalid'); // Añade una clase para resaltar los campos vacíos
+                    field.classList.add('is-invalid');
                 } else {
                     field.classList.remove('is-invalid');
                 }
             });
 
-            // Si hay algún campo vacío, evita el envío del formulario
             if (!allFilled) {
                 event.preventDefault();
-                alert('Por favor, complete todos los campos.');
+                event.stopPropagation();
             }
         });
     });

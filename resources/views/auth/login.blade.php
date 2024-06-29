@@ -5,9 +5,23 @@
     <title>Rines Saucedo</title>
     <meta charset="UTF-8">
     <meta name="title" content="Rines Saucedo">
-    <meta name="description" content="Descripción de la WEB">
-    <link href="estilos.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    {{-- Bootstrap --}}
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css">
     @laravelPWA
 </head>
 

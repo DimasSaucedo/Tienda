@@ -13,35 +13,35 @@ return [
         'status_bar' => 'black',
         'icons' => [
             '72x72' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '96x96' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '128x128' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '144x144' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '152x152' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '192x192' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '384x384' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
             '512x512' => [
-                'path' => '/assets/img/Icono.png',
+                'path' => '/images/icons/Icono.png',
                 'purpose' => 'any'
             ],
         ],

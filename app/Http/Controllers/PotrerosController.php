@@ -17,42 +17,71 @@ class PotrerosController extends Controller
             ->orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", 1) AS UNSIGNED)'))
             ->orderBy(DB::raw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Medida, "-", 2), "-", -1) AS UNSIGNED)'))
             ->get();
+            
         return view('Poteros.llantas', ['llantas' => $llantasP]);
     }
 
     public function agregarLlanta(Request $request)
     {
+        $validate = $request->validate([
+            'medida' => 'required',
+            'marca' => 'required',
+            'precioCompra' => 'required',
+            'precioVenta' => 'required'
+        ]);
+
         $llantaP = new Cat_Llantas_Potreros();
+
         $llantaP->Medida = $request->medida;
-        $llantaP->Marca = $request->marca;
-        $llantaP->Letra = $request->letra;
-        $llantaP->Cantidad = $request->cantidad;
+        $llantaP->Marca = strtoupper($request->marca);
+        if ($request->letra == null) {
+            $llantaP->Letra = "-";
+        } else {
+            $llantaP->Letra = strtoupper($request->letra);
+        }
+        if ($request->cantidad == null) {
+            $llantaP->Cantidad = 0;
+        } else {
+            $llantaP->Cantidad = $request->cantidad;
+        }
         $llantaP->PrecioCompra = $request->precioCompra;
         $llantaP->PrecioVenta = $request->precioVenta;
-        $llantaP->save();
+        $validacion = $llantaP->save();
 
+        if ($validacion) {
+            return redirect('llantasP')->with('success', 'Llanta agregada con éxito!');
+        } else {
+            return redirect('llantasP')->with('error', 'No se agrego la llanta');
+        }
         //$llantasP = Cat_Llantas_Potreros::orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", -1) AS UNSIGNED)'))->get();
-        return redirect('llantasP')->with('success', 'Llanta agregada con éxito!');
     }
 
     public function actualizaLlanta(Request $request)
     {
         $request->validate([
-            'medida' => 'required|string',
-            'marca' => 'required|string',
-            'letra' => 'nullable|string',
-            'cantidad' => 'nullable|integer',
-            'precioCompra' => 'required|numeric',
-            'precioVenta' => 'required|numeric',
+            'medida' => 'required',
+            'marca' => 'required',
+            'letra' => 'nullable',
+            'cantidad' => 'nullable',
+            'precioCompra' => 'required',
+            'precioVenta' => 'required',
         ]);
 
         $llantaP = Cat_Llantas_Potreros::where('id', $request->id)->first();
 
         if ($llantaP) {
             $llantaP->Medida = $request->input('medida');
-            $llantaP->Marca = $request->input('marca');
-            $llantaP->Letra = $request->input('letra');
-            $llantaP->Cantidad = $request->input('cantidad');
+            $llantaP->Marca = strtoupper($request->input('marca'));
+            if ($request->letra == null) {
+                $llantaP->Letra = "-";
+            } else {
+                $llantaP->Letra = strtoupper($request->letra);
+            }
+            if ($request->cantidad == null) {
+                $llantaP->Cantidad = 0;
+            } else {
+                $llantaP->Cantidad = $request->cantidad;
+            }
             $llantaP->PrecioCompra = $request->input('precioCompra');
             $llantaP->PrecioVenta = $request->input('precioVenta');
             $llantaP->update();
@@ -117,7 +146,8 @@ class PotrerosController extends Controller
             'nobateria' => 'required',
             'marca' => 'required',
             'cantidad' => 'nullable',
-            'precioCompra' => 'required'
+            'precioCompra' => 'required',
+            'id' => 'required'
         ]);
 
         $llantaP = Cat_Baterias_Potreros::where('id', $request->id)->first();

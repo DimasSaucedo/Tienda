@@ -71,6 +71,7 @@
                 },
                 paging: false,
                 ordering: false
+               
             });
 
             document.getElementById('agregarLlantaForm').addEventListener('submit', function(event) {

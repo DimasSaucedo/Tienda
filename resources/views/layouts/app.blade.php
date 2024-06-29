@@ -43,17 +43,25 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ml-auto">
                     @foreach (Menu() as $Me)
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                style="color: white">
-                                {{ $Me->nombre }}</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                @foreach (submenu($Me->id) as $submenu)
-                                    <a class="dropdown-item" href="{{ $submenu->url }}">{{ $submenu->nombre }}</a>
-                                @endforeach
-                            </div>
-                        </li>
+                        @if ($Me->submenu == 1)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    style="color: white">
+                                    {{ $Me->nombre }}</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @foreach (submenu($Me->id) as $submenu)
+                                        <a class="dropdown-item" href="{{ $submenu->url }}">{{ $submenu->nombre }}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ $Me->url }}" role="button" aria-haspopup="true"
+                                    aria-expanded="false" style="color: white">
+                                    {{ $Me->nombre }}</a>
+                            </li>
+                        @endif
                     @endforeach
                 </ul>
                 <ul class="navbar-nav ml-auto">

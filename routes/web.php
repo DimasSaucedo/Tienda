@@ -34,3 +34,5 @@ Route::get('/bateriasG', [App\Http\Controllers\GuadalupanoController::class, 'ba
 Route::post('/agregarBateriaG', [App\Http\Controllers\GuadalupanoController::class, 'agregarBateria']);
 Route::post('/eliminar_bateriag', [App\Http\Controllers\GuadalupanoController::class, 'eliminarBateria']);
 Route::put('/actualizar_bateria_g', [App\Http\Controllers\GuadalupanoController::class, 'actualizaBateria']);
+
+Route::get('/checador',[App\Http\Controllers\ChecadorController::class, 'index']);
