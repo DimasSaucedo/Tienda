@@ -27,4 +27,10 @@ function redondear($valor)
     }
 }
 
+function formatearNumero($number)
+{
+    return '$' . number_format($number, 0, '.', ',');
+}
+
+
 ?>

@@ -13,7 +13,7 @@
                     llanta</button>
             </div>
             <br>
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead style="background: #e9183b; color: white">
                     <tr>
                         <th class="text-center" style="width: 10px">Cantidad</th>
@@ -32,17 +32,21 @@
                             <td class="text-center" style="width: 10px">{{ $ll->Letra }}</td>
                             <td>{{ $ll->Medida }}</td>
                             <td>{{ $ll->Marca }}</td>
-                            <td class="text-center" style="width: 100px">{{ $ll->PrecioCompra }}</td>
-                            <td class="text-center" style="width: 100px">{{ $ll->PrecioVenta }}</td>
+                            <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioCompra) }}</td>
+                            <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta) }}</td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success" style="width: 100px" data-toggle="modal"
-                                    data-target="#modal-actualizar-{{ $ll->id }}">Actualizar</button>
-                                <br><br>
-                                <form action="/eliminar_llantap" method="POST">
-                                    @csrf
-                                    <input hidden value="{{ $ll->id }}" name="id" id="id">
-                                    <button type="submit" class="btn btn-danger" style="width: 100px">Eliminar</button>
-                                </form>
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-success mr-2" style="width: 100px"
+                                        data-toggle="modal"
+                                        data-target="#modal-actualizar-{{ $ll->id }}">Actualizar</button>
+
+                                    <form action="/eliminar_llantap" method="POST">
+                                        @csrf
+                                        <input hidden value="{{ $ll->id }}" name="id" id="id">
+                                        <button type="submit" class="btn btn-danger" style="width: 100px">Eliminar</button>
+                                    </form>
+                                </div>
+
                             </td>
                         </tr>
                         @include('Poteros.actualizarLlantaP')
@@ -52,6 +56,7 @@
             @include('Poteros.agregarLlanta')
         </div>
     </div>
+    <br>
     <br>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -71,7 +76,7 @@
                 },
                 paging: false,
                 ordering: false
-               
+
             });
 
             document.getElementById('agregarLlantaForm').addEventListener('submit', function(event) {

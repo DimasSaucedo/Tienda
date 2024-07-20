@@ -160,6 +160,11 @@
                         <option value="275-40-18">275-40-18</option>
                         <option value="285-35-18">285-35-18</option>
                         <option value="285-40-18">285-40-18</option>
+                        <option value="266.7-80.01-18">31-10.50-18</option>
+                        <option value="317.5-101.6-18">32-12.50-18</option>
+                        <option value="317.5-104.775-18">33-12.50-18</option>
+                        <option value="317.5-111.125-18">35-12.50-18</option>
+                        <option value="317.5-117.475-18">37-12.50-18</option>
                         <option value="215-35-19">215-35-19</option>
                         <option value="215-40-19">215-40-19</option>
                         <option value="215-45-19">215-45-19</option>
@@ -201,6 +206,11 @@
                         <option value="285-30-20">285-30-20</option>
                         <option value="295-25-20">295-25-20</option>
                         <option value="305-40-20">305-40-20</option>
+                        <option value="266.7-80.01-20">31-10.50-20</option>
+                        <option value="317.5-101.6-20">32-12.50-20</option>
+                        <option value="317.5-104.775-20">33-12.50-20</option>
+                        <option value="317.5-111.125-20">35-12.50-20</option>
+                        <option value="317.5-117.475-20">37-12.50-20</option>
                         <option value="245-30-22">245-30-22</option>
                         <option value="255-25-22">255-25-22</option>
                         <option value="255-30-22">255-30-22</option>
@@ -212,6 +222,11 @@
                         <option value="305-40-22">305-40-22</option>
                         <option value="305-45-22">305-45-22</option>
                         <option value="315-40-22">315-40-22</option>
+                        <option value="266.7-80.01-22">31-10.50-22</option>
+                        <option value="317.5-101.6-22">32-12.50-22</option>
+                        <option value="317.5-104.775-22">33-12.50-22</option>
+                        <option value="317.5-111.125-22">35-12.50-22</option>
+                        <option value="317.5-117.475-22">37-12.50-22</option>
                         <option value="305-35-24">305-35-24</option>
                         <option value="305-40-24">305-40-24</option>
                         <option value="315-35-24">315-35-24</option>
@@ -356,6 +371,11 @@
                         <option value="275-40-18">275-40-18</option>
                         <option value="285-35-18">285-35-18</option>
                         <option value="285-40-18">285-40-18</option>
+                        <option value="266.7-80.01-18">31-10.50-18</option>
+                        <option value="317.5-101.6-18">32-12.50-18</option>
+                        <option value="317.5-104.775-18">33-12.50-18</option>
+                        <option value="317.5-111.125-18">35-12.50-18</option>
+                        <option value="317.5-117.475-18">37-12.50-18</option>
                         <option value="215-35-19">215-35-19</option>
                         <option value="215-40-19">215-40-19</option>
                         <option value="215-45-19">215-45-19</option>
@@ -397,6 +417,11 @@
                         <option value="285-30-20">285-30-20</option>
                         <option value="295-25-20">295-25-20</option>
                         <option value="305-40-20">305-40-20</option>
+                        <option value="266.7-80.01-20">31-10.50-20</option>
+                        <option value="317.5-101.6-20">32-12.50-20</option>
+                        <option value="317.5-104.775-20">33-12.50-20</option>
+                        <option value="317.5-111.125-20">35-12.50-20</option>
+                        <option value="317.5-117.475-20">37-12.50-20</option>
                         <option value="245-30-22">245-30-22</option>
                         <option value="255-25-22">255-25-22</option>
                         <option value="255-30-22">255-30-22</option>
@@ -408,6 +433,11 @@
                         <option value="305-40-22">305-40-22</option>
                         <option value="305-45-22">305-45-22</option>
                         <option value="315-40-22">315-40-22</option>
+                        <option value="266.7-80.01-22">31-10.50-22</option>
+                        <option value="317.5-101.6-22">32-12.50-22</option>
+                        <option value="317.5-104.775-22">33-12.50-22</option>
+                        <option value="317.5-111.125-22">35-12.50-22</option>
+                        <option value="317.5-117.475-22">37-12.50-22</option>
                         <option value="305-35-24">305-35-24</option>
                         <option value="305-40-24">305-40-24</option>
                         <option value="315-35-24">315-35-24</option>
@@ -417,7 +447,7 @@
             </div>
         </form>
         <div class="d-flex justify-content-center align-items-center">
-            <canvas id="llantaCanvas" height="600" width="600"></canvas>
+            <canvas id="llantaCanvas" height="750" width="750"></canvas>
         </div>
 
 
@@ -461,6 +491,7 @@
                 const alturacm = altura / 10;
                 const diametroRin = rinNum * 25.4; // Convertimos el rin a mm
                 const diametroTotal = altura * 2 + diametroRin;
+                const diametroTotalcm = diametroTotal / 10;
 
                 return {
                     ancho: anchoNum,
@@ -468,7 +499,8 @@
                     diametroTotal,
                     diametroRin,
                     anchocm,
-                    alturacm
+                    alturacm,
+                    diametroTotalcm
                 };
             }
 
@@ -498,20 +530,20 @@
                 const resultadoHTML = `
                     <tr>
                         <td>Ancho</td>
-                        <td>${dimensiones2.ancho} mm | ${dimensiones2.anchocm} cm</td>
-                        <td>${dimensiones1.ancho} mm | ${dimensiones1.anchocm} cm</td>
+                        <td>${dimensiones2.ancho.toFixed(2)} mm | ${dimensiones2.anchocm.toFixed(2)} cm</td>
+                        <td>${dimensiones1.ancho.toFixed(2)} mm | ${dimensiones1.anchocm.toFixed(2)} cm</td>
                         <td>${diferenciaAnchoCm} cm</td>
                     </tr>
                     <tr>
                         <td>Altura</td>
-                        <td>${dimensiones2.altura.toFixed(2)} mm | ${dimensiones2.alturacm} cm</td>
-                        <td>${dimensiones1.altura.toFixed(2)} mm | ${dimensiones1.alturacm} cm</td>
+                        <td>${dimensiones2.altura.toFixed(2)} mm | ${dimensiones2.alturacm.toFixed(2)} cm</td>
+                        <td>${dimensiones1.altura.toFixed(2)} mm | ${dimensiones1.alturacm.toFixed(2)} cm</td>
                         <td>${diferenciaAlturaCm} cm</td>
                     </tr>
                     <tr>
-                        <td>Diámetro</td>
-                        <td>${dimensiones2.diametroTotal.toFixed(2)} mm</td>
-                        <td>${dimensiones1.diametroTotal.toFixed(2)} mm</td>
+                        <td>Diámetro Total</td>
+                        <td>${dimensiones2.diametroTotal.toFixed(2)} mm | ${dimensiones2.diametroTotalcm.toFixed(2)} cm</td>
+                        <td>${dimensiones1.diametroTotal.toFixed(2)} mm | ${dimensiones1.diametroTotalcm.toFixed(2)} cm</td>
                         <td>${diferenciaDiametroCm} cm</td>
                     </tr>
                     <tr>

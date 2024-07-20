@@ -10,7 +10,7 @@
                     bateria</button>
             </div>
             <br>
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead style="background: #e9183b; color: white">
                     <tr>
                         <th class="text-center" style="width: 10px">Cantidad</th>
@@ -25,19 +25,21 @@
                     @foreach ($baterias as $ll)
                         <tr>
                             <td class="text-center" style="width: 10px">{{ $ll->Cantidad }}</td>
-                            <td class="text-center" style="width: 10px">{{ $ll->NoBateria }}</td>
-                            <td class="text-center">{{ $ll->Marca }}</td>
-                            <td class="text-center" style="width: 100px">{{ $ll->PrecioCompra }}</td>
-                            <td class="text-center" style="width: 100px">{{ $ll->PrecioVenta }}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-success" style="width: 100px" data-toggle="modal"
-                                    data-target="#modal-actualizar-{{ $ll->id }}">Actualizar</button>
-                                <br><br>
-                                <form action="/eliminar_bateriap" method="POST">
-                                    @csrf
-                                    <input hidden value="{{ $ll->id }}" name="id" id="id">
-                                    <button type="submit" class="btn btn-danger" style="width: 100px">Eliminar</button>
-                                </form>
+                            <td class="text-center" style="width: 150px">{{ $ll->NoBateria }}</td>
+                            <td class="text-center" style="width: 150px">{{ $ll->Marca }}</td>
+                            <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioCompra) }}</td>
+                            <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta) }}</td>
+                            <td class="text-center" style="width: 100px">
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-success mr-2" style="width: 100px"
+                                        data-toggle="modal"
+                                        data-target="#modal-actualizar-{{ $ll->id }}">Actualizar</button>
+                                    <form action="/eliminar_bateriap" method="POST">
+                                        @csrf
+                                        <input hidden value="{{ $ll->id }}" name="id" id="id">
+                                        <button type="submit" class="btn btn-danger" style="width: 100px">Eliminar</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @include('Poteros.actualizarBateriaP')
@@ -59,10 +61,12 @@
             $('#example').DataTable({
                 responsive: true,
                 dom: 'Blfrtip',
-                stateSave: true,
+                stateSave: false,
                 language: {
                     "url": "/assets/lib/datatable/es.json"
                 },
+                paging: false,
+                ordering: false
             });
 
             document.getElementById('agregarLlantaForm').addEventListener('submit', function(event) {
