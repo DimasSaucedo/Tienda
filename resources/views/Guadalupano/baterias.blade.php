@@ -6,7 +6,8 @@
 
         <div class="table-responsive">
             <div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-agregar">Agregar nueva
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-agregar">Agregar
+                    nueva
                     bateria</button>
             </div>
             <br>
@@ -30,17 +31,52 @@
                             <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioCompra) }}</td>
                             <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta) }}</td>
                             <td class="text-center" style="width: 100px">
-                                <div class="d-flex">
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-gear"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-actualizar-{{ $ll->id }}">Actualizar</a>
+                                            </li>
+                                            <li>
+                                                @if ($ll->Cantidad > 0)
+                                                    <form action="/vender_producto" method="POST">
+                                                        @csrf
+                                                        <input hidden value="{{ $ll->id }}" name="id"
+                                                            id="id">
+                                                        <input hidden value="BateriasGuadalupano" name="producto"
+                                                            id="producto">
+                                                        <button type="submit" class="dropdown-item"
+                                                            style="width: 100px">Vender</button>
+                                                    </form>
+                                                @endif
+                                            </li>
+                                            <li>
+                                                <form action="/eliminar_bateriag" method="POST">
+                                                    @csrf
+                                                    <input hidden value="{{ $ll->id }}" name="id" id="id">
+                                                    <button type="submit" class="dropdown-item"
+                                                        style="width: 100px">Eliminar</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                {{-- <div class="d-flex">
                                     <button type="button" class="btn btn-success mr-2" style="width: 100px"
-                                        data-toggle="modal"
-                                        data-target="#modal-actualizar-{{ $ll->id }}">Actualizar</button>
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-actualizar-{{ $ll->id }}">Actualizar</button>
 
                                     <form action="/eliminar_bateriag" method="POST">
                                         @csrf
                                         <input hidden value="{{ $ll->id }}" name="id" id="id">
                                         <button type="submit" class="btn btn-danger" style="width: 100px">Eliminar</button>
                                     </form>
-                                </div>
+                                </div> --}}
 
                             </td>
                         </tr>

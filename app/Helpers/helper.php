@@ -29,7 +29,12 @@ function redondear($valor)
 
 function formatearNumero($number)
 {
-    return '$' . number_format($number, 0, '.', ',');
+    if ($number!=null) {
+        return '$' . number_format($number, 0, '.', ',');
+    }else{
+        return '$ 0.00';
+    }
+
 }
 
 

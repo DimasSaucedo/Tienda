@@ -35,4 +35,14 @@ Route::post('/agregarBateriaG', [App\Http\Controllers\GuadalupanoController::cla
 Route::post('/eliminar_bateriag', [App\Http\Controllers\GuadalupanoController::class, 'eliminarBateria'])->middleware('auth');
 Route::put('/actualizar_bateria_g', [App\Http\Controllers\GuadalupanoController::class, 'actualizaBateria'])->middleware('auth');
 
-Route::get('/checador', [App\Http\Controllers\ChecadorController::class, 'index']);
+Route::get('/checador', [App\Http\Controllers\ChecadorController::class, 'index'])->middleware('auth');
+
+Route::get('/administrador', [App\Http\Controllers\AdministradorController::class, 'index'])->middleware('auth');
+Route::get('/ventas', [App\Http\Controllers\AdministradorController::class, 'index_ventas'])->middleware('auth');
+Route::post('/vender_producto', [App\Http\Controllers\AdministradorController::class, 'vender_producto'])->middleware('auth');
+Route::post('/confirmar_venta', [App\Http\Controllers\AdministradorController::class, 'confirmar_venta'])->middleware('auth');
+Route::post('/eliminar_solicitud_venta', [App\Http\Controllers\AdministradorController::class, 'eliminar_solicitud_venta'])->middleware('auth');
+Route::post('/agregar_venta', [App\Http\Controllers\AdministradorController::class, 'agregar_venta'])->middleware('auth');
+Route::post('/eliminar_venta', [App\Http\Controllers\AdministradorController::class, 'eliminar_venta'])->middleware('auth');
+Route::post('/editar_venta', [App\Http\Controllers\AdministradorController::class, 'editar_venta'])->middleware('auth');
+Route::post('/editar_venta_confirmar', [App\Http\Controllers\AdministradorController::class, 'editar_venta_confirmar'])->middleware('auth');

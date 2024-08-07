@@ -85,7 +85,7 @@ class GuadalupanoController extends Controller
         $llantaP->NoBateria = $request->nobateria;
         $llantaP->Marca = $request->marca;
         $llantaP->Cantidad = $request->cantidad;
-        $llantaP->PrecioCompra = $request->precioCompra;
+        // $llantaP->PrecioCompra = $request->precioCompra;
 
         $precioCompra = $request->precioCompra;
         // Paso 1: Calcular el 25% de precioCompra
@@ -93,6 +93,7 @@ class GuadalupanoController extends Controller
         // Paso 2: Calcular el 10% del resultado anterior y restarlo
         $precioMenos25y10 = $precioMenos25 - ($precioMenos25 * 0.10);
         // Paso 3: Sumar el 25% al resultado final
+        $llantaP->PrecioCompra = $precioMenos25y10;
         $precioVenta = $precioMenos25y10 * 1.25;
         $precioVentaRedondeado = redondear($precioVenta);
 
@@ -118,13 +119,14 @@ class GuadalupanoController extends Controller
             $llantaP->NoBateria = $request->input('nobateria');
             $llantaP->Marca = $request->input('marca');
             $llantaP->Cantidad = $request->input('cantidad');
-            $llantaP->PrecioCompra = $request->input('precioCompra');
+            // $llantaP->PrecioCompra = $request->input('precioCompra');
             $precioCompra = $request->precioCompra;
             // Paso 1: Calcular el 25% de precioCompra
             $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
             // Paso 2: Calcular el 10% del resultado anterior y restarlo
             $precioMenos25y10 = $precioMenos25 - ($precioMenos25 * 0.10);
             // Paso 3: Sumar el 25% al resultado final
+            $llantaP->PrecioCompra = $precioMenos25y10;
             $precioVenta = $precioMenos25y10 * 1.25;
             $precioVentaRedondeado = redondear($precioVenta);
 

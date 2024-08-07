@@ -10,7 +10,7 @@
             <div class="modal-header">
                 <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar Batería: <span
                         class="no-bold">{{ $ll->NoBateria }}</span></h3>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="needs-validation" novalidate id="actualizarBateriaFormP-{{ $ll->id }}"
                 action="/actualizar_bateria_p" method="POST">
@@ -53,7 +53,7 @@
                     <input type="hidden" name="id" id="id" value="{{ $ll->id }}" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary">Actualizar</button>
                 </div>
             </form>
