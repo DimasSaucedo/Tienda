@@ -7,6 +7,7 @@ use App\Models\Cat_Baterias_Potreros;
 use App\Models\Cat_Llantas_Guadalupano;
 use App\Models\Cat_Llantas_Potreros;
 use App\Models\Cat_Ventas;
+use App\Models\View_gastos_detalle;
 use App\Models\View_ventas_detalle_guadalupano;
 use App\Models\View_ventas_detalle_potreros;
 use Illuminate\Http\Request;
@@ -52,6 +53,14 @@ class AdministradorController extends Controller
                 'totalGanancia' => 0
             ];
         }
+
+        $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->first();
+        if (!$gastos_detalle) {
+            $gastos_detalle = (object) [
+                'total_gastos' => 0
+            ];
+        }
+
         $ventas = Cat_Ventas::whereBetween('fecha', [$startOfWeek, $endOfWeek])
             ->orderBy('estado', 'asc')
             ->orderBy('fecha', 'desc')
@@ -62,7 +71,8 @@ class AdministradorController extends Controller
             // 'ventasGuadalupano' => $ventasGuadalupano,
             'detalles_ventas_potreros' => $detalles_ventas_potreros,
             'detalles_ventas_guadalupano' => $detalles_ventas_guadalupano,
-            'ventas' => $ventas
+            'ventas' => $ventas,
+            'gastos_detalle' => $gastos_detalle
         ]);
     }
 
@@ -361,12 +371,21 @@ class AdministradorController extends Controller
                     'totalGanancia' => 0
                 ];
             }
+
+            $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->first();
+            if (!$gastos_detalle) {
+                $gastos_detalle = (object) [
+                    'total_gastos' => 0
+                ];
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
-                'guadalupano' => $detalles_ventas_guadalupano
+                'guadalupano' => $detalles_ventas_guadalupano,
+                'gastos_detalle' => $gastos_detalle
             ]);
         }
     }
@@ -416,12 +435,20 @@ class AdministradorController extends Controller
                     'totalGanancia' => 0
                 ];
             }
+            $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->first();
+            if (!$gastos_detalle) {
+                $gastos_detalle = (object) [
+                    'total_gastos' => 0
+                ];
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
-                'guadalupano' => $detalles_ventas_guadalupano
+                'guadalupano' => $detalles_ventas_guadalupano,
+                'gastos_detalle' => $gastos_detalle
             ]);
         } else {
             return response()->json([
@@ -476,12 +503,20 @@ class AdministradorController extends Controller
                     'totalGanancia' => 0
                 ];
             }
+
+            $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->first();
+            if (!$gastos_detalle) {
+                $gastos_detalle = (object) [
+                    'total_gastos' => 0
+                ];
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
-                'guadalupano' => $detalles_ventas_guadalupano
+                'guadalupano' => $detalles_ventas_guadalupano,
+                'gastos_detalle' => $gastos_detalle
             ]);
         } else {
             return response()->json([
@@ -559,12 +594,20 @@ class AdministradorController extends Controller
                     'totalGanancia' => 0
                 ];
             }
+
+            $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->first();
+            if (!$gastos_detalle) {
+                $gastos_detalle = (object) [
+                    'total_gastos' => 0
+                ];
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
-                'guadalupano' => $detalles_ventas_guadalupano
+                'guadalupano' => $detalles_ventas_guadalupano,
+                'gastos_detalle' => $gastos_detalle
             ]);
         }
     }

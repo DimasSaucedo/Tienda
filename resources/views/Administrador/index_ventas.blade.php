@@ -3,8 +3,7 @@
     <div class="container mt-5">
         <h2>Ventas</h2>
 
-        <div class="container">
-
+        <div class="container mt-2">
             {{-- Total de dinero en ventas: ${{ $detalles_ventas_potreros->totalPrecioCompra }} --}}
             <table class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead style="background: #e9183b; color: white">
@@ -92,11 +91,15 @@
                         <td>
                             {{ formatearNumero($gananciaTotal) }}
                         </td>
+                        <td class="text-center">
+                            {{ formatearNumero($gastos_detalle->total_gastos) }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <a href="/gastos" class="btn btn-success" style="float: right">Agregar gasto</a>
 
-            <div class="col-sm-12">
+            <div class="col-sm-12 mt-5">
                 <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
                     <thead style="background: #e9183b; color: white">
                         <tr>
@@ -115,12 +118,12 @@
                         <tr>
                             <form id="form-venta">
                                 <td hidden></td>
-                                <td> <input value="" class="form-control" type="number" id="cantidad"
+                                <td><input value="" class="form-control" type="number" id="cantidad"
                                         name="cantidad"> </td>
-                                <td> <input value="" class="form-control" id="descripcion" name="descripcion"> </td>
+                                <td><input value="" class="form-control" id="descripcion" name="descripcion"> </td>
                                 <td><input value="" class="form-control" type="number" id="precio_compra"
                                         name="precio_compra"></td>
-                                <td> <input value="" class="form-control" type="number" id="precio_venta"
+                                <td><input value="" class="form-control" type="number" id="precio_venta"
                                         name="precio_venta"> </td>
                                 <td>
                                     <select class="form-control" name="forma_pago" id="forma_pago">
@@ -143,7 +146,8 @@
                                         <option value="Guadalupano">Guadalupano</option>
                                     </select>
                                 </td>
-                                <td> <input type="date" class="form-control" name="fecha" id="fecha"> </td>
+                                <td class="text-center"> <input type="date" class="form-control" name="fecha"
+                                        id="fecha"> </td>
                                 <td class="text-center">
                                     <i class="fa-regular fa-square-check" id="guardar-2"
                                         style="color: green; font-size: 25px; cursor:pointer"></i>
@@ -191,12 +195,12 @@
                                             </option>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <input hidden value="{{ $ve->relacion_producto }}" id="relacion_producto"
                                             name="relacion_producto">
                                         {{ $ve->tienda }}
                                     </td>
-                                    <td>{{ $ve->fecha }}</td>
+                                    <td class="text-center">{{ $ve->fecha }}</td>
                                     <td class="text-center">
                                         <i class="fa-regular fa-square-check" id="guardar"
                                             style="color: green; font-size: 25px; cursor:pointer"></i>
@@ -346,7 +350,8 @@
                                     actualizarTabla(response.ventas);
                                     actualizarResumenTabla(response.potreros,
                                         response
-                                        .guadalupano);
+                                        .guadalupano, response
+                                        .gastos_detalle);
 
                                 });
                             },
@@ -430,7 +435,8 @@
                                     actualizarTabla(response.ventas);
                                     actualizarResumenTabla(response.potreros,
                                         response
-                                        .guadalupano);
+                                        .guadalupano, response
+                                        .gastos_detalle);
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -616,13 +622,13 @@
                                     <form action="/editar_venta" method="POST">
                                         @csrf
                                         <input hidden id="id" name="id"
-                                            value="{{ $ve->id }}">
+                                            value="${ve.id}">
                                         <button type="submit" class="dropdown-item">Editar</button>
                                     </form>
                                 </li>
                                 <li>
                                     <input hidden id="id" name="id"
-                                        value="{{ $ve->id }}">
+                                        value="${ve.id}">
                                     <button class="dropdown-item"
                                         id="eliminar-venta">Eliminar</button>
                                 </li>
@@ -638,7 +644,7 @@
                 });
             }
 
-            function actualizarResumenTabla(detallesVentasPotreros, detallesVentasGuadalupano) {
+            function actualizarResumenTabla(detallesVentasPotreros, detallesVentasGuadalupano, gastos_detalle) {
                 let tablaBodyResumen = $('#body-resumen'); // Obtén el elemento tbody de la tabla
                 tablaBodyResumen.empty(); // Vacía el contenido actual
 
@@ -687,6 +693,9 @@
                         <td>${formatearNumero(ventasTotal)}</td>
                         <td>${formatearNumero(inversionTotal)}</td>
                         <td>${formatearNumero(gananciaTotal)}</td>
+                         <td class="text-center">
+                            ${formatearNumero(gastos_detalle.total_gastos)}
+                        </td>
                     </tr>
                 `;
 
@@ -734,7 +743,7 @@
                             // Actualiza la tabla o realiza otras acciones necesarias
                             actualizarTabla(response.ventas);
                             actualizarResumenTabla(response.potreros, response
-                                .guadalupano);
+                                .guadalupano, response.gastos_detalle);
                         });
                     },
                     error: function(xhr) {
