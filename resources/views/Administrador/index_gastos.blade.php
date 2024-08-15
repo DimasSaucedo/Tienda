@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container mt-5">
+    
         <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
             <thead style="background: #e9183b; color: white">
                 <th class="text-center">

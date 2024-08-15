@@ -1,8 +1,16 @@
 @extends('layouts.app')
 @section('content')
     <div class="container mt-5">
-        <h2>Ventas</h2>
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Ventas</h2>
+            </div>
+            <div class="col-sm-6 text-center">
+                <p id="dinero_total">Total de dinero: {{ formatearNumero($dinero_final->dinero_final) }}</p>
+            </div>
 
+
+        </div>
         <div class="container mt-2">
             {{-- Total de dinero en ventas: ${{ $detalles_ventas_potreros->totalPrecioCompra }} --}}
             <table class="table table-striped table-bordered table-hover" style="width:100%">
@@ -297,7 +305,8 @@
                     "url": "/assets/lib/datatable/es.json"
                 },
                 paging: true,
-                ordering: false
+                ordering: false,
+                responsive: true
             });
 
             $('#body-ventas').on('click', '#eliminar-venta', function() {
@@ -352,7 +361,10 @@
                                         response
                                         .guadalupano, response
                                         .gastos_detalle);
-
+                                    $('#dinero_total').text(
+                                        'Total de dinero: ' +
+                                        formatearNumero(response
+                                            .dinero_final.dinero_final));
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -437,6 +449,10 @@
                                         response
                                         .guadalupano, response
                                         .gastos_detalle);
+                                    $('#dinero_total').text(
+                                        'Total de dinero: ' +
+                                        formatearNumero(response
+                                            .dinero_final.dinero_final));
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -499,6 +515,9 @@
                         }).then(() => {
                             actualizarTabla(response.ventas);
 
+                            $('#dinero_total').text('Total de dinero: ' +
+                                formatearNumero(response
+                                    .dinero_final.dinero_final));
                         });
                     },
                     error: function(xhr, status, error) {
@@ -520,23 +539,16 @@
                 tablaBody.empty(); // Vacía el contenido actual
 
                 // Recorre los datos y actualiza el HTML
-                let filaInsercion = `<tr> <form id="form-venta">
-                                </td>
-                                <td>
-                                    <input value="" class="form-control" type="number" id="cantidad"
-                                        name="cantidad">
-                                </td>
-                                <td>
-                                    <input value="" class="form-control" id="descripcion" name="descripcion">
-                                </td>
-                                <td>
-                                    <input value="" class="form-control" type="number" id="precio_compra"
-                                        name="precio_compra">
-                                </td>
-                                <td>
-                                    <input value="" class="form-control" type="number" id="precio_venta"
-                                        name="precio_venta">
-                                </td>
+                let filaInsercion = `<tr>
+                                <form id="form-venta">
+                                <td hidden></td>
+                                <td><input value="" class="form-control" type="number" id="cantidad"
+                                        name="cantidad"> </td>
+                                <td><input value="" class="form-control" id="descripcion" name="descripcion"> </td>
+                                <td><input value="" class="form-control" type="number" id="precio_compra"
+                                        name="precio_compra"></td>
+                                <td><input value="" class="form-control" type="number" id="precio_venta"
+                                        name="precio_venta"> </td>
                                 <td>
                                     <select class="form-control" name="forma_pago" id="forma_pago">
                                         <option disabled selected value="0">
@@ -558,14 +570,14 @@
                                         <option value="Guadalupano">Guadalupano</option>
                                     </select>
                                 </td>
-                                <td>
-                                    <input type="date" class="form-control" name="fecha" id="fecha">
-                                </td>
+                                <td class="text-center"> <input type="date" class="form-control" name="fecha"
+                                        id="fecha"> </td>
                                 <td class="text-center">
                                     <i class="fa-regular fa-square-check" id="guardar-2"
                                         style="color: green; font-size: 25px; cursor:pointer"></i>
                                 </td>
-                            </form></tr>`;
+                            </form>
+                            </tr>`;
                 tablaBody.append(filaInsercion);
                 ventas.forEach(ve => {
                     let formaPagoTexto = obtenerFormaPagoTexto(ve
@@ -744,6 +756,9 @@
                             actualizarTabla(response.ventas);
                             actualizarResumenTabla(response.potreros, response
                                 .guadalupano, response.gastos_detalle);
+                            $('#dinero_total').text('Total de dinero: ' +
+                                formatearNumero(response
+                                    .dinero_final.dinero_final));
                         });
                     },
                     error: function(xhr) {

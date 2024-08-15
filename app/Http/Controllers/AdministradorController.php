@@ -10,6 +10,7 @@ use App\Models\Cat_Ventas;
 use App\Models\View_gastos_detalle;
 use App\Models\View_ventas_detalle_guadalupano;
 use App\Models\View_ventas_detalle_potreros;
+use App\Models\vw_dinero_final;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,7 +20,15 @@ class AdministradorController extends Controller
 
     public function index()
     {
-        return view('Administrador.index');
+        $dinero_final = vw_dinero_final::orderBy('semana')->get();
+        $guadalupano = View_ventas_detalle_guadalupano::orderBy('semana')->get();
+        $potreros = View_ventas_detalle_potreros::orderBy('semana')->get();
+
+        return view('Administrador.index', [
+            'dinero_final' => $dinero_final,
+            'guadalupano' => $guadalupano,
+            'potreros' => $potreros
+        ]);
     }
 
     public function index_ventas()
@@ -33,6 +42,12 @@ class AdministradorController extends Controller
 
         // $ventasGuadalupano = Cat_Ventas::where('Tienda', 1)->get();
         // $ventasPotreros = Cat_Ventas::where('Tienda', 0)->get();
+        $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
+        if (!$dinero_final) {
+            $dinero_final = (object)[
+                'dinero_final' => 0
+            ];
+        }
 
         $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->first();
         if (!$detalles_ventas_potreros) {
@@ -72,7 +87,8 @@ class AdministradorController extends Controller
             'detalles_ventas_potreros' => $detalles_ventas_potreros,
             'detalles_ventas_guadalupano' => $detalles_ventas_guadalupano,
             'ventas' => $ventas,
-            'gastos_detalle' => $gastos_detalle
+            'gastos_detalle' => $gastos_detalle,
+            'dinero_final' => $dinero_final
         ]);
     }
 
@@ -352,6 +368,13 @@ class AdministradorController extends Controller
             // $ventasGuadalupano = Cat_Ventas::where('Tienda', 1)->get();
             // $ventasPotreros = Cat_Ventas::where('Tienda', 0)->get();
 
+            $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
+            if (!$dinero_final) {
+                $dinero_final = (object)[
+                    'dinero_final' => 0
+                ];
+            }
+
             $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->first();
             if (!$detalles_ventas_potreros) {
                 $detalles_ventas_potreros = (object) [
@@ -385,7 +408,8 @@ class AdministradorController extends Controller
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
                 'guadalupano' => $detalles_ventas_guadalupano,
-                'gastos_detalle' => $gastos_detalle
+                'gastos_detalle' => $gastos_detalle,
+                'dinero_final' => $dinero_final
             ]);
         }
     }
@@ -442,13 +466,21 @@ class AdministradorController extends Controller
                 ];
             }
 
+            $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
+            if (!$dinero_final) {
+                $dinero_final = (object)[
+                    'dinero_final' => 0
+                ];
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
                 'guadalupano' => $detalles_ventas_guadalupano,
-                'gastos_detalle' => $gastos_detalle
+                'gastos_detalle' => $gastos_detalle,
+                'dinero_final' => $dinero_final
             ]);
         } else {
             return response()->json([
@@ -510,13 +542,22 @@ class AdministradorController extends Controller
                     'total_gastos' => 0
                 ];
             }
+
+            $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
+            if (!$dinero_final) {
+                $dinero_final = (object)[
+                    'dinero_final' => 0
+                ];
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
                 'guadalupano' => $detalles_ventas_guadalupano,
-                'gastos_detalle' => $gastos_detalle
+                'gastos_detalle' => $gastos_detalle,
+                'dinero_final' => $dinero_final
             ]);
         } else {
             return response()->json([
@@ -601,13 +642,22 @@ class AdministradorController extends Controller
                     'total_gastos' => 0
                 ];
             }
+
+            $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
+            if (!$dinero_final) {
+                $dinero_final = (object)[
+                    'dinero_final' => 0
+                ];
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Actualizado correctamente',
                 'ventas' => $ventas,
                 'potreros' => $detalles_ventas_potreros,
                 'guadalupano' => $detalles_ventas_guadalupano,
-                'gastos_detalle' => $gastos_detalle
+                'gastos_detalle' => $gastos_detalle,
+                'dinero_final' => $dinero_final
             ]);
         }
     }

@@ -35,13 +35,24 @@ class GastosController extends Controller
             'descripcion' => 'required|string',
             'dinero' => 'required|numeric',
             'forma_pago' => 'required|integer',
-            'tienda' => 'required|string'
+            'tienda' => 'required|string',
+            'fecha' => 'required'
         ]);
 
         $descripcion = $request->input('descripcion');
         $dinero = $request->input('dinero');
         $forma_pago = $request->input('forma_pago');
         $tienda = $request->input('tienda');
+        $fecha = $request->input('fecha');
+
+        $gasto = new Cat_gastos();
+        $gasto->descripcion = $descripcion;
+        $gasto->dinero = $dinero;
+        $gasto->forma_pago = $forma_pago;
+        $gasto->tienda = $tienda;
+        $gasto->fecha = $fecha;
+        $gasto->estado = 1;
+        $gasto->save();
 
         $startOfWeek = Carbon::now()->startOfWeek(); // Lunes de la semana actual
         $endOfWeek = Carbon::now()->endOfWeek(); // Domingo de la semana actual
