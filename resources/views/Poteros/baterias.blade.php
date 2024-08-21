@@ -1,6 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css">
     <div class="container mt-4">
         <h2 class="mb-4"> Baterias de Potreros</h2>
 
@@ -59,7 +59,7 @@
                                                 <form action="/eliminar_bateriap" method="POST">
                                                     @csrf
                                                     <input hidden value="{{ $ll->id }}" name="id" id="id">
-                                                    <button type="submit"  class="dropdown-item"
+                                                    <button type="submit" class="dropdown-item"
                                                         style="width: 100px">Eliminar</button>
                                                 </form>
                                             </li>
@@ -90,6 +90,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 
     <script>

@@ -7,6 +7,7 @@ use App\Models\Cat_Baterias_Potreros;
 use App\Models\Cat_Llantas_Guadalupano;
 use App\Models\Cat_Llantas_Potreros;
 use App\Models\Cat_Ventas;
+use App\Models\User;
 use App\Models\View_gastos_detalle;
 use App\Models\View_ventas_detalle_guadalupano;
 use App\Models\View_ventas_detalle_potreros;
@@ -23,11 +24,13 @@ class AdministradorController extends Controller
         $dinero_final = vw_dinero_final::orderBy('semana')->get();
         $guadalupano = View_ventas_detalle_guadalupano::orderBy('semana')->get();
         $potreros = View_ventas_detalle_potreros::orderBy('semana')->get();
+        $numero_usuarios = User::count();
 
         return view('Administrador.index', [
             'dinero_final' => $dinero_final,
             'guadalupano' => $guadalupano,
-            'potreros' => $potreros
+            'potreros' => $potreros,
+            'numero_usuarios' => $numero_usuarios
         ]);
     }
 

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css">
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-6">
@@ -287,6 +288,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 
     <script>
@@ -305,9 +307,67 @@
                     "url": "/assets/lib/datatable/es.json"
                 },
                 paging: true,
-                ordering: false,
-                responsive: true
+                ordering: false
             });
+
+            $('#guardar-2').click(function() {
+                // Evita el envío del formulario tradicional
+                event.preventDefault();
+
+                // Serializa los datos del formulario
+                var formData = $('#form-venta').serialize();
+
+                // Muestra mensaje de carga
+                Swal.fire({
+                    title: 'Cargando...',
+                    text: 'Por favor, espere mientras procesamos su solicitud.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Enviar solicitud AJAX
+                $.ajax({
+                    url: '/agregar_venta', // Cambia esto a tu endpoint real
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Cierra el mensaje de carga
+                        Swal.close();
+
+                        // Muestra mensaje de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: response.message || 'Operación exitosa',
+                            confirmButtonText: 'Aceptar'
+                        }).then(() => {
+                            window.location.reload();
+                            // Actualiza la tabla o realiza otras acciones necesarias
+                            //actualizarTabla(response.ventas);
+                            //actualizarResumenTabla(response.potreros, response
+                            //    .guadalupano, response.gastos_detalle);
+                            //$('#dinero_total').text('Total de dinero: ' +
+                            //    formatearNumero(response
+                            //        .dinero_final.dinero_final));
+                        });
+                    },
+                    error: function(xhr) {
+                        // Cierra el mensaje de carga
+                        Swal.close();
+
+                        // Muestra mensaje de error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: xhr.responseJSON.message || 'Error en la solicitud',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                });
+            });
+
 
             $('#body-ventas').on('click', '#eliminar-venta', function() {
 
@@ -356,15 +416,16 @@
                                         'Operación exitosa',
                                     confirmButtonText: 'Aceptar'
                                 }).then(() => {
-                                    actualizarTabla(response.ventas);
-                                    actualizarResumenTabla(response.potreros,
-                                        response
-                                        .guadalupano, response
-                                        .gastos_detalle);
-                                    $('#dinero_total').text(
-                                        'Total de dinero: ' +
-                                        formatearNumero(response
-                                            .dinero_final.dinero_final));
+                                    window.location.reload();
+                                    // actualizarTabla(response.ventas);
+                                    // actualizarResumenTabla(response.potreros,
+                                    //    response
+                                    //    .guadalupano, response
+                                    //   .gastos_detalle);
+                                    //$('#dinero_total').text(
+                                    //    'Total de dinero: ' +
+                                    //   formatearNumero(response
+                                    //      .dinero_final.dinero_final));
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -444,15 +505,16 @@
                                         'Operación exitosa',
                                     confirmButtonText: 'Aceptar'
                                 }).then(() => {
-                                    actualizarTabla(response.ventas);
-                                    actualizarResumenTabla(response.potreros,
-                                        response
-                                        .guadalupano, response
-                                        .gastos_detalle);
-                                    $('#dinero_total').text(
-                                        'Total de dinero: ' +
-                                        formatearNumero(response
-                                            .dinero_final.dinero_final));
+                                    window.location.reload();
+                                    //                                    actualizarTabla(response.ventas);
+                                    //                      actualizarResumenTabla(response.potreros,
+                                    //                        response
+                                    //                      .guadalupano, response
+                                    //                    .gastos_detalle);
+                                    //              $('#dinero_total').text(
+                                    //                'Total de dinero: ' +
+                                    //              formatearNumero(response
+                                    //                .dinero_final.dinero_final));
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -513,11 +575,13 @@
                             text: response.message || 'Operación exitosa',
                             confirmButtonText: 'Aceptar'
                         }).then(() => {
-                            actualizarTabla(response.ventas);
+                            window.location.reload();
 
-                            $('#dinero_total').text('Total de dinero: ' +
-                                formatearNumero(response
-                                    .dinero_final.dinero_final));
+                            // actualizarTabla(response.ventas);
+
+                            //$('#dinero_total').text('Total de dinero: ' +
+                            //    formatearNumero(response
+                            //        .dinero_final.dinero_final));
                         });
                     },
                     error: function(xhr, status, error) {
@@ -719,62 +783,6 @@
 
 
 
-            $('#guardar-2').click(function() {
-                // Evita el envío del formulario tradicional
-                event.preventDefault();
-
-                // Serializa los datos del formulario
-                var formData = $('#form-venta').serialize();
-
-                // Muestra mensaje de carga
-                Swal.fire({
-                    title: 'Cargando...',
-                    text: 'Por favor, espere mientras procesamos su solicitud.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                // Enviar solicitud AJAX
-                $.ajax({
-                    url: '/agregar_venta', // Cambia esto a tu endpoint real
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        // Cierra el mensaje de carga
-                        Swal.close();
-
-                        // Muestra mensaje de éxito
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: response.message || 'Operación exitosa',
-                            confirmButtonText: 'Aceptar'
-                        }).then(() => {
-                            // Actualiza la tabla o realiza otras acciones necesarias
-                            actualizarTabla(response.ventas);
-                            actualizarResumenTabla(response.potreros, response
-                                .guadalupano, response.gastos_detalle);
-                            $('#dinero_total').text('Total de dinero: ' +
-                                formatearNumero(response
-                                    .dinero_final.dinero_final));
-                        });
-                    },
-                    error: function(xhr) {
-                        // Cierra el mensaje de carga
-                        Swal.close();
-
-                        // Muestra mensaje de error
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: xhr.responseJSON.message || 'Error en la solicitud',
-                            confirmButtonText: 'Aceptar'
-                        });
-                    }
-                });
-            });
 
         });
         // Función para formatear números (puedes ajustarla según tus necesidades)
