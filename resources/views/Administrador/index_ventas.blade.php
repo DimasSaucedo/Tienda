@@ -10,7 +10,6 @@
                 <p id="dinero_total">Total de dinero: {{ formatearNumero($dinero_final->dinero_final) }}</p>
             </div>
 
-
         </div>
         <div class="container mt-2">
             {{-- Total de dinero en ventas: ${{ $detalles_ventas_potreros->totalPrecioCompra }} --}}
@@ -106,8 +105,8 @@
                     </tr>
                 </tbody>
             </table>
-            <a href="/gastos" class="btn btn-success" style="float: right">Agregar gasto</a>
-
+            <a href="/gastos" class="btn btn-success mb-5" style="float: right">Agregar gasto</a>
+            <br>
             <div class="col-sm-12 mt-5">
                 <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
                     <thead style="background: #e9183b; color: white">
@@ -306,7 +305,7 @@
                 language: {
                     "url": "/assets/lib/datatable/es.json"
                 },
-                paging: true,
+                paging: false,
                 ordering: false
             });
 

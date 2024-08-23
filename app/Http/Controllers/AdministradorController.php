@@ -36,6 +36,7 @@ class AdministradorController extends Controller
 
     public function index_ventas()
     {
+        $year = Carbon::now()->year;
         $startOfWeek = Carbon::now()->startOfWeek(); // Lunes de la semana actual
         $endOfWeek = Carbon::now()->endOfWeek(); // Domingo de la semana actual
         // Obtener la fecha actual
@@ -45,14 +46,17 @@ class AdministradorController extends Controller
 
         // $ventasGuadalupano = Cat_Ventas::where('Tienda', 1)->get();
         // $ventasPotreros = Cat_Ventas::where('Tienda', 0)->get();
-        $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
+        // dd($numeroSemana);
+        $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->where('año', $year)->first();
+
+        // dd($dinero_final);
         if (!$dinero_final) {
-            $dinero_final = (object)[
+            $dinero_final = (object) [
                 'dinero_final' => 0
             ];
         }
 
-        $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->first();
+        $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->where('ano', $year)->first();
         if (!$detalles_ventas_potreros) {
             $detalles_ventas_potreros = (object) [
                 'totalEfectivo' => 0,
@@ -61,7 +65,7 @@ class AdministradorController extends Controller
                 'totalGanancia' => 0
             ];
         }
-        $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana', $numeroSemana)->first();
+        $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana', $numeroSemana)->where('ano', $year)->first();
         // Proporcionar valores predeterminados si no se encuentran resultados
         if (!$detalles_ventas_guadalupano) {
             $detalles_ventas_guadalupano = (object) [
@@ -72,7 +76,7 @@ class AdministradorController extends Controller
             ];
         }
 
-        $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->first();
+        $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->where('ano', $year)->first();
         if (!$gastos_detalle) {
             $gastos_detalle = (object) [
                 'total_gastos' => 0
@@ -373,7 +377,7 @@ class AdministradorController extends Controller
 
             $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
             if (!$dinero_final) {
-                $dinero_final = (object)[
+                $dinero_final = (object) [
                     'dinero_final' => 0
                 ];
             }
@@ -471,7 +475,7 @@ class AdministradorController extends Controller
 
             $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
             if (!$dinero_final) {
-                $dinero_final = (object)[
+                $dinero_final = (object) [
                     'dinero_final' => 0
                 ];
             }
@@ -548,7 +552,7 @@ class AdministradorController extends Controller
 
             $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
             if (!$dinero_final) {
-                $dinero_final = (object)[
+                $dinero_final = (object) [
                     'dinero_final' => 0
                 ];
             }
@@ -648,7 +652,7 @@ class AdministradorController extends Controller
 
             $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->first();
             if (!$dinero_final) {
-                $dinero_final = (object)[
+                $dinero_final = (object) [
                     'dinero_final' => 0
                 ];
             }
