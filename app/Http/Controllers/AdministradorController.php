@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cat_Baterias_Guadalupano;
 use App\Models\Cat_Baterias_Potreros;
+use App\Models\Cat_gastos;
 use App\Models\Cat_Llantas_Guadalupano;
 use App\Models\Cat_Llantas_Potreros;
 use App\Models\Cat_Ventas;
@@ -12,6 +13,7 @@ use App\Models\View_gastos_detalle;
 use App\Models\View_ventas_detalle_guadalupano;
 use App\Models\View_ventas_detalle_potreros;
 use App\Models\vw_dinero_final;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -715,5 +717,51 @@ class AdministradorController extends Controller
         } else {
             return redirect('/ventas')->with('error', 'Error al editar la venta');
         }
+    }
+
+    public function buscar_ventas(Request $request)
+    {
+        $validate = $request->validate([
+            'date' => 'required|date',
+        ]);
+
+        $year = Carbon::now()->year;
+        // Convertir la fecha proporcionada en un objeto Carbon
+        $date = Carbon::parse($request->date);
+
+        // Extraer solo la parte de la fecha (sin la hora)
+        $formattedDate = $date->format('Y-m-d');
+
+        // Calcular el inicio y el final de la semana para la fecha formateada
+        $startOfWeek = Carbon::parse($formattedDate)->startOfWeek(Carbon::MONDAY);
+        $endOfWeek = Carbon::parse($formattedDate)->endOfWeek(Carbon::SUNDAY);
+
+        $numeroSemana = $date->week;
+        // dd($startOfWeek);
+        // Obtener las ventas dentro de la semana calculada
+        $ventas = Cat_Ventas::whereBetween('fecha', [$startOfWeek, $endOfWeek])
+            ->orderBy('estado', 'asc')
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        $gastos = Cat_gastos::whereBetween('fecha', [$startOfWeek, $endOfWeek])
+            ->orderBy('estado', 'asc')
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+
+        $dinero_final = vw_dinero_final::where('año', $year)
+            ->where('semana', $numeroSemana)->first();
+
+        $data = [
+            'fecha_inicio' => $startOfWeek,
+            'fecha_fin' => $endOfWeek,
+            'ventas' => $ventas,
+            'gastos' => $gastos,
+            'dinero_final' => $dinero_final
+        ];
+
+        $pdf = Pdf::loadView('Administrador.pdf_index_ventas', $data);
+        return $pdf->download('invoice.pdf');
     }
 }

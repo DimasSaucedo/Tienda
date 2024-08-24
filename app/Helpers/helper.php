@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\Cat_Menu;
 use App\Models\Cat_SubMenu;
 
@@ -29,13 +30,27 @@ function redondear($valor)
 
 function formatearNumero($number)
 {
-    if ($number!=null) {
+    if ($number != null) {
         return '$' . number_format($number, 0, '.', ',');
-    }else{
+    } else {
         return '$ 0.00';
     }
-
 }
 
-
-?>
+function metodo_de_pago($pago)
+{
+    $nombre = "";
+    if ($pago == 1) {
+        $nombre = "Tarjeta de credito";
+    }
+    if ($pago == 2) {
+        $nombre = "Tarjeta de debito";
+    }
+    if ($pago == 3) {
+        $nombre = "Tarjeta de transferencia";
+    }
+    if ($pago == 4) {
+        $nombre = "Efectivo";
+    }
+    return $nombre;
+}

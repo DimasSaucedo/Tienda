@@ -52,6 +52,7 @@ Route::post('/agregar_venta', [App\Http\Controllers\AdministradorController::cla
 Route::post('/eliminar_venta', [App\Http\Controllers\AdministradorController::class, 'eliminar_venta'])->middleware('auth');
 Route::post('/editar_venta', [App\Http\Controllers\AdministradorController::class, 'editar_venta'])->middleware('auth');
 Route::post('/editar_venta_confirmar', [App\Http\Controllers\AdministradorController::class, 'editar_venta_confirmar'])->middleware('auth');
+Route::post('/buscar_ventas', [App\Http\Controllers\AdministradorController::class, 'buscar_ventas'])->middleware('auth');
 
 //Gastos
 Route::get('/gastos', [App\Http\Controllers\GastosController::class, 'index'])->middleware('auth');

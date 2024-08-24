@@ -60,6 +60,10 @@
             color: #fff;
             /* Color blanco para el texto */
         }
+
+        body {
+            background: rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
 

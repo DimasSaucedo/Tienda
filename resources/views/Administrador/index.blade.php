@@ -62,8 +62,8 @@
         }
     </style>
 
-    <div class="container mt-5">
-        <div class="row ">
+    <div class="container mt-5 mb-5">
+        <div class="row">
             <div class="col-sm-9">
                 <div class="card">
                     <div class="card-body">
@@ -76,24 +76,44 @@
                         </figure>
 
                         <div class="text-center">
-                            <a href="/ventas" class="btn btn-primary ">Acceder</a>
+                            <a href="/ventas" class="btn btn-primary">Acceder</a>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div style="display:flex">
-                            <i class="fa-solid fa-user" style="font-size: 20px; margin-right: 10px"></i>
-                            <h5 class="card-title">Usuarios</h5>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="display: flex">
+                                    <i class="fa-solid fa-user" style="font-size: 20px; margin-right: 10px"></i>
+                                    <h5 class="card-title">Usuarios</h5>
+                                </div>
+                                <div class="text-center">
+                                    <h3>{{ $numero_usuarios }}</h3>
+                                    <div class="text-center">
+                                        <a href="/usuarios" class="btn btn-primary">Acceder</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-center">
-                            <h3>
-                                {{ $numero_usuarios }}
-                            </h3>
-                            <div class="text-center">
-                                <a href="/usuarios" class="btn btn-primary ">Acceder</a>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="display: flex">
+                                    <i class="fa-solid fa-user" style="font-size: 20px; margin-right: 10px"></i>
+                                    <h5 class="card-title">Apartados</h5>
+                                </div>
+                                <div class="text-center">
+                                    <h3>{{ $numero_usuarios }}</h3>
+                                    <div class="text-center">
+                                        <a href="/usuarios" class="btn btn-primary">Acceder</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,6 +121,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         // Datos de PHP convertidos a JavaScript

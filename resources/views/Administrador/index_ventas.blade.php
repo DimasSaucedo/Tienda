@@ -3,13 +3,26 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css">
     <div class="container mt-5">
         <div class="row">
-            <div class="col-sm-6">
-                <h2>Ventas</h2>
+            <div class="col-sm-12 text-center">
+                <h1>Ventas</h1>
             </div>
-            <div class="col-sm-6 text-center">
-                <p id="dinero_total">Total de dinero: {{ formatearNumero($dinero_final->dinero_final) }}</p>
-            </div>
+        </div>
 
+        <div class="row mt-5">
+            <h4>Historial del ventas</h4>
+            <div class="col-sm-9">
+                <form action="/buscar_ventas" method="post" novalidate>
+                    @csrf
+                    <div class="d-flex">
+                        <input type="date" class="form-control me-2" name="date" id="date" required>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-3 text-center">
+                <p id="dinero_total" style="font-size: 20px;"><strong>Total de dinero: </strong>
+                    {{ formatearNumero($dinero_final->dinero_final) }}</p>
+            </div>
         </div>
         <div class="container mt-2">
             {{-- Total de dinero en ventas: ${{ $detalles_ventas_potreros->totalPrecioCompra }} --}}
@@ -105,9 +118,12 @@
                     </tr>
                 </tbody>
             </table>
-            <a href="/gastos" class="btn btn-success mb-5" style="float: right">Agregar gasto</a>
-            <br>
-            <div class="col-sm-12 mt-5">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="/gastos" class="btn btn-success mb-5" style="float: right">Agregar gasto</a>
+                </div>
+            </div>
+            <div class="col-sm-12 mt-2">
                 <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
                     <thead style="background: #e9183b; color: white">
                         <tr>
