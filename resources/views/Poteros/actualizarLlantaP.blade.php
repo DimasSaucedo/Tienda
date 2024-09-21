@@ -8,8 +8,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar llanta: <span
-                        class="no-bold">{{ $ll->Medida }}</span></h3>
+                <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar llanta: <span class="no-bold">{{
+                        $ll->Medida }}</span></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="needs-validation" novalidate id="actualizarLlantaFormP-{{ $ll->id }}"
@@ -22,7 +22,7 @@
                         <input class="form-control" placeholder="175-70-13" name="medida" id="medida"
                             value="{{ $ll->Medida }}" required>
                         @error('medida')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-12">
@@ -30,7 +30,7 @@
                         <input class="form-control" name="marca" id="marca" style="text-transform: uppercase;"
                             value="{{ $ll->Marca }}" required>
                         @error('marca')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-12">
@@ -46,12 +46,12 @@
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el precio de compra: </label>
                         <input class="form-control" type="number" id="precioCompra" name="precioCompra"
-                            value="{{ $ll->PrecioCompra }}" required>
+                            value="{{ $ll->PrecioCompra }}" step="0.01" required>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el precio de venta: </label>
                         <input class="form-control" type="number" id="precioVenta" name="precioVenta"
-                            value="{{ $ll->PrecioVenta }}" required>
+                            value="{{ $ll->PrecioVenta }}" step="0.01" required>
                     </div>
                     <input hidden name="id" id="id" value="{{ $ll->id }}">
 

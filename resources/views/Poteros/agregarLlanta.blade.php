@@ -20,8 +20,7 @@
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Ingresa la marca: </label>
-                        <input class="form-control" name="marca" id="marca" style="text-transform: uppercase;"
-                            required>
+                        <input class="form-control" name="marca" id="marca" style="text-transform: uppercase;" required>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Ingresa la cantidad: </label>
@@ -33,11 +32,14 @@
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el precio de compra: </label>
-                        <input class="form-control" type="number" id="precioCompra" name="precioCompra" required>
+                        <input class="form-control" type="number" id="precioCompra" name="precioCompra" step="0.01"
+                            required>
+
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el precio de venta: </label>
-                        <input class="form-control" type="number" id="precioVenta" name="precioVenta" required>
+                        <input class="form-control" type="number" id="precioVenta" name="precioVenta" step="0.01"
+                            required>
                     </div>
                 </form>
             </div>

@@ -72,4 +72,13 @@ class GastosController extends Controller
             'gastos' => $gastos
         ]);
     }
+
+    public function eliminar_gasto(Request $request)
+    {
+        $gasto = Cat_gastos::where('id', $request->id)->first();
+        $continuar = $gasto->delete();
+        if ($continuar) {
+            return redirect('/gastos')->with('success', 'Gasto eliminado');
+        }
+    }
 }

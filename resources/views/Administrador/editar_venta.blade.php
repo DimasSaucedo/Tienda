@@ -28,12 +28,12 @@
                         <div class="col-sm-6">
                             <label for="" class="form-label">Precio de compra</label>
                             <input value="{{ $venta->precio_compra }}" type="number" class="form-control"
-                                id="precio_compra" name="precio_compra" required>
+                                id="precio_compra" step="0.01" name="precio_compra" required>
                         </div>
                         <div class="col-sm-6">
                             <label for="" class="form-label">Precio de venta</label>
                             <input value="{{ $venta->precio_venta }}" type="number" class="form-control" id="precio_venta"
-                                name="precio_venta" required>
+                                name="precio_venta" step="0.01" required>
                         </div>
                     </div>
 

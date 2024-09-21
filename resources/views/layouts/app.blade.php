@@ -15,7 +15,8 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     {{-- Bootstrap --}}
-    {{-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {{--
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
 
@@ -41,6 +42,10 @@
         .table thead th {
             background: #e9183b;
             color: white;
+        }
+
+        .table tbody tr:hover td{
+            background: #ffc7d0 !important;
         }
 
         @keyframes spin {
@@ -80,27 +85,26 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     @foreach (Menu() as $Me)
-                        @if ($Me->submenu == 1)
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                                    {{ $Me->nombre }}
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @foreach (submenu($Me->id) as $submenu)
-                                        <li><a class="dropdown-item"
-                                                href="{{ $submenu->url }}">{{ $submenu->nombre }}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ $Me->url }}" role="button" aria-expanded="false"
-                                    style="color: white">
-                                    {{ $Me->nombre }}
-                                </a>
-                            </li>
-                        @endif
+                    @if ($Me->submenu == 1)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                            {{ $Me->nombre }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            @foreach (submenu($Me->id) as $submenu)
+                            <li><a class="dropdown-item" href="{{ $submenu->url }}">{{ $submenu->nombre }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ $Me->url }}" role="button" aria-expanded="false"
+                            style="color: white">
+                            {{ $Me->nombre }}
+                        </a>
+                    </li>
+                    @endif
                     @endforeach
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -117,13 +121,12 @@
         </nav>
 
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
-        <div id="loader"
-            style="
+        <div id="loader" style="
             position: fixed;
             left: 0;
             top: 0;

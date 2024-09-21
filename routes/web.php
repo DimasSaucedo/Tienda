@@ -57,9 +57,23 @@ Route::post('/buscar_ventas', [App\Http\Controllers\AdministradorController::cla
 //Gastos
 Route::get('/gastos', [App\Http\Controllers\GastosController::class, 'index'])->middleware('auth');
 Route::post('/guardar_gasto', [App\Http\Controllers\GastosController::class, 'guardar_gasto'])->middleware('auth');
+Route::post('/eliminar_gasto', [App\Http\Controllers\GastosController::class, 'eliminar_gasto'])->middleware('auth');
+
 
 //Usuarios
 Route::get('/usuarios', [App\Http\Controllers\UsuariosController::class, 'index'])->middleware('auth');
 Route::post('/habilitar_usuario', [App\Http\Controllers\UsuariosController::class, 'habilitar_usuario'])->middleware('auth');
 Route::post('/deshabilitar_usuario', [App\Http\Controllers\UsuariosController::class, 'deshabilitar_usuario'])->middleware('auth');
 Route::post('/editar_usuario', [App\Http\Controllers\UsuariosController::class, 'editar_usuario'])->middleware('auth');
+
+//Apartados
+Route::get('/apartados', [App\Http\Controllers\ApartadosController::class, 'index'])->middleware('auth');
+Route::get('/agregar_apartado', [App\Http\Controllers\ApartadosController::class, 'crear_nota'])->middleware('auth');
+Route::post('/agregar_apartado', [App\Http\Controllers\ApartadosController::class, 'guardar_nota'])->middleware('auth');
+Route::get('/agregar_producto', [App\Http\Controllers\ApartadosController::class, 'crear_producto'])->middleware('auth');
+Route::post('/guardar_producto', [App\Http\Controllers\ApartadosController::class, 'guardar_producto'])->middleware('auth');
+Route::get('/agregar_abono', [App\Http\Controllers\ApartadosController::class, 'crear_abono'])->middleware('auth');
+Route::post('/guardar_abono', [App\Http\Controllers\ApartadosController::class, 'guardar_abono'])->middleware('auth');
+Route::post('/editar_nota', [App\Http\Controllers\ApartadosController::class, 'editar_nota'])->middleware('auth');
+Route::post('/actualizar_nota', [App\Http\Controllers\ApartadosController::class, 'actualizar_nota'])->middleware('auth');
+Route::post('/saldar_nota', [App\Http\Controllers\ApartadosController::class, 'saldar_nota'])->middleware('auth');

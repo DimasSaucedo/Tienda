@@ -24,11 +24,14 @@ class PotrerosController extends Controller
     public function agregarLlanta(Request $request)
     {
         $validate = $request->validate([
-            'medida' => 'required',
-            'marca' => 'required',
-            'precioCompra' => 'required',
-            'precioVenta' => 'required'
+            'cantidad' => 'nullable|numeric',
+            'letra' => 'nullable|string',
+            'medida' => 'required|string',
+            'marca' => 'required|string',
+            'precioCompra' => 'required|numeric',
+            'precioVenta' => 'required|numeric'
         ]);
+
 
         $llantaP = new Cat_Llantas_Potreros();
 
@@ -63,8 +66,8 @@ class PotrerosController extends Controller
             'marca' => 'required',
             'letra' => 'nullable',
             'cantidad' => 'nullable',
-            'precioCompra' => 'required',
-            'precioVenta' => 'required',
+            'precioCompra' => 'required|numeric',
+            'precioVenta' => 'required|numeric'
         ]);
 
         $llantaP = Cat_Llantas_Potreros::where('id', $request->id)->first();
@@ -90,7 +93,6 @@ class PotrerosController extends Controller
         } else {
             return redirect()->back()->with('error', 'Llanta no encontrada.');
         }
-
     }
 
 
@@ -115,7 +117,7 @@ class PotrerosController extends Controller
             'nobateria' => 'required',
             'marca' => 'required',
             'cantidad' => 'nullable',
-            'precioCompra' => 'required'
+            'precioCompra' => 'required|numeric',
         ]);
 
         $llantaP = new Cat_Baterias_Potreros();
@@ -147,7 +149,7 @@ class PotrerosController extends Controller
             'nobateria' => 'required',
             'marca' => 'required',
             'cantidad' => 'nullable',
-            'precioCompra' => 'required',
+            'precioCompra' => 'required|numeric',
             'id' => 'required'
         ]);
 
@@ -191,5 +193,4 @@ class PotrerosController extends Controller
 
         return redirect()->back()->with('success', 'Bateria eliminada correctamente.');
     }
-
 }

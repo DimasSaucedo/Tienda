@@ -7,6 +7,7 @@ use App\Models\Cat_Baterias_Potreros;
 use App\Models\Cat_gastos;
 use App\Models\Cat_Llantas_Guadalupano;
 use App\Models\Cat_Llantas_Potreros;
+use App\Models\Cat_Notas;
 use App\Models\Cat_Ventas;
 use App\Models\User;
 use App\Models\View_gastos_detalle;
@@ -27,12 +28,14 @@ class AdministradorController extends Controller
         $guadalupano = View_ventas_detalle_guadalupano::orderBy('semana')->get();
         $potreros = View_ventas_detalle_potreros::orderBy('semana')->get();
         $numero_usuarios = User::count();
+        $numero_notas = Cat_Notas::where('estado', 1)->count();
 
         return view('Administrador.index', [
             'dinero_final' => $dinero_final,
             'guadalupano' => $guadalupano,
             'potreros' => $potreros,
-            'numero_usuarios' => $numero_usuarios
+            'numero_usuarios' => $numero_usuarios,
+            'numero_notas' => $numero_notas
         ]);
     }
 
@@ -61,6 +64,7 @@ class AdministradorController extends Controller
         $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->where('ano', $year)->first();
         if (!$detalles_ventas_potreros) {
             $detalles_ventas_potreros = (object) [
+                'totalDineroElectronico' => 0,
                 'totalEfectivo' => 0,
                 'totalPrecioCompra' => 0,
                 'totalPrecioVenta' => 0,
@@ -71,6 +75,7 @@ class AdministradorController extends Controller
         // Proporcionar valores predeterminados si no se encuentran resultados
         if (!$detalles_ventas_guadalupano) {
             $detalles_ventas_guadalupano = (object) [
+                'totalDineroElectronico' => 0,
                 'totalEfectivo' => 0,
                 'totalPrecioCompra' => 0,
                 'totalPrecioVenta' => 0,
@@ -705,7 +710,7 @@ class AdministradorController extends Controller
         $venta = Cat_Ventas::where('id', $request->id)->first();
         $venta->cantidad = $cantidad;
         $venta->descripcion = $descripcion;
-        $venta->precio_compra = $precio_compra;
+        $venta->precio_compra =  $precio_compra;
         $venta->precio_venta = $precio_venta;
         $venta->forma_pago = $forma_pago;
         $venta->tienda = $tienda;

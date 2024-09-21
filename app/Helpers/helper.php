@@ -2,6 +2,7 @@
 
 use App\Models\Cat_Menu;
 use App\Models\Cat_SubMenu;
+use App\Models\View_notas_detalle;
 
 function menu()
 {
@@ -31,7 +32,7 @@ function redondear($valor)
 function formatearNumero($number)
 {
     if ($number != null) {
-        return '$' . number_format($number, 0, '.', ',');
+        return '$' . number_format($number, 2, '.', ',');
     } else {
         return '$ 0.00';
     }
@@ -53,4 +54,11 @@ function metodo_de_pago($pago)
         $nombre = "Efectivo";
     }
     return $nombre;
+}
+
+function notas_detalle($id_nota)
+{
+    $detalle_nota = View_notas_detalle::where('id_nota', $id_nota)->first();
+
+    return $detalle_nota;
 }

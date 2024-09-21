@@ -1,109 +1,123 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container mt-5">
+<div class="container mt-5">
 
-        <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
-            <thead style="background: #e9183b; color: white">
-                <th class="text-center">
-                    Descripción
-                </th>
-                <th class="text-center">
-                    Fecha
-                </th>
-                <th class="text-center">
-                    Dinero
-                </th>
-                <th class="text-center">
-                    Forma de pago
-                </th>
-                <th class="text-center">
-                    Tienda
-                </th>
-                <th></th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center">
-                        <input class="form-control" type="text" id="descripcion" name="descripcion"
-                            placeholder="Ingresa una descripción">
-                    </td>
-                    <td class="text-center">
-                        <input class="form-control" type="date" id="fecha" name="fecha">
-                    </td>
-                    <td class="text-center">
-                        <input class="form-control" type="number" id="dinero" name="dinero"
-                            placeholder="Ingresa la cantidad">
-                    </td>
-                    <td class="text-center">
-                        <select class="form-control" name="forma_pago" id="forma_pago">
-                            <option disabled selected value="0">
-                                Selecciona una forma de pago</option>
-                            <option value="1">Tarjeta de
-                                crédito</option>
-                            <option value="2">Tarjeta de
-                                débito</option>
-                            <option value="3">
-                                Transferencia</option>
-                            <option value="4">Efectivo
-                            </option>
-                        </select>
-                    </td>
-                    <td class="text-center">
-                        <select class="form-control" id="tienda" name="tienda">
-                            <option disabled selected>Selecciona una opcion</option>
-                            <option>Guadalupano</option>
-                            <option>Potreros</option>
-                        </select>
-                    </td>
-                    <td class="text-center">
-                        <i class="fa-regular fa-square-check" id="guardar"
-                            style="color: green; font-size: 25px; cursor:pointer"></i>
-                    </td>
-                </tr>
-                @foreach ($gastos as $ga)
-                    <tr>
-                        <td class="text-center">{{ $ga->descripcion }}</td>
-                        <td class="text-center">{{ $ga->fecha }}</td>
-                        <td class="text-center">{{ $ga->dinero }}</td>
-                        <td class="text-center">
-                            @if ($ga->forma_pago == 1)
-                                Tarjeta de credito
-                            @endif
-                            @if ($ga->forma_pago == 2)
-                                Tarjeta de débito
-                            @endif
-                            @if ($ga->forma_pago == 3)
-                                Transferencia
-                            @endif
-                            @if ($ga->forma_pago == 4)
-                                Efectivo
-                            @endif
-                        </td>
-                        <td class="text-center">{{ $ga->tienda }}</td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fa-solid fa-gear"></i>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <input hidden id="id" name="id" value="{{ $ga->id }}">
-                                            <button class="dropdown-item" id="eliminar-gasto">Eliminar</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
+    <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
+        <thead style="background: #e9183b; color: white">
+            <th class="text-center">
+                Descripción
+            </th>
+
+            <th class="text-center">
+                Dinero
+            </th>
+            <th class="text-center">
+                Forma de pago
+            </th>
+            <th class="text-center">
+                Tienda
+            </th>
+            <th class="text-center">
+                Fecha
+            </th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">
+                    <input class="form-control" type="text" id="descripcion" name="descripcion"
+                        placeholder="Ingresa una descripción">
+                </td>
+
+                <td class="text-center">
+                    <input class="form-control" type="number" id="dinero" name="dinero" step="0.01"
+                        placeholder="Ingresa la cantidad">
+                </td>
+                <td class="text-center">
+                    <select class="form-control" name="forma_pago" id="forma_pago">
+                        <option disabled selected value="0">
+                            Selecciona una forma de pago</option>
+                        <option value="1">Tarjeta de
+                            crédito</option>
+                        <option value="2">Tarjeta de
+                            débito</option>
+                        <option value="3">
+                            Transferencia</option>
+                        <option value="4">Efectivo
+                        </option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <select class="form-control" id="tienda" name="tienda">
+                        <option disabled selected>Selecciona una opcion</option>
+                        <option>Guadalupano</option>
+                        <option>Potreros</option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <input class="form-control" type="date" id="fecha" name="fecha">
+                </td>
+                <td class="text-center">
+                    <i class="fa-regular fa-square-check" id="guardar"
+                        style="color: green; font-size: 25px; cursor:pointer"></i>
+                </td>
+
+            </tr>
+            @foreach ($gastos as $ga)
+            <tr>
+                <td class="text-center">{{ $ga->descripcion }}</td>
+                <td class="text-center">{{ $ga->fecha }}</td>
+                <td class="text-center">{{ $ga->dinero }}</td>
+                <td class="text-center">
+                    @if ($ga->forma_pago == 1)
+                    Tarjeta de credito
+                    @endif
+                    @if ($ga->forma_pago == 2)
+                    Tarjeta de débito
+                    @endif
+                    @if ($ga->forma_pago == 3)
+                    Transferencia
+                    @endif
+                    @if ($ga->forma_pago == 4)
+                    Efectivo
+                    @endif
+                </td>
+                <td class="text-center">{{ $ga->tienda }}</td>
+                <td class="text-center">
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fa-solid fa-gear"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <form action="/eliminar_gasto" method="POST">
+                                        @csrf
+                                        <input hidden id="id" name="id" value="{{ $ga->id }}">
+                                        <button type="submit" class="dropdown-item"
+                                            id="eliminar-gasto">Eliminar</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Obtiene la fecha de hoy en el formato YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Establece el valor del input con la fecha de hoy
+            document.getElementById('fecha').value = today;
+</script>
+<script>
+    $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -314,5 +328,5 @@
                 tablaBody.append(fila); // Añade la nueva fila a la tabla
             });
         }
-    </script>
+</script>
 @endsection

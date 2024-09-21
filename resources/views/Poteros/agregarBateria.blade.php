@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el precio de compra: </label>
-                        <input class="form-control" type="number" id="precioCompra" name="precioCompra" required>
+                        <input class="form-control" type="number" id="precioCompra" name="precioCompra" step="0.01" required>
                     </div>
 
                 </div>

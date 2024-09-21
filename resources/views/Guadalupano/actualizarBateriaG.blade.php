@@ -38,7 +38,7 @@
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el precio de compra: </label>
                         <input class="form-control" type="number" id="precioCompra" name="precioCompra"
-                            value="{{ $ll->PrecioCompra }}" required>
+                            value="{{ $ll->PrecioCompra }}" step="0.01" required>
                     </div>
                     <input hidden name="id" id="id" value="{{ $ll->id }}">
                 </div>
