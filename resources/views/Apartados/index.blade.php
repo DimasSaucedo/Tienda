@@ -26,74 +26,82 @@
                     <h5>Productos</h5>
                     <div class="container">
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <th class="text-center">Can.</th>
-                                    <th style="width: 100px">Prod.</th>
-                                    <th class="text-center">Precio Venta</th>
-                                    <th class="text-center">Precio Compra</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($apartados as $item)
-                                    @if ($item->id_nota == $row->id)
-                                    <tr>
-                                        <td class="text-center">{{ $item->cantidad }}</td>
-                                        <td style="width: 100px">{{ $item->producto }}</td>
-                                        <td class="text-center">{{ formatearNumero($item->precio_compra) }}</td>
-                                        <td class="text-center">{{ formatearNumero($item->precio_venta) }}</td>
-                                    </tr>
-                                    @endif
-                                    @endforeach
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-center">{{formatearNumero($notas_detalle->total_compra)}}</td>
-                                        <td class="text-center">{{formatearNumero($notas_detalle->total_venta)}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th class="text-center">Can.</th>
+                                        <th style="width: 100px">Prod.</th>
+                                        <th class="text-center">Precio Venta</th>
+                                        <th class="text-center">Precio Compra</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($apartados as $item)
+                                        @if ($item->id_nota == $row->id)
+                                        <tr>
+                                            <td class="text-center">{{ $item->cantidad }}</td>
+                                            <td style="width: 100px">{{ $item->producto }}</td>
+                                            <td class="text-center">{{ formatearNumero($item->precio_compra) }}</td>
+                                            <td class="text-center">{{ formatearNumero($item->precio_venta) }}</td>
+                                        </tr>
+                                        @endif
+                                        @endforeach
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-center">{{formatearNumero($notas_detalle->total_compra)}}
+                                            </td>
+                                            <td class="text-center">{{formatearNumero($notas_detalle->total_venta)}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
 
                     <hr>
                     <h5>Abonos</h5>
-                    <table class="table table-hover">
-                        <thead>
-                            <th class="text-center">Dinero</th>
-                            <th class="text-center">Fecha</th>
-                        </thead>
-                        <tbody>
-                            @foreach ($abonos as $ab)
-                            @if ($ab->id_nota == $row->id)
-                            <tr>
-                                <td class="text-center">{{ formatearNumero($ab->abono) }}</td>
-                                <td class="text-center">{{ $ab->fecha }}</td>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <th class="text-center">Dinero</th>
+                                <th class="text-center">Fecha</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($abonos as $ab)
+                                @if ($ab->id_nota == $row->id)
+                                <tr>
+                                    <td class="text-center">{{ formatearNumero($ab->abono) }}</td>
+                                    <td class="text-center">{{ $ab->fecha }}</td>
 
-                            </tr>
-                            @endif
-                            @endforeach
-                        </tbody>
-                    </table>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     <hr>
                     <h5>Resumen</h5>
-                    <table class="table table-hover">
-                        <thead>
-                            <th class="text-center">Total de la compra</th>
-                            <th class="text-center">Abonos</th>
-                            <th class="text-center">Saldo restante</th>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <th class="text-center">Total de la compra</th>
+                                <th class="text-center">Abonos</th>
+                                <th class="text-center">Saldo restante</th>
+                            </thead>
+                            <tbody>
 
-                            <tr>
-                                <td class="text-center">{{formatearNumero($notas_detalle->total_venta)}}</td>
-                                <td class="text-center">{{formatearNumero($notas_detalle->total_abonos)}}</td>
-                                <td class="text-center">{{formatearNumero($notas_detalle->total_restante)}}</td>
-                            </tr>
+                                <tr>
+                                    <td class="text-center">{{formatearNumero($notas_detalle->total_venta)}}</td>
+                                    <td class="text-center">{{formatearNumero($notas_detalle->total_abonos)}}</td>
+                                    <td class="text-center">{{formatearNumero($notas_detalle->total_restante)}}</td>
+                                </tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="card-footer row">
                     <div class="col-sm-6 text-center">
@@ -108,7 +116,7 @@
                         <form action="/saldar_nota" method="POST">
                             @csrf
                             <input type="hidden" value="{{$row->id}}" id="id_nota" name="id_nota">
-                            <button class="btn btn-warning mr-4">Saldar deuda</button>
+                            <button class="btn btn-warning mr-4 mt-2">Saldar deuda</button>
                         </form>
                         @endif
                     </div>

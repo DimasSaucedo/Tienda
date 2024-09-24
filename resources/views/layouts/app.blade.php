@@ -44,7 +44,7 @@
             color: white;
         }
 
-        .table tbody tr:hover td{
+        .table tbody tr:hover td {
             background: #ffc7d0 !important;
         }
 
@@ -83,7 +83,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto text-center">
                     @foreach (Menu() as $Me)
                     @if ($Me->submenu == 1)
                     <li class="nav-item dropdown">
@@ -107,8 +107,8 @@
                     @endif
                     @endforeach
                 </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                <ul class="navbar-nav mt-2 mb-2 text-center">
+                    <li class="nav-item ">
                         <form id="logout-form" action="/logout" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-warning">

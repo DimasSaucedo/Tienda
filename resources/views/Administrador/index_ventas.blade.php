@@ -26,283 +26,290 @@
     </div>
     <div class="container mt-2">
         {{-- Total de dinero en ventas: ${{ $detalles_ventas_potreros->totalPrecioCompra }} --}}
-        <table class="table table-striped table-bordered table-hover" style="width:100%">
-            <thead style="background: #e9183b; color: white">
-                <tr>
-                    <th>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" style="width:100%">
+                <thead style="background: #e9183b; color: white">
+                    <tr>
+                        <th>
 
-                    </th>
-                    <th class="text-center">
-                        Efectivo
-                    </th>
-                    <th class="text-center">
-                        Dinero Electronico
-                    </th>
-                    <th class="text-center">
-                        Inversión de dinero
-                    </th>
-                    <th class="text-center">
-                        Dinero total de ventas
-                    </th>
-                    <th class="text-center">
-                        Ganancia
-                    </th>
-                    <th class="text-center">
-                        Total de gastos
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="body-resumen">
-                <tr>
-                    <td>
-                        Tienda de potreros
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_potreros->totalEfectivo) }}
-                    </td>
-                    <td class="text-center">
-                        {{formatearNumero($detalles_ventas_potreros->totalDineroElectronico)}}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_potreros->totalPrecioCompra) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_potreros->totalPrecioVenta) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_potreros->totalGanancia) }}
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        Tienda del Guadalupano
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_guadalupano->totalEfectivo) }}
-                    </td>
-                    <td class="text-center">
-                        {{formatearNumero($detalles_ventas_guadalupano->totalDineroElectronico)}}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_guadalupano->totalPrecioCompra) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_guadalupano->totalPrecioVenta) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($detalles_ventas_guadalupano->totalGanancia) }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Total
-                    </td>
-                    @php
-                    $ventasTotal =
-                    $detalles_ventas_potreros->totalPrecioVenta +
-                    $detalles_ventas_guadalupano->totalPrecioVenta;
-                    $inversionTotal =
-                    $detalles_ventas_potreros->totalPrecioCompra +
-                    $detalles_ventas_guadalupano->totalPrecioCompra;
-                    $gananciaTotal =
-                    $detalles_ventas_potreros->totalGanancia + $detalles_ventas_guadalupano->totalGanancia;
-                    $totalEfectivo =
-                    $detalles_ventas_potreros->totalEfectivo + $detalles_ventas_guadalupano->totalEfectivo;
-                    $totalDineroElectronico = $detalles_ventas_potreros->totalDineroElectronico +
-                    $detalles_ventas_guadalupano->totalDineroElectronico
-                    @endphp
-                    <td class="text-center">
-                        {{ formatearNumero($totalEfectivo) }}
-                    </td>
-                    <td class="text-center">
-                        {{formatearNumero($totalDineroElectronico)}}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($inversionTotal) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($ventasTotal) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($gananciaTotal) }}
-                    </td>
-                    <td class="text-center">
-                        {{ formatearNumero($gastos_detalle->total_gastos) }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </th>
+                        <th class="text-center">
+                            Efectivo
+                        </th>
+                        <th class="text-center">
+                            Dinero Electronico
+                        </th>
+                        <th class="text-center">
+                            Inversión de dinero
+                        </th>
+                        <th class="text-center">
+                            Dinero total de ventas
+                        </th>
+                        <th class="text-center">
+                            Ganancia
+                        </th>
+                        <th class="text-center">
+                            Total de gastos
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="body-resumen">
+                    <tr>
+                        <td>
+                            Tienda de potreros
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_potreros->totalEfectivo) }}
+                        </td>
+                        <td class="text-center">
+                            {{formatearNumero($detalles_ventas_potreros->totalDineroElectronico)}}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_potreros->totalPrecioCompra) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_potreros->totalPrecioVenta) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_potreros->totalGanancia) }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Tienda del Guadalupano
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_guadalupano->totalEfectivo) }}
+                        </td>
+                        <td class="text-center">
+                            {{formatearNumero($detalles_ventas_guadalupano->totalDineroElectronico)}}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_guadalupano->totalPrecioCompra) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_guadalupano->totalPrecioVenta) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($detalles_ventas_guadalupano->totalGanancia) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Total
+                        </td>
+                        @php
+                        $ventasTotal =
+                        $detalles_ventas_potreros->totalPrecioVenta +
+                        $detalles_ventas_guadalupano->totalPrecioVenta;
+                        $inversionTotal =
+                        $detalles_ventas_potreros->totalPrecioCompra +
+                        $detalles_ventas_guadalupano->totalPrecioCompra;
+                        $gananciaTotal =
+                        $detalles_ventas_potreros->totalGanancia + $detalles_ventas_guadalupano->totalGanancia;
+                        $totalEfectivo =
+                        $detalles_ventas_potreros->totalEfectivo + $detalles_ventas_guadalupano->totalEfectivo;
+                        $totalDineroElectronico = $detalles_ventas_potreros->totalDineroElectronico +
+                        $detalles_ventas_guadalupano->totalDineroElectronico
+                        @endphp
+                        <td class="text-center">
+                            {{ formatearNumero($totalEfectivo) }}
+                        </td>
+                        <td class="text-center">
+                            {{formatearNumero($totalDineroElectronico)}}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($inversionTotal) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($ventasTotal) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($gananciaTotal) }}
+                        </td>
+                        <td class="text-center">
+                            {{ formatearNumero($gastos_detalle->total_gastos) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <a href="/gastos" class="btn btn-success mb-5" style="float: right">Agregar gasto</a>
             </div>
         </div>
         <div class="col-sm-12 mt-2">
-            <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
-                <thead style="background: #e9183b; color: white">
-                    <tr>
-                        <th class="text-center" hidden>No</th>
-                        <th class="text-center" style="width: 40px">Cantidad</th>
-                        <th class="text-center" style="width: 250px">Producto</th>
-                        <th class="text-center" style="width: 130px">Precio Compra</th>
-                        <th class="text-center" style="width: 130px">Precio Venta</th>
-                        <th class="text-center">Forma de Pago</th>
-                        <th class="text-center">Tienda</th>
-                        <th class="text-center">Fecha</th>
-                        <th class="text-center">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody id="body-ventas">
-                    <tr>
-                        <form id="form-venta">
-                            <td hidden></td>
-                            <td><input value="" class="form-control" type="number" id="cantidad" name="cantidad"> </td>
-                            <td><input value="" class="form-control" id="descripcion" name="descripcion"> </td>
-                            <td><input value="" class="form-control" type="number" id="precio_compra"
-                                    name="precio_compra" step="0.01"></td>
-                            <td><input value="" class="form-control" type="number" id="precio_venta" name="precio_venta"
-                                    step="0.01"> </td>
+            <div class="table-responsive">
+                <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
+                    <thead style="background: #e9183b; color: white">
+                        <tr>
+                            <th class="text-center" hidden>No</th>
+                            <th class="text-center" style="width: 40px">Cantidad</th>
+                            <th class="text-center" style="width: 250px">Producto</th>
+                            <th class="text-center" style="width: 130px">Precio Compra</th>
+                            <th class="text-center" style="width: 130px">Precio Venta</th>
+                            <th class="text-center">Forma de Pago</th>
+                            <th class="text-center">Tienda</th>
+                            <th class="text-center">Fecha</th>
+                            <th class="text-center">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-ventas">
+                        <tr>
+                            <form id="form-venta">
+                                <td hidden></td>
+                                <td><input value="" class="form-control" type="number" id="cantidad" name="cantidad">
+                                </td>
+                                <td><input value="" class="form-control" id="descripcion" name="descripcion"> </td>
+                                <td><input value="" class="form-control" type="number" id="precio_compra"
+                                        name="precio_compra" step="0.01"></td>
+                                <td><input value="" class="form-control" type="number" id="precio_venta"
+                                        name="precio_venta" step="0.01"> </td>
+                                <td>
+                                    <select class="form-control" name="forma_pago" id="forma_pago">
+                                        <option disabled selected value="0">
+                                            Selecciona una forma de pago</option>
+                                        <option value="1">Tarjeta de
+                                            crédito</option>
+                                        <option value="2">Tarjeta de
+                                            débito</option>
+                                        <option value="3">
+                                            Transferencia</option>
+                                        <option value="4">Efectivo
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="tienda" name="tienda">
+                                        <option disabled selected value="">Selecciona una tienda</option>
+                                        <option value="Potreros">Potreros</option>
+                                        <option value="Guadalupano">Guadalupano</option>
+                                    </select>
+                                </td>
+                                <td class="text-center"> <input type="date" class="form-control" name="fecha"
+                                        id="fecha">
+                                </td>
+                                <td class="text-center">
+                                    <i class="fa-regular fa-square-check" id="guardar-2"
+                                        style="color: green; font-size: 25px; cursor:pointer"></i>
+                                </td>
+                            </form>
+                        </tr>
+                        @foreach ($ventas as $ve)
+                        <tr>
+                            @if ($ve->estado == 0)
+                            <td class="text-center" hidden>
+                                <input hidden value="{{ $ve->id_recurso }}" id="id_recurso" name="id_recurso"
+                                    type="number">
+                                <input hidden value="{{ $ve->id }}" name="id" id="id" type="number">
+                                {{ $ve->id }}
+                            </td>
+                            <td>
+                                <input value="{{ $ve->cantidad }}" class="form-control" type="number" id="cantidad"
+                                    name="cantidad">
+                            </td>
+                            <td>
+                                <input value=" {{ $ve->descripcion }}" class="form-control" id="descripcion"
+                                    name="descripcion">
+                            </td>
+                            <td>
+                                <input value="{{ $ve->precio_compra }}" class="form-control" type="number"
+                                    id="precio_compra" name="precio_compra" step="0.01">
+                            </td>
+                            <td>
+                                <input value="{{ $ve->precio_venta }}" class="form-control" type="number"
+                                    id="precio_venta" name="precio_venta" step="0.01">
+
+                            </td>
                             <td>
                                 <select class="form-control" name="forma_pago" id="forma_pago">
-                                    <option disabled selected value="0">
+                                    <option disabled value="0" {{ $ve->forma_pago == 0 ? 'selected' : '' }}>
                                         Selecciona una forma de pago</option>
-                                    <option value="1">Tarjeta de
+                                    <option value="1" {{ $ve->forma_pago == 1 ? 'selected' : '' }}>Tarjeta de
                                         crédito</option>
-                                    <option value="2">Tarjeta de
+                                    <option value="2" {{ $ve->forma_pago == 2 ? 'selected' : '' }}>Tarjeta de
                                         débito</option>
-                                    <option value="3">
+                                    <option value="3" {{ $ve->forma_pago == 3 ? 'selected' : '' }}>
                                         Transferencia</option>
-                                    <option value="4">Efectivo
+                                    <option value="4" {{ $ve->forma_pago == 4 ? 'selected' : '' }}>Efectivo
                                     </option>
                                 </select>
                             </td>
-                            <td>
-                                <select class="form-control" id="tienda" name="tienda">
-                                    <option disabled selected value="">Selecciona una tienda</option>
-                                    <option value="Potreros">Potreros</option>
-                                    <option value="Guadalupano">Guadalupano</option>
-                                </select>
+                            <td class="text-center">
+                                <input hidden value="{{ $ve->relacion_producto }}" id="relacion_producto"
+                                    name="relacion_producto">
+                                {{ $ve->tienda }}
                             </td>
-                            <td class="text-center"> <input type="date" class="form-control" name="fecha" id="fecha">
+                            <td class="text-center">{{ $ve->fecha }}</td>
+                            <td class="text-center">
+                                <i class="fa-regular fa-square-check" id="guardar"
+                                    style="color: green; font-size: 25px; cursor:pointer"></i>
+                                <i class="fa-regular fa-circle-xmark" id="eliminar"
+                                    style="color: red; font-size: 25px; cursor:pointer"></i>
+                            </td>
+                            @else
+                            <td class="text-center" hidden>
+                                {{ $ve->id }}
                             </td>
                             <td class="text-center">
-                                <i class="fa-regular fa-square-check" id="guardar-2"
-                                    style="color: green; font-size: 25px; cursor:pointer"></i>
+                                {{ $ve->cantidad }}
                             </td>
-                        </form>
-                    </tr>
-                    @foreach ($ventas as $ve)
-                    <tr>
-                        @if ($ve->estado == 0)
-                        <td class="text-center" hidden>
-                            <input hidden value="{{ $ve->id_recurso }}" id="id_recurso" name="id_recurso" type="number">
-                            <input hidden value="{{ $ve->id }}" name="id" id="id" type="number">
-                            {{ $ve->id }}
-                        </td>
-                        <td>
-                            <input value="{{ $ve->cantidad }}" class="form-control" type="number" id="cantidad"
-                                name="cantidad">
-                        </td>
-                        <td>
-                            <input value=" {{ $ve->descripcion }}" class="form-control" id="descripcion"
-                                name="descripcion">
-                        </td>
-                        <td>
-                            <input value="{{ $ve->precio_compra }}" class="form-control" type="number"
-                                id="precio_compra" name="precio_compra" step="0.01">
-                        </td>
-                        <td>
-                            <input value="{{ $ve->precio_venta }}" class="form-control" type="number" id="precio_venta"
-                                name="precio_venta" step="0.01">
-
-                        </td>
-                        <td>
-                            <select class="form-control" name="forma_pago" id="forma_pago">
-                                <option disabled value="0" {{ $ve->forma_pago == 0 ? 'selected' : '' }}>
-                                    Selecciona una forma de pago</option>
-                                <option value="1" {{ $ve->forma_pago == 1 ? 'selected' : '' }}>Tarjeta de
-                                    crédito</option>
-                                <option value="2" {{ $ve->forma_pago == 2 ? 'selected' : '' }}>Tarjeta de
-                                    débito</option>
-                                <option value="3" {{ $ve->forma_pago == 3 ? 'selected' : '' }}>
-                                    Transferencia</option>
-                                <option value="4" {{ $ve->forma_pago == 4 ? 'selected' : '' }}>Efectivo
-                                </option>
-                            </select>
-                        </td>
-                        <td class="text-center">
-                            <input hidden value="{{ $ve->relacion_producto }}" id="relacion_producto"
-                                name="relacion_producto">
-                            {{ $ve->tienda }}
-                        </td>
-                        <td class="text-center">{{ $ve->fecha }}</td>
-                        <td class="text-center">
-                            <i class="fa-regular fa-square-check" id="guardar"
-                                style="color: green; font-size: 25px; cursor:pointer"></i>
-                            <i class="fa-regular fa-circle-xmark" id="eliminar"
-                                style="color: red; font-size: 25px; cursor:pointer"></i>
-                        </td>
-                        @else
-                        <td class="text-center" hidden>
-                            {{ $ve->id }}
-                        </td>
-                        <td class="text-center">
-                            {{ $ve->cantidad }}
-                        </td>
-                        <td>
-                            {{ $ve->descripcion }}
-                        </td>
-                        <td class="text-center">
-                            {{ formatearNumero($ve->precio_compra) }}
-                        </td>
-                        <td class="text-center">
-                            {{ formatearNumero($ve->precio_venta) }}
-                        </td>
-                        <td class="text-center">
-                            @if ($ve->forma_pago == 1)
-                            Tarjeta de credito
-                            @endif
-                            @if ($ve->forma_pago == 2)
-                            Tarjeta de débito
-                            @endif
-                            @if ($ve->forma_pago == 3)
-                            Transferencia
-                            @endif
-                            @if ($ve->forma_pago == 4)
-                            Efectivo
-                            @endif
-                        </td>
-                        <td class="text-center">{{ $ve->tienda }}</td>
-                        <td class="text-center">{{ $ve->fecha }}</td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-gear"></i>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <form action="/editar_venta" method="POST">
-                                                @csrf
+                            <td>
+                                {{ $ve->descripcion }}
+                            </td>
+                            <td class="text-center">
+                                {{ formatearNumero($ve->precio_compra) }}
+                            </td>
+                            <td class="text-center">
+                                {{ formatearNumero($ve->precio_venta) }}
+                            </td>
+                            <td class="text-center">
+                                @if ($ve->forma_pago == 1)
+                                Tarjeta de credito
+                                @endif
+                                @if ($ve->forma_pago == 2)
+                                Tarjeta de débito
+                                @endif
+                                @if ($ve->forma_pago == 3)
+                                Transferencia
+                                @endif
+                                @if ($ve->forma_pago == 4)
+                                Efectivo
+                                @endif
+                            </td>
+                            <td class="text-center">{{ $ve->tienda }}</td>
+                            <td class="text-center">{{ $ve->fecha }}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-gear"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <form action="/editar_venta" method="POST">
+                                                    @csrf
+                                                    <input hidden id="id" name="id" value="{{ $ve->id }}">
+                                                    <button type="submit" class="dropdown-item">Editar</button>
+                                                </form>
+                                            </li>
+                                            <li>
                                                 <input hidden id="id" name="id" value="{{ $ve->id }}">
-                                                <button type="submit" class="dropdown-item">Editar</button>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <input hidden id="id" name="id" value="{{ $ve->id }}">
-                                            <button class="dropdown-item" id="eliminar-venta">Eliminar</button>
-                                        </li>
-                                    </ul>
+                                                <button class="dropdown-item" id="eliminar-venta">Eliminar</button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        @endif
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            </td>
+                            @endif
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <br>
         </div>
     </div>
