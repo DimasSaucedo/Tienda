@@ -69,6 +69,17 @@
         body {
             background: rgba(0, 0, 0, 0.05);
         }
+
+        .fixed-button {
+            position: fixed;
+            bottom: 20px;
+            /* Ajusta la distancia desde el fondo de la pantalla */
+            right: 20px;
+            /* Ajusta la distancia desde el borde derecho de la pantalla */
+            z-index: 1000;
+            /* Asegura que el botón esté por encima de otros elementos */
+            padding: 10px;
+        }
     </style>
 </head>
 

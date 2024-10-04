@@ -33,23 +33,26 @@
                         <th>
 
                         </th>
-                        <th class="text-center">
+                        <th class="text-center align-middle">
                             Efectivo
                         </th>
-                        <th class="text-center">
-                            Dinero Electronico
+                        <th class="text-center align-middle">
+                            Dinero <br> Electronico
                         </th>
-                        <th class="text-center">
-                            Inversión de dinero
+                        <th class="text-center align-middle">
+                            Inversión de <br> dinero
                         </th>
-                        <th class="text-center">
-                            Dinero total de ventas
+                        <th class="text-center align-middle">
+                            Dinero total <br> de ventas
                         </th>
-                        <th class="text-center">
+                        <th class="text-center align-middle">
                             Ganancia
                         </th>
-                        <th class="text-center">
-                            Total de gastos
+                        <th class="text-center align-middle">
+                            Dinero <br> sacado
+                        </th>
+                        <th class="text-center align-middle">
+                            Total de <br> gastos
                         </th>
                     </tr>
                 </thead>
@@ -70,9 +73,11 @@
                         <td class="text-center">
                             {{ formatearNumero($detalles_ventas_potreros->totalPrecioVenta) }}
                         </td>
+
                         <td class="text-center">
                             {{ formatearNumero($detalles_ventas_potreros->totalGanancia) }}
                         </td>
+                        <td></td>
                     </tr>
 
                     <tr>
@@ -91,9 +96,11 @@
                         <td class="text-center">
                             {{ formatearNumero($detalles_ventas_guadalupano->totalPrecioVenta) }}
                         </td>
+
                         <td class="text-center">
                             {{ formatearNumero($detalles_ventas_guadalupano->totalGanancia) }}
                         </td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>
@@ -111,7 +118,8 @@
                         $totalEfectivo =
                         $detalles_ventas_potreros->totalEfectivo + $detalles_ventas_guadalupano->totalEfectivo;
                         $totalDineroElectronico = $detalles_ventas_potreros->totalDineroElectronico +
-                        $detalles_ventas_guadalupano->totalDineroElectronico
+                        $detalles_ventas_guadalupano->totalDineroElectronico;
+
                         @endphp
                         <td class="text-center">
                             {{ formatearNumero($totalEfectivo) }}
@@ -129,31 +137,44 @@
                             {{ formatearNumero($gananciaTotal) }}
                         </td>
                         <td class="text-center">
+                            {{formatearNumero($dinero_sacado->total_dinero)}}
+                        </td>
+                        <td class="text-center">
                             {{ formatearNumero($gastos_detalle->total_gastos) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">
+                            <a href="/sacar_dinero" class="btn btn-success mb-5">Sacar dinero</a>
+                        </td>
+                        <td class="text-center">
+                            <a href="/gastos" class="btn btn-success mb-5">Agregar gasto</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <a href="/gastos" class="btn btn-success mb-5" style="float: right">Agregar gasto</a>
-            </div>
-        </div>
+
         <div class="col-sm-12 mt-2">
             <div class="table-responsive">
                 <table id="tabla-ventas" class="table table-striped table-bordered table-hover" style="width:100%">
                     <thead style="background: #e9183b; color: white">
                         <tr>
-                            <th class="text-center" hidden>No</th>
-                            <th class="text-center" style="width: 40px">Cantidad</th>
-                            <th class="text-center" style="width: 250px">Producto</th>
-                            <th class="text-center" style="width: 130px">Precio Compra</th>
-                            <th class="text-center" style="width: 130px">Precio Venta</th>
-                            <th class="text-center">Forma de Pago</th>
-                            <th class="text-center">Tienda</th>
-                            <th class="text-center">Fecha</th>
-                            <th class="text-center">Opciones</th>
+                            <th class="text-center align-middle" hidden>No</th>
+                            <th class="text-center align-middle" style="width: 40px">Cantidad</th>
+                            <th class="text-center align-middle" style="width: 250px">Producto</th>
+                            <th class="text-center align-middle" style="width: 130px">Precio <br> Compra</th>
+                            <th class="text-center align-middle" style="width: 130px">Precio Venta</th>
+                            <th class="text-center align-middle">Forma de <br> Pago</th>
+                            <th class="text-center align-middle">Tienda</th>
+                            <th class="text-center align-middle">Fecha</th>
+                            <th class="text-center align-middle">Opciones</th>
                         </tr>
                     </thead>
                     <tbody id="body-ventas">

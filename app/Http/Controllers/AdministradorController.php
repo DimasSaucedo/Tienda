@@ -9,8 +9,10 @@ use App\Models\Cat_Llantas_Guadalupano;
 use App\Models\Cat_Llantas_Potreros;
 use App\Models\Cat_Notas;
 use App\Models\Cat_Ventas;
+use App\Models\Sacar_Dinero;
 use App\Models\User;
 use App\Models\View_gastos_detalle;
+use App\Models\View_sacar_dinero;
 use App\Models\View_ventas_detalle_guadalupano;
 use App\Models\View_ventas_detalle_potreros;
 use App\Models\vw_dinero_final;
@@ -95,6 +97,8 @@ class AdministradorController extends Controller
             ->orderBy('fecha', 'desc')
             ->get();
 
+        $dinero_sacado = View_sacar_dinero::where('semana', $numeroSemana)->where('ano', $year)->first();
+
         return view('Administrador.index_ventas', [
             // 'ventasPotreros' => $ventasPotreros,
             // 'ventasGuadalupano' => $ventasGuadalupano,
@@ -102,7 +106,8 @@ class AdministradorController extends Controller
             'detalles_ventas_guadalupano' => $detalles_ventas_guadalupano,
             'ventas' => $ventas,
             'gastos_detalle' => $gastos_detalle,
-            'dinero_final' => $dinero_final
+            'dinero_final' => $dinero_final,
+            'dinero_sacado' => $dinero_sacado
         ]);
     }
 
@@ -768,5 +773,52 @@ class AdministradorController extends Controller
 
         $pdf = Pdf::loadView('Administrador.pdf_index_ventas', $data);
         return $pdf->download('invoice.pdf');
+    }
+
+    public function sacar_dinero()
+    {
+
+        $startOfWeek = Carbon::now()->startOfWeek(); // Lunes de la semana actual
+        $endOfWeek = Carbon::now()->endOfWeek(); // Domingo de la semana actual
+
+        $dinero = Sacar_Dinero::whereBetween('fecha', [$startOfWeek, $endOfWeek])
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        return view('Administrador.index_sacar_dinero', compact('dinero'));
+    }
+
+    public function  sacar_dinero_guardar(Request $request)
+    {
+        $validData = $request->validate([
+            'descripcion' => 'required',
+            'dinero' => 'required',
+            'forma_pago' => 'required',
+            'fecha' => 'required'
+        ]);
+
+        $sacar_dinero = new Sacar_Dinero();
+
+        $sacar_dinero->descripcion = $validData['descripcion'];
+        $sacar_dinero->dinero = $validData['dinero'];
+        $sacar_dinero->metodo_pago = $validData['forma_pago'];
+        $sacar_dinero->fecha = $validData['fecha'];
+
+        $continuar = $sacar_dinero->save();
+
+        if ($continuar) {
+            return redirect('/sacar_dinero')->with('success', "Guardado correctamente");
+        }
+    }
+
+    public function sacar_dinero_eliminar(Request $request)
+    {
+
+        $dinero = Sacar_Dinero::where('id', $request->id_dinero)->first();
+        $continuar = $dinero->delete();
+
+        if ($continuar) {
+            return redirect('/sacar_dinero')->with('success', "Eliminado correctamente");
+        }
     }
 }

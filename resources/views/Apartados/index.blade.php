@@ -104,19 +104,28 @@
                     </div>
                 </div>
                 <div class="card-footer row">
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-4 text-center">
                         <form action="/editar_nota" method="post">
                             @csrf
                             <input type="hidden" value="{{$row->id}}" id="id_nota" name="id_nota">
                             <button type="submit" class="btn btn-primary">Editar nota</button>
                         </form>
                     </div>
-                    <div class="col-sm-6 text-center">
+                    <div class="col-sm-4 text-center">
                         @if($row->estado == 1)
                         <form action="/saldar_nota" method="POST">
                             @csrf
                             <input type="hidden" value="{{$row->id}}" id="id_nota" name="id_nota">
-                            <button class="btn btn-warning mr-4 mt-2">Saldar deuda</button>
+                            <button class="btn btn-warning ">Saldar deuda</button>
+                        </form>
+                        @endif
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        @if ($row->estado == 0)
+                        <form action="/eliminar_nota" method="POST">
+                            @csrf
+                            <input type="hidden" value="{{$row->id}}" id="id_nota" name="id_nota">
+                            <button class="btn btn-danger ">Eliminar nota</button>
                         </form>
                         @endif
                     </div>

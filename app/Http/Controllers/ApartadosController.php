@@ -212,4 +212,14 @@ class ApartadosController extends Controller
 
         return redirect('apartados')->with('success', 'Nota saldada');
     }
+
+    public function eliminar_nota(Request $request)
+    {
+        $nota = Cat_Notas::where('id', $request->id_nota)->first();
+
+        $nota->estado = 2;
+        $nota->update();
+
+        return redirect('apartados')->with('success', 'Nota eliminada');
+    }
 }

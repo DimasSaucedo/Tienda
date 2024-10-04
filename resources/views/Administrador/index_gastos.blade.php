@@ -109,6 +109,8 @@
         </table>
     </div>
 </div>
+<a href="/ventas" class="btn btn-primary fixed-button">Regresar</a>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Obtiene la fecha de hoy en el formato YYYY-MM-DD
