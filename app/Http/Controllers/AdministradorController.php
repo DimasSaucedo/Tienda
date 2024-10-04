@@ -97,7 +97,8 @@ class AdministradorController extends Controller
             ->orderBy('fecha', 'desc')
             ->get();
 
-        $dinero_sacado = View_sacar_dinero::where('semana', $numeroSemana)->where('ano', $year)->first();
+        $dinero_sacado = View_sacar_dinero::where('semana', $numeroSemana)->where('ano', $year)->first() ?? (object) ['total_dinero' => 0];
+
 
         return view('Administrador.index_ventas', [
             // 'ventasPotreros' => $ventasPotreros,
