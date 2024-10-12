@@ -31,7 +31,7 @@ class GuadalupanoController extends Controller
         $llantaP->save();
 
         //$llantasP = Cat_Llantas_Potreros::orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", -1) AS UNSIGNED)'))->get();
-        return redirect('llantasP')->with('success', 'Llanta agregada con éxito!');
+        return redirect('llantasG')->with('success', 'Llanta agregada con éxito!');
     }
 
     public function actualizaLlanta(Request $request)
