@@ -31,8 +31,8 @@
                                     <thead>
                                         <th class="text-center">Can.</th>
                                         <th style="width: 100px">Prod.</th>
-                                        <th class="text-center">Precio Venta</th>
                                         <th class="text-center">Precio Compra</th>
+                                        <th class="text-center">Precio Venta</th>
                                     </thead>
                                     <tbody>
                                         @foreach ($apartados as $item)
