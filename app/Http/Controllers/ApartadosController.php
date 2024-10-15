@@ -15,7 +15,9 @@ class ApartadosController extends Controller
 
     public function index()
     {
-        $notas = Cat_Notas::orderBy('estado', 'desc')->orderBy('fecha', 'desc')->get();
+        $notas = Cat_Notas::orderBy('estado', 'desc')
+            ->where('estado', '!=', 2)
+            ->orderBy('fecha', 'desc')->get();
         $apartados = Cat_Apartados::all();
         $abonos = Cat_Abonos::all();
 
@@ -175,8 +177,8 @@ class ApartadosController extends Controller
                     $apartadoExistente = Cat_Apartados::where('id', $validData['id_producto'][$index])->first();
                     $apartadoExistente->cantidad = $validData['cantidad'][$index];
                     $apartadoExistente->producto = $producto;
-                    $apartadoExistente->precio_compra = $validData['precio_compra'][$index];
-                    $apartadoExistente->precio_venta = $validData['precio_venta'][$index];
+                    $apartadoExistente->precio_compra = $validData['precio_compra'][$index] * $validData['cantidad'][$index];
+                    $apartadoExistente->precio_venta = $validData['precio_venta'][$index] * $validData['cantidad'][$index];
                     $apartadoExistente->update();
                 }
             }
