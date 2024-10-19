@@ -71,13 +71,26 @@ Route::post('/editar_usuario', [App\Http\Controllers\UsuariosController::class, 
 
 //Apartados
 Route::get('/apartados', [App\Http\Controllers\ApartadosController::class, 'index'])->middleware(Autenticacion::class);
+
 Route::get('/agregar_apartado', [App\Http\Controllers\ApartadosController::class, 'crear_nota'])->middleware(Autenticacion::class);
 Route::post('/agregar_apartado', [App\Http\Controllers\ApartadosController::class, 'guardar_nota'])->middleware(Autenticacion::class);
+
 Route::get('/agregar_producto', [App\Http\Controllers\ApartadosController::class, 'crear_producto'])->middleware(Autenticacion::class);
 Route::post('/guardar_producto', [App\Http\Controllers\ApartadosController::class, 'guardar_producto'])->middleware(Autenticacion::class);
+
 Route::get('/agregar_abono', [App\Http\Controllers\ApartadosController::class, 'crear_abono'])->middleware(Autenticacion::class);
 Route::post('/guardar_abono', [App\Http\Controllers\ApartadosController::class, 'guardar_abono'])->middleware(Autenticacion::class);
+
+Route::post('/agregar_producto_nota', [App\Http\Controllers\ApartadosController::class, 'agregar_producto_nota'])->middleware(Autenticacion::class);
+Route::post('/eliminar_producto_nota', [App\Http\Controllers\ApartadosController::class, 'eliminar_producto_nota'])->middleware(Autenticacion::class);
+Route::post('/editar_producto_nota', [App\Http\Controllers\ApartadosController::class, 'editar_producto_nota'])->middleware(Autenticacion::class);
+
+Route::post('/agregar_abono_nota', [App\Http\Controllers\ApartadosController::class, 'agregar_abono_nota'])->middleware(Autenticacion::class);
+Route::post('/eliminar_abono_nota', [App\Http\Controllers\ApartadosController::class, 'eliminar_abono_nota'])->middleware(Autenticacion::class);
+Route::post('/editar_abono_nota', [App\Http\Controllers\ApartadosController::class, 'editar_abono_nota'])->middleware(Autenticacion::class);
+
+
 Route::post('/editar_nota', [App\Http\Controllers\ApartadosController::class, 'editar_nota'])->middleware(Autenticacion::class);
-Route::post('/actualizar_nota', [App\Http\Controllers\ApartadosController::class, 'actualizar_nota'])->middleware(Autenticacion::class);
+// Route::post('/actualizar_nota', [App\Http\Controllers\ApartadosController::class, 'actualizar_nota'])->middleware(Autenticacion::class);
 Route::post('/saldar_nota', [App\Http\Controllers\ApartadosController::class, 'saldar_nota'])->middleware(Autenticacion::class);
 Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 'eliminar_nota'])->middleware(Autenticacion::class);

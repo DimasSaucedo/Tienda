@@ -124,6 +124,122 @@ class ApartadosController extends Controller
         return view('Apartados.editar_nota', compact('nota', 'productos', 'abonos'));
     }
 
+    public function agregar_producto_nota(Request $request)
+    {
+        $validData = $request->validate([
+            'id_nota' => 'required',
+            'cantidad' => 'required',
+            'productos' => 'required',
+            'precio_compra' => 'required',
+            'precio_venta' => 'required'
+        ]);
+
+        $nota = new Cat_Apartados();
+        $nota->id_nota = $validData['id_nota'];
+        $nota->cantidad = $validData['cantidad'];
+        $nota->producto = $validData['productos'];
+        $nota->precio_compra = $validData['cantidad'] * $validData['precio_compra'];
+        $nota->precio_venta = $validData['cantidad'] * $validData['precio_venta'];
+        $continuar = $nota->save();
+
+        if ($continuar) {
+            return response()->json(['message' => 'Producto añadido correctamente']);
+        }
+        return redirect('/apartados')->with('success', 'Nota Actualizada correctamente');
+    }
+
+    public function agregar_abono_nota(Request $request)
+    {
+        $validData = $request->validate([
+            'id_nota' => 'required',
+            'abono' => 'required',
+            'fecha' => 'required',
+        ]);
+
+        $abono = new Cat_Abonos();
+        $abono->id_nota = $validData['id_nota'];
+        $abono->abono = $validData['abono'];
+        $abono->fecha = $validData['fecha'];
+        $continuar = $abono->save();
+
+        if ($continuar) {
+            return response()->json(['message' => 'Abono añadido correctamente']);
+        }
+        //return redirect('/apartados')->with('success', 'Nota Actualizada correctamente');
+    }
+
+    public function eliminar_producto_nota(Request $request)
+    {
+        $nota = Cat_Apartados::where('id', $request->id_producto)->first();
+        $continuar = $nota->delete();
+
+        if ($continuar) {
+            return response()->json(['message' => 'Producto eliminado correctamente']);
+        }
+        //return redirect('/apartados')->with('success', 'Nota Actualizada correctamente');
+    }
+
+
+    public function eliminar_abono_nota(Request $request)
+    {
+        $abono = Cat_Abonos::where('id', $request->id_abono)->first();
+        $continuar = $abono->delete();
+
+        if ($continuar) {
+            return response()->json(['message' => 'Abono eliminado correctamente']);
+        }
+        //return redirect('/apartados')->with('success', 'Nota Actualizada correctamente');
+    }
+
+    public function editar_producto_nota(Request $request)
+    {
+        $validData = $request->validate([
+            'id_producto' => 'required',
+            'cantidad' => 'required',
+            'producto' => 'required',
+            'precio_compra' => 'required',
+            'precio_venta' => 'required'
+        ]);
+
+        $nota = Cat_Apartados::where('id', $request->id_producto)->first();
+        $nota->cantidad = $validData['cantidad'];
+        $nota->producto = $validData['producto'];
+        if ($nota->precio_compra != $validData['precio_compra']) {
+            $nota->precio_compra = $validData['cantidad'] * $validData['precio_compra'];
+        }
+        if ($nota->precio_venta != $validData['precio_venta']) {
+            $nota->precio_venta = $validData['cantidad'] * $validData['precio_venta'];
+        }
+        $continuar = $nota->update();
+
+
+        if ($continuar) {
+            return response()->json(['message' => 'Producto añadido correctamente']);
+        }
+        //return redirect('/apartados')->with('success', 'Nota Actualizada correctamente');
+    }
+
+    public function editar_abono_nota(Request $request)
+    {
+        $validData = $request->validate([
+            'id_abono' => 'required',
+            'abono' => 'required',
+            'fecha' => 'required'
+        ]);
+
+        $abono = Cat_Abonos::where('id', $request->id_abono)->first();
+        $abono->abono = $validData['abono'];
+        $abono->fecha = $validData['fecha'];
+
+        $continuar = $abono->update();
+
+
+        if ($continuar) {
+            return response()->json(['message' => 'Abono editado correctamente']);
+        }
+        //return redirect('/apartados')->with('success', 'Nota Actualizada correctamente');
+    }
+
     public function actualizar_nota(Request $request)
     {
         $validData = $request->validate([
@@ -183,6 +299,7 @@ class ApartadosController extends Controller
                 }
             }
         }
+
 
         // Actualizar abonos
         if (!empty($validData['abono'])) {
