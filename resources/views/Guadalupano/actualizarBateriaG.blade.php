@@ -16,10 +16,10 @@
                         class="no-bold">{{ $ll->NoBateria }}</span></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="actualizarBateriaFormP-{{ $ll->id }}" action="/actualizar_bateria_g" method="POST">
+            <form class="needs-validation" novalidate id="actualizarBateriaFormP-{{ $ll->id }}"
+                action="/actualizar_bateria_g" method="POST">
                 @csrf
                 <div class="modal-body">
-                    @method('PUT')
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el No. Bateria: </label>
                         <input class="form-control" name="nobateria" id="nobateria" value="{{ $ll->NoBateria }}"
@@ -53,29 +53,27 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('form[id^="actualizarBateriaFormP-"]').forEach(function(form) {
+        const forms = document.querySelectorAll('form.needs-validation');
+
+        forms.forEach(function(form) {
             form.addEventListener('submit', function(event) {
-                // Selecciona todos los campos del formulario
-                const fields = form.querySelectorAll('input[required]');
-
-                // Verifica si todos los campos están llenos
-                let allFilled = true;
-                fields.forEach(function(field) {
-                    if (!field.value) {
-                        allFilled = false;
-                        field.classList.add(
-                        'is-invalid'); // Añade una clase para resaltar los campos vacíos
-                    } else {
-                        field.classList.remove('is-invalid');
-                    }
-                });
-
-                // Si hay algún campo vacío, evita el envío del formulario
-                if (!allFilled) {
+                if (!form.checkValidity()) {
                     event.preventDefault();
-                    alert('Por favor, complete todos los campos.');
+                    event.stopPropagation();
+
+                    const invalidFields = form.querySelectorAll(':invalid');
+                    invalidFields.forEach(field => {
+                        field.classList.add('is-invalid');
+                    });
                 }
-            });
+            }, false);
+
+            const marcaInput = form.querySelector('input[name="marca"]');
+            if (marcaInput) {
+                marcaInput.addEventListener('input', function() {
+                    this.value = this.value.toUpperCase();
+                });
+            }
         });
     });
 </script>

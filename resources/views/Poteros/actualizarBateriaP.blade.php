@@ -15,7 +15,6 @@
             <form class="needs-validation" novalidate id="actualizarBateriaFormP-{{ $ll->id }}"
                 action="/actualizar_bateria_p" method="POST">
                 @csrf
-                @method('PUT')
                 <div class="modal-body">
                     <div class="col-md-12">
                         <label class="form-label">Ingresa el No. Batería: </label>

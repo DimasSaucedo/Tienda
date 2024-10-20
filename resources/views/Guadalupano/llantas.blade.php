@@ -96,26 +96,10 @@
                 language: {
                     "url": "/assets/lib/datatable/es.json"
                 },
+                deferLoading: true,
+                deferRender: true,
                 paging: false,
                 ordering: false
-            });
-
-            document.getElementById('agregarLlantaForm').addEventListener('submit', function(event) {
-                const fields = document.querySelectorAll('#agregarLlantaForm input[required]');
-                let allFilled = true;
-                fields.forEach(function(field) {
-                    if (!field.value) {
-                        allFilled = false;
-                        field.classList.add('is-invalid');
-                    } else {
-                        field.classList.remove('is-invalid');
-                    }
-                });
-
-                if (!allFilled) {
-                    event.preventDefault();
-                    alert('Por favor, complete todos los campos.');
-                }
             });
 
             document.getElementById('marca').addEventListener('input', function() {

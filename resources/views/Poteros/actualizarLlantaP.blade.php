@@ -16,7 +16,6 @@
                 action="/actualizar_llanta_p" method="POST">
                 @csrf
                 <div class="modal-body">
-                    @method('PUT')
                     <div class="col-md-12">
                         <label class="form-label">Ingresa la medida: </label>
                         <input class="form-control" placeholder="175-70-13" name="medida" id="medida"

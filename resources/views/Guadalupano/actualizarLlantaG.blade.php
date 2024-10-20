@@ -12,16 +12,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar llanta: <span class="no-bold">{{
-                        $ll->Medida }}</span></h3>
+                <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar llanta: <span
+                        class="no-bold">{{ $ll->Medida }}</span></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="actualizarLlantaFormG-{{ $ll->id }}" action="/actualizar_llanta_G" method="POST">
+            <form class="needs-validation" novalidate id="actualizarLlantaFormG-{{ $ll->id }}"
+                action="/actualizar_llanta_G" method="POST">
                 @csrf
                 <div class="modal-body">
-
-
-                    @method('PUT')
+                    {{-- @method('PUT') --}}
                     <div class="col-md-12">
                         <label class="form-label">Ingresa la medida: </label>
                         <input class="form-control" placeholder="175-70-13" name="medida" id="medida"
@@ -66,25 +65,28 @@
 </div>
 
 <script>
-    document.getElementById('agregarLlantaForm').addEventListener('submit', function(event) {
-        // Selecciona todos los campos del formulario
-        const fields = document.querySelectorAll('#agregarLlantaForm input[required]');
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form.needs-validation');
 
-        // Verifica si todos los campos están llenos
-        let allFilled = true;
-        fields.forEach(function(field) {
-            if (!field.value) {
-                allFilled = false;
-                field.classList.add('is-invalid'); // Añade una clase para resaltar los campos vacíos
-            } else {
-                field.classList.remove('is-invalid');
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const invalidFields = form.querySelectorAll(':invalid');
+                    invalidFields.forEach(field => {
+                        field.classList.add('is-invalid');
+                    });
+                }
+            }, false);
+
+            const marcaInput = form.querySelector('input[name="marca"]');
+            if (marcaInput) {
+                marcaInput.addEventListener('input', function() {
+                    this.value = this.value.toUpperCase();
+                });
             }
         });
-
-        // Si hay algún campo vacío, evita el envío del formulario
-        if (!allFilled) {
-            event.preventDefault();
-            alert('Por favor, complete todos los campos.');
-        }
     });
 </script>
