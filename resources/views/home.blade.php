@@ -2,17 +2,31 @@
 
 @section('content')
     <style>
-
         .carousel {
-            max-height: 90vh;
+            max-height: 88vh;
             /* Ajusta según lo que necesites */
             overflow: hidden;
             /* Ocultar cualquier contenido que se salga */
             border-radius: 20px;
         }
+
+        @media (max-width: 768px) {
+            .carousel {
+                max-height: 60vh;
+                /* Reduce la altura en móviles */
+            }
+
+            .carousel-item img {
+                height: auto;
+                /* Ajuste de altura automática */
+                object-fit: cover;
+                /* Asegura que las imágenes mantengan su proporción */
+            }
+        }
     </style>
-    <div class="container">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+    <div class="container mt-2">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000"
+            data-bs-pause="false">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                     aria-current="true" aria-label="Slide 1"></button>
@@ -24,21 +38,21 @@
                     aria-label="Slide 4"></button>
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
                     aria-label="Slide 5"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
                     aria-label="Slide 6"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
                     aria-label="Slide 7"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7"
                     aria-label="Slide 8"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8"
                     aria-label="Slide 9"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9"
                     aria-label="Slide 10"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="10"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="10"
                     aria-label="Slide 11"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="11"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="11"
                     aria-label="Slide 12"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="12"
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="12"
                     aria-label="Slide 13"></button>
             </div>
             <div class="carousel-inner">
