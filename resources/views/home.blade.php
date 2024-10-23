@@ -60,37 +60,37 @@
                     <img src="/images/carrusel/fondo_1.jpeg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_2.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_2.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_3.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_3.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_4.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_4.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
                     <img src="/images/carrusel/fondo_5.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_6.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_6.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_7.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_7.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_8.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_8.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_9.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_9.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_10.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_10.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_11.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_11.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="/images/carrusel/fondo_12.jpeg" class="d-block w-100" alt="...">
+                    <img src="/images/carrusel/fondo_12.png" class="d-block w-100" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
