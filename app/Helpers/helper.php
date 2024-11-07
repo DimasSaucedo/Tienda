@@ -3,10 +3,14 @@
 use App\Models\Cat_Menu;
 use App\Models\Cat_SubMenu;
 use App\Models\View_notas_detalle;
+use Illuminate\Support\Facades\Auth;
 
 function menu()
 {
-    $Menu = Cat_Menu::where('estado', 1)->get();
+    if (Auth::check()) {
+        $Menu = Cat_Menu::where('estado', 1)->get();
+    } 
+
 
     return $Menu;
 }

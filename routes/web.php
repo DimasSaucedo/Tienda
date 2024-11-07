@@ -11,7 +11,7 @@ Route::get('/', function () {
 
     // dd($hashedPassword);
 
-    return redirect('login');
+    return redirect('rines');
 });
 
 Auth::routes();
@@ -94,3 +94,11 @@ Route::post('/editar_nota', [App\Http\Controllers\ApartadosController::class, 'e
 // Route::post('/actualizar_nota', [App\Http\Controllers\ApartadosController::class, 'actualizar_nota'])->middleware(Autenticacion::class);
 Route::post('/saldar_nota', [App\Http\Controllers\ApartadosController::class, 'saldar_nota'])->middleware(Autenticacion::class);
 Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 'eliminar_nota'])->middleware(Autenticacion::class);
+
+//Rines
+Route::get('/rines', [App\Http\Controllers\RinesController::class, 'index']);
+Route::post('/agregar_rin', [App\Http\Controllers\RinesController::class, 'guardar_rin'])->middleware(Autenticacion::class);
+Route::post('/eliminar_rin', [App\Http\Controllers\RinesController::class, 'eliminar_rin'])->middleware(Autenticacion::class);
+Route::post('/editar_rin', action: [App\Http\Controllers\RinesController::class, 'editar_rin'])->middleware(Autenticacion::class);
+Route::post('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'buscar_rines']);
+Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'index']);

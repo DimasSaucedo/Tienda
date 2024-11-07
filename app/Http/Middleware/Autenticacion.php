@@ -16,9 +16,9 @@ class Autenticacion
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Si el usuario está autenticado pero la sesión ha expirado
-        if ($request->session()->has('expired')) {
-            return redirect('/login');
+        // Si el usuario no está autenticado o si la sesión ha expirado
+        if (!Auth::check() || $request->session()->has('expired')) {
+            return redirect('/rines');
         }
 
         return $next($request);

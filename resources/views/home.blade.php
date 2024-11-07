@@ -24,6 +24,7 @@
             }
         }
     </style>
+    
     <div class="container mt-2 mb-2">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000"
             data-bs-pause="false">
@@ -103,39 +104,6 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
-        </div>
-
-        <div class="mt-4">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div class="col">
-                    <a href="https://rinessaxo.com/" target="_blank">
-                        <div class="card">
-                            <div class="d-flex justify-content-center">
-                                <img src="/images/marcas/saxorines.jfif" class="w-25" alt="...">
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="https://msmotorsports.mx/" target="_blank">
-                        <div class="card">
-                            <div class="d-flex justify-content-center">
-                                <img src="/images/marcas/msmotor.png" class="w-25" alt="...">
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-12">
-                    <a href="https://www.americanracing.com/" target="_blank">
-                        <div class="card">
-                            <div class="d-flex justify-content-center">
-                                <img src="/images/marcas/american.webp" class="w-25" alt="...">
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
