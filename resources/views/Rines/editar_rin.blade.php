@@ -90,6 +90,8 @@
                                 4x100</option>
                             <option value="5x114 / 5x100" @if ($item->barrenacion == '5x114 / 5x100') selected @endif>5x114 /
                                 5x100</option>
+                            <option value="5x100 / 5x108" @if ($item->barrenacion == '5x100 / 5x108') selected @endif>5x100 /
+                                5x108</option>
                             <option value="5x112 / 5x100" @if ($item->barrenacion == '5x112 / 5x100') selected @endif>5x112 /
                                 5x100</option>
                             <option value="5x127 / 5x120" @if ($item->barrenacion == '5x127 / 5x120') selected @endif>5x127 /

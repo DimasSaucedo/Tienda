@@ -53,6 +53,8 @@
                             <option value="5x114" @if (request('barrenaciones') == '5x114') selected @endif>5x114</option>
                             <option value="5x114 / 5x100" @if (request('barrenaciones') == '5x114 / 5x100') selected @endif>5x114 / 5x100
                             </option>
+                            <option value="5x100 / 5x108" @if (request('barrenaciones') == '5x100 / 5x108') selected @endif>5x100 / 5x108
+                            </option>
                             <option value="5x112 / 5x100" @if (request('barrenaciones') == '5x112 / 5x100') selected @endif>5x112 / 5x100
                             </option>
                             <option value="5x120" @if (request('barrenaciones') == '5x120') selected @endif>5x120</option>

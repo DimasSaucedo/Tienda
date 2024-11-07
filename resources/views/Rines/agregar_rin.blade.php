@@ -76,6 +76,7 @@
                             <option value="5x114">5x114</option>
                             <option value="5x114 / 5x100">5x114 / 5x100</option>
                             <option value="5x112 / 5x100">5x112 / 5x100</option>
+                            <option value="5x100 / 5x108">5x100 / 5x108</option>
                             <option value="5x120">5x120</option>
                             <option value="5x127">5x127</option>
                             <option value="5x127 / 5x120">5x127 / 5x120</option>
