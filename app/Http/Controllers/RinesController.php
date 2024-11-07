@@ -77,12 +77,18 @@ class RinesController extends Controller
         $rin->id_rin = rand(1, 10000);
         $rin->diametro_ancho = $validData['diametro'] . 'x' . $validData['ancho'];
         $rin->barrenacion = $validData['barrenacion'];
-        // $rin->estado = 1;
 
+        // Actualiza el rin sin las imágenes primero
         $continuar = $rin->update();
 
+        // Manejo de la foto principal
         if ($continuar && $request->hasFile('foto_principal')) {
             $archivo = $request->file('foto_principal');
+
+            // Elimina la foto principal anterior si existe
+            if ($rin->foto_principal && file_exists(public_path('/images/rines/' . $rin->foto_principal))) {
+                unlink(public_path('/images/rines/' . $rin->foto_principal));
+            }
 
             $nombre_documento = $rin->id . '_' . $rin->id_rin . "_p" . "." . $archivo->getClientOriginalExtension();
             $destino = public_path('/images/rines/');
@@ -91,11 +97,16 @@ class RinesController extends Controller
             $continuar = $rin->update();
         }
 
+        // Manejo de la foto secundaria
         if ($continuar && $request->hasFile('foto_secundaria')) {
             $archivo = $request->file('foto_secundaria');
 
+            // Elimina la foto secundaria anterior si existe
+            if ($rin->foto_secundaria && file_exists(public_path('/images/rines/' . $rin->foto_secundaria))) {
+                unlink(public_path('/images/rines/' . $rin->foto_secundaria));
+            }
+
             $nombre_documento = $rin->id . '_' . $rin->id_rin . "_s" . "." . $archivo->getClientOriginalExtension();
-            $destino = public_path('/images/rines/');
             $archivo->move($destino, $nombre_documento);
             $rin->foto_secundaria = $nombre_documento;
             $continuar = $rin->update();
@@ -105,6 +116,7 @@ class RinesController extends Controller
             return redirect('rines')->with('success', 'Rin actualizado con éxito!');
         }
     }
+
 
     public function eliminar_rin(Request $request)
     {
