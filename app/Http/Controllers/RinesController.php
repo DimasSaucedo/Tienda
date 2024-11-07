@@ -107,6 +107,7 @@ class RinesController extends Controller
             }
 
             $nombre_documento = $rin->id . '_' . $rin->id_rin . "_s" . "." . $archivo->getClientOriginalExtension();
+            $destino = public_path('/images/rines/');
             $archivo->move($destino, $nombre_documento);
             $rin->foto_secundaria = $nombre_documento;
             $continuar = $rin->update();
