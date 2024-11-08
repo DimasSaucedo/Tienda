@@ -10,7 +10,7 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-md-12 col-12 d-flex flex-wrap justify-content-between align-items-center">
                 <!-- Formulario -->
-                <form action="/buscar_rines" class="d-flex flex-wrap w-100 justify-content-between" method="POST">
+                <form action="/buscar_rines" class="d-flex flex-wrap w-100 justify-content-between" method="GET">
                     @csrf
                     <!-- Selección de Diámetro -->
                     <div class="col-md-3 col-12 mb-2 d-flex justify-content-center align-items-center">
@@ -146,6 +146,7 @@
                 {{ $rines->links('pagination::bootstrap-4') }}
             </ul>
         </nav>
+        
 
     </div>
 

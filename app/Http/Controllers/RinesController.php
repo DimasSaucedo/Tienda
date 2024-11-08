@@ -162,14 +162,12 @@ class RinesController extends Controller
             $query->where('barrenacion', 'like', '%' . $request->barrenaciones . '%');
         }
 
-
-        // Obtiene los resultados filtrados
+        // Obtiene los resultados filtrados y paginados
         $rines = $query
-        ->orderBy('barrenacion', 'asc')
-        ->paginate(12); // Cambia 12 al número de rines que deseas mostrar por página
-        // ->get();
+            ->orderBy('barrenacion', 'asc')
+            ->paginate(12)
+            ->appends($request->all()); // Agrega los parámetros de búsqueda a los enlaces de paginación
 
-        // Retorna la vista con los resultados
         return view('Rines.index', compact('rines'));
     }
 }
