@@ -164,7 +164,10 @@ class RinesController extends Controller
 
 
         // Obtiene los resultados filtrados
-        $rines = $query->get();
+        $rines = $query
+        ->orderBy('barrenacion', 'asc')
+        ->paginate(12); // Cambia 12 al número de rines que deseas mostrar por página
+        // ->get();
 
         // Retorna la vista con los resultados
         return view('Rines.index', compact('rines'));
