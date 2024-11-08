@@ -11,10 +11,12 @@ class RinesController extends Controller
     {
         $rines = Rines::where('estado', 1)
             ->orderBy('diametro', 'asc')
-            ->get();
+            ->orderBy('barrenacion', 'desc')
+            ->paginate(12); // Cambia 12 al número de rines que deseas mostrar por página
 
         return view('Rines.index', compact('rines'));
     }
+
 
     public function guardar_rin(Request $request)
     {
