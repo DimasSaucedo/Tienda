@@ -100,5 +100,5 @@ Route::get('/rines', [App\Http\Controllers\RinesController::class, 'index']);
 Route::post('/agregar_rin', [App\Http\Controllers\RinesController::class, 'guardar_rin'])->middleware(Autenticacion::class);
 Route::post('/eliminar_rin', [App\Http\Controllers\RinesController::class, 'eliminar_rin'])->middleware(Autenticacion::class);
 Route::post('/editar_rin', action: [App\Http\Controllers\RinesController::class, 'editar_rin'])->middleware(Autenticacion::class);
-Route::post('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'buscar_rines']);
+Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'buscar_rines']);
 // Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'index']);
