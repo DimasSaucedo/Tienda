@@ -141,7 +141,7 @@
         </div>
 
         <!-- Paginación -->
-        <nav aria-label="Page navigation example mt-5">
+        <nav aria-label="Page navigation example" class="mt-5">
             <ul class="pagination justify-content-center">
                 {{ $rines->links('pagination::bootstrap-4') }}
             </ul>
