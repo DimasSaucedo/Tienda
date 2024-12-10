@@ -8,6 +8,8 @@ use App\Models\Cat_Notas;
 use App\Models\View_notas_detalle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ApartadosController extends Controller
 {
@@ -122,6 +124,39 @@ class ApartadosController extends Controller
         $abonos = Cat_Abonos::where('id_nota', $request->id_nota)->get();
 
         return view('Apartados.editar_nota', compact('nota', 'productos', 'abonos'));
+    }
+
+    public function editar_datos_cliente_nota(Request $request)
+    {
+        $validData = $request->validate([
+            'id_nota' => 'required',
+            'nombre_cliente' => 'required',
+            'telefono_cliente' => 'nullable',
+            'tienda' => 'required'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $nota = Cat_Notas::where('id', $validData['id_nota'])->first();
+            $nota->nombre_cliente = $validData['nombre_cliente'];
+            $nota->telefono_cliente = $validData['telefono_cliente'];
+            $nota->tienda = $validData['tienda'];
+            $nota->update();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Datos editados correctamente']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Ocurrió un error', [
+                'mensaje' => $e->getMessage(),
+                'archivo' => $e->getFile(),
+                'línea' => $e->getLine(),
+                'traza' => $e->getTraceAsString(), // Opcional: para registrar toda la traza
+            ]);
+            // return redirect(retornar_ruta_edicion($validData['id_registro'], $validData['tipo_eleccion']))->with('error', 'Ocurrió un error al guardar la información: ' . $e->getMessage());
+        }
     }
 
     public function agregar_producto_nota(Request $request)

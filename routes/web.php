@@ -91,6 +91,9 @@ Route::post('/editar_abono_nota', [App\Http\Controllers\ApartadosController::cla
 
 
 Route::post('/editar_nota', [App\Http\Controllers\ApartadosController::class, 'editar_nota'])->middleware(Autenticacion::class);
+Route::post('/editar_datos_cliente_nota', [App\Http\Controllers\ApartadosController::class, 'editar_datos_cliente_nota'])->middleware(Autenticacion::class);
+
+
 // Route::post('/actualizar_nota', [App\Http\Controllers\ApartadosController::class, 'actualizar_nota'])->middleware(Autenticacion::class);
 Route::post('/saldar_nota', [App\Http\Controllers\ApartadosController::class, 'saldar_nota'])->middleware(Autenticacion::class);
 Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 'eliminar_nota'])->middleware(Autenticacion::class);
