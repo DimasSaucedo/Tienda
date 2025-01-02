@@ -63,7 +63,8 @@ class AdministradorController extends Controller
             ];
         }
 
-        $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->where('ano', $year)->first();
+
+        $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana_ajustada', $numeroSemana)->where('anio_ajustado', $year)->first();
         if (!$detalles_ventas_potreros) {
             $detalles_ventas_potreros = (object) [
                 'totalDineroElectronico' => 0,
@@ -73,7 +74,7 @@ class AdministradorController extends Controller
                 'totalGanancia' => 0
             ];
         }
-        $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana', $numeroSemana)->where('ano', $year)->first();
+        $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana_ajustada', $numeroSemana)->where('anio_ajustado', $year)->first();
         // Proporcionar valores predeterminados si no se encuentran resultados
         if (!$detalles_ventas_guadalupano) {
             $detalles_ventas_guadalupano = (object) [
@@ -135,7 +136,7 @@ class AdministradorController extends Controller
             $validacion = $venta->save();
 
             if ($validacion) {
-                return redirect('llantasP')->with('success', 'Se agrego de forma exitosa a las ventas');
+                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
             } else {
                 return redirect('llantasP')->with('success', 'Ocurrio algun error');
             }
@@ -159,7 +160,7 @@ class AdministradorController extends Controller
             $validacion = $venta->save();
 
             if ($validacion) {
-                return redirect('llantasG')->with('success', 'Se agrego de forma exitosa a las ventas');
+                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
             } else {
                 return redirect('llantasG')->with('success', 'Ocurrio algun error');
             }
@@ -183,7 +184,7 @@ class AdministradorController extends Controller
             $validacion = $venta->save();
 
             if ($validacion) {
-                return redirect('bateriasP')->with('success', 'Se agrego de forma exitosa a las ventas');
+                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
             } else {
                 return redirect('bateriasP')->with('success', 'Ocurrio algun error');
             }
@@ -207,7 +208,7 @@ class AdministradorController extends Controller
             $validacion = $venta->save();
 
             if ($validacion) {
-                return redirect('bateriasG')->with('success', 'Se agrego de forma exitosa a las ventas');
+                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
             } else {
                 return redirect('bateriasG')->with('success', 'Ocurrio algun error');
             }
