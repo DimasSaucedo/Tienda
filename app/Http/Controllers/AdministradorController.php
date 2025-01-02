@@ -27,8 +27,8 @@ class AdministradorController extends Controller
     public function index()
     {
         $dinero_final = vw_dinero_final::orderBy('semana')->get();
-        $guadalupano = View_ventas_detalle_guadalupano::orderBy('semana')->get();
-        $potreros = View_ventas_detalle_potreros::orderBy('semana')->get();
+        $guadalupano = View_ventas_detalle_guadalupano::orderBy('semana_ajustada')->get();
+        $potreros = View_ventas_detalle_potreros::orderBy('semana_ajustada')->get();
         $numero_usuarios = User::count();
         $numero_notas = Cat_Notas::where('estado', 1)->count();
 
