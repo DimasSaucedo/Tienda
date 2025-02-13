@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cat_Baterias_Potreros;
 use App\Models\Cat_Llantas_Potreros;
+use App\Models\Cat_Marcas_Baterias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -108,8 +109,12 @@ class PotrerosController extends Controller
     public function baterias()
     {
         $baterias = Cat_Baterias_Potreros::all();
+        $cat_marcas = Cat_Marcas_Baterias::where('estado', 1)->get();
 
-        return view('Poteros.baterias', ['baterias' => $baterias]);
+        return view('Poteros.baterias', compact(
+            'baterias',
+            'cat_marcas'
+        ));
     }
     public function agregarBateria(Request $request)
     {
@@ -126,17 +131,22 @@ class PotrerosController extends Controller
         $llantaP->Cantidad = $request->cantidad;
         // $llantaP->PrecioCompra = $request->precioCompra;
 
-        $precioCompra = $request->precioCompra;
-        // Paso 1: Calcular el 25% de precioCompra
-        $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
-        // Paso 2: Calcular el 10% del resultado anterior y restarlo
-        $precioMenos25y10 = $precioMenos25 - ($precioMenos25 * 0.10);
-        // Paso 3: Sumar el 25% al resultado final
-        $llantaP->PrecioCompra = $precioMenos25y10;
-        $precioVenta = $precioMenos25y10 * 1.25;
-        $precioVentaRedondeado = redondear($precioVenta);
+        if ($request->marca != 'POWER-CONECTION') {
+            $precioCompra = $request->precioCompra;
+            // Paso 1: Calcular el 25% de precioCompra
+            $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
+            // Paso 2: Calcular el 10% del resultado anterior y restarlo
+            $precioMenos25y10 = $precioMenos25 - ($precioMenos25 * 0.10);
+            // Paso 3: Sumar el 25% al resultado final
+            $llantaP->PrecioCompra = $precioMenos25y10;
+            $precioVenta = $precioMenos25y10 * 1.25;
+            $precioVentaRedondeado = redondear($precioVenta);
 
-        $llantaP->PrecioVenta = $precioVentaRedondeado;
+            $llantaP->PrecioVenta = $precioVentaRedondeado;
+        } else {
+            $llantaP->PrecioCompra = $request->precioCompra;
+            $llantaP->PrecioVenta = $request->precioVenta;
+        }
         $llantaP->save();
 
         //$llantasP = Cat_Llantas_Potreros::orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", -1) AS UNSIGNED)'))->get();
@@ -165,18 +175,23 @@ class PotrerosController extends Controller
                 $llantaP->Cantidad = $request->input('cantidad');
             }
 
-            // $llantaP->PrecioCompra = $request->input('precioCompra');
-            $precioCompra = $request->precioCompra;
-            // Paso 1: Calcular el 25% de precioCompra
-            $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
-            // Paso 2: Calcular el 10% del resultado anterior y restarlo
-            $precioMenos25y10 = $precioMenos25 - ($precioMenos25 * 0.10);
-            // Paso 3: Sumar el 25% al resultado final
-            $llantaP->PrecioCompra = $precioMenos25y10;
-            $precioVenta = $precioMenos25y10 * 1.25;
-            $precioVentaRedondeado = redondear($precioVenta);
+            if ($request->marca != 'POWER-CONECTION') {
+                $precioCompra = $request->precioCompra;
+                // Paso 1: Calcular el 25% de precioCompra
+                $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
+                // Paso 2: Calcular el 10% del resultado anterior y restarlo
+                $precioMenos25y10 = $precioMenos25 - ($precioMenos25 * 0.10);
+                // Paso 3: Sumar el 25% al resultado final
+                $llantaP->PrecioCompra = $precioMenos25y10;
+                $precioVenta = $precioMenos25y10 * 1.25;
+                $precioVentaRedondeado = redondear($precioVenta);
 
-            $llantaP->PrecioVenta = $precioVentaRedondeado;
+                $llantaP->PrecioVenta = $precioVentaRedondeado;
+            } else {
+                $llantaP->PrecioCompra = $request->precioCompra;
+                $llantaP->PrecioVenta = $request->precioVenta;
+            }
+            
             $llantaP->update();
 
             return redirect()->back()->with('success', 'Bateria actualizada correctamente.');
