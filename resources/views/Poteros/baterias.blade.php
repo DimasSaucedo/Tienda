@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Ingresa la marca: </label>
-                            <select class="form-select" name="marca" id="marca">
+                            <select class="form-select" name="marca" id="marca" required>
                                 <option value="" disabled selected>Seleccione una opción</option>
                                 @foreach ($cat_marcas as $item)
                                     <option value="{{ $item->nombre }}">{{ $item->nombre }}</option>
@@ -99,7 +99,7 @@
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Ingresa la cantidad: </label>
-                            <input class="form-control" type="number" id="cantidad" name="cantidad">
+                            <input class="form-control" type="number" id="cantidad" name="cantidad" required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Ingresa el precio de compra: </label>
@@ -207,7 +207,7 @@
 
         // Lógica para mostrar/ocultar el campo de precio de venta en el modal de agregar
         $(document).on('change', '#marca', function () {
-            if ($(this).val() === "POWER-CONECTION") {
+            if ($(this).val() === "POWER-CONECTION" || $(this).val() === "OTRA") {
                 $('#precioVentaContainer').css('display', 'block');
                 $('#precioVenta').attr('required', true); // Agregar required
             } else {

@@ -131,7 +131,7 @@ class PotrerosController extends Controller
         $llantaP->Cantidad = $request->cantidad;
         // $llantaP->PrecioCompra = $request->precioCompra;
 
-        if ($request->marca != 'POWER-CONECTION') {
+        if ($request->marca != 'POWER-CONECTION' || $request->marca != 'OTRA') {
             $precioCompra = $request->precioCompra;
             // Paso 1: Calcular el 25% de precioCompra
             $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
@@ -175,7 +175,7 @@ class PotrerosController extends Controller
                 $llantaP->Cantidad = $request->input('cantidad');
             }
 
-            if ($request->marca != 'POWER-CONECTION') {
+            if ($request->marca != 'POWER-CONECTION' || $request->marca != 'OTRA') {
                 $precioCompra = $request->precioCompra;
                 // Paso 1: Calcular el 25% de precioCompra
                 $precioMenos25 = $precioCompra - ($precioCompra * 0.25);

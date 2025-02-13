@@ -84,13 +84,24 @@ class GuadalupanoController extends Controller
     }
     public function agregarBateria(Request $request)
     {
+
+        $validate = $request->validate([
+            'cantidad' => 'nullable|numeric',
+            'letra' => 'nullable|string',
+            'medida' => 'required|string',
+            'marca' => 'required|string',
+            'precioCompra' => 'required|numeric',
+            'precioVenta' => 'required|numeric'
+        ]);
+
+
         $llantaP = new Cat_Baterias_Guadalupano();
         $llantaP->NoBateria = $request->nobateria;
         $llantaP->Marca = $request->marca;
         $llantaP->Cantidad = $request->cantidad;
         // $llantaP->PrecioCompra = $request->precioCompra;
 
-        if ($request->marca != 'POWER-CONECTION') {
+        if ($request->marca != 'POWER-CONECTION' || $request->marca != 'OTRA') {
             $precioCompra = $request->precioCompra;
             // Paso 1: Calcular el 25% de precioCompra
             $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
@@ -128,7 +139,7 @@ class GuadalupanoController extends Controller
             $llantaP->Marca = $request->input('marca');
             $llantaP->Cantidad = $request->input('cantidad');
             // $llantaP->PrecioCompra = $request->input('precioCompra');
-            if ($request->marca != 'POWER-CONECTION') {
+            if ($request->marca != 'POWER-CONECTION' || $request->marca != 'OTRA') {
                 $precioCompra = $request->precioCompra;
                 // Paso 1: Calcular el 25% de precioCompra
                 $precioMenos25 = $precioCompra - ($precioCompra * 0.25);
