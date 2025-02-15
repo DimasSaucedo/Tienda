@@ -19,6 +19,8 @@ use App\Models\vw_dinero_final;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Log;
+use DB;
 
 class AdministradorController extends Controller
 {
@@ -124,105 +126,68 @@ class AdministradorController extends Controller
 
     public function vender_producto(Request $request)
     {
-        $tipo_producto = $request->producto;
-        $id_producto = $request->id;
+        DB::beginTransaction();
+        try {
+            // Mapeo de tipos de productos a sus modelos y rutas de redirección
+            $productos = [
+                "LlantasPotreros" => [Cat_Llantas_Potreros::class, "Potreros", "llantasP"],
+                "LlantasGuadalupano" => [Cat_Llantas_Guadalupano::class, "Guadalupano", "llantasG"],
+                "BateriasPotreros" => [Cat_Baterias_Potreros::class, "Potreros", "bateriasP"],
+                "BateriasGuadalupano" => [Cat_Baterias_Guadalupano::class, "Guadalupano", "bateriasG"],
+            ];
 
-        if ($tipo_producto == "LlantasPotreros") {
-            $llanta = Cat_Llantas_Potreros::where('id', $id_producto)->first();
+            $tipo_producto = $request->producto;
+            $id_producto = $request->id;
 
-            $venta = new Cat_Ventas();
-            $venta->id_recurso = $llanta->id;
-            $venta->cantidad = $llanta->Cantidad;
-            $venta->descripcion = $llanta->Medida . ' ' . $llanta->Marca;
-            $venta->observacion = "";
-            $venta->precio_compra = $llanta->PrecioCompra;
-            $venta->precio_venta = $llanta->PrecioVenta;
-            $venta->forma_pago = 0;
-            $venta->tienda = "Potreros";
-            $venta->fecha = now()->toDateString();
-            $venta->estado = 0;
-            $venta->relacion_producto = "LlantasPotreros";
-            $validacion = $venta->save();
-
-            if ($validacion) {
-                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
-            } else {
-                return redirect('llantasP')->with('success', 'Ocurrio algun error');
+            if (!isset($productos[$tipo_producto])) {
+                return redirect('ventas')->with('error', 'Tipo de producto no válido');
             }
-        }
 
-        if ($tipo_producto == "LlantasGuadalupano") {
-            $llanta = Cat_Llantas_Guadalupano::where('id', $id_producto)->first();
+            [$modelo, $tienda, $redirect] = $productos[$tipo_producto];
 
-            $venta = new Cat_Ventas();
-            $venta->id_recurso = $llanta->id;
-            $venta->cantidad = $llanta->Cantidad;
-            $venta->descripcion = $llanta->Medida . ' ' . $llanta->Marca;
-            $venta->observacion = "";
-            $venta->precio_compra = $llanta->PrecioCompra;
-            $venta->precio_venta = $llanta->PrecioVenta;
-            $venta->forma_pago = 0;
-            $venta->tienda = "Guadalupano";
-            $venta->fecha = now()->toDateString();
-            $venta->estado = 0;
-            $venta->relacion_producto = "LlantasGuadalupano";
-            $validacion = $venta->save();
+            // Buscar el producto
+            $producto = $modelo::find($id_producto);
 
-            if ($validacion) {
-                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
-            } else {
-                return redirect('llantasG')->with('success', 'Ocurrio algun error');
+            if (!$producto) {
+                return redirect($redirect)->with('error', 'Producto no encontrado');
             }
-        }
 
-        if ($tipo_producto == "BateriasPotreros") {
-            $bateria = Cat_Baterias_Potreros::where('id', $id_producto)->first();
-
-            $venta = new Cat_Ventas();
-            $venta->id_recurso = $bateria->id;
-            $venta->cantidad = $bateria->Cantidad;
-            $venta->descripcion = $bateria->NoBateria . ' ' . $bateria->Marca;
-            $venta->observacion = "";
-            $venta->precio_compra = $bateria->PrecioCompra;
-            $venta->precio_venta = $bateria->PrecioVenta;
-            $venta->forma_pago = 0;
-            $venta->tienda = "Potreros";
-            $venta->fecha = now()->toDateString();
-            $venta->estado = 0;
-            $venta->relacion_producto = "BateriasPotreros";
-            $validacion = $venta->save();
-
-            if ($validacion) {
-                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
+            // Crear y guardar la venta
+            if ($this->crearVenta($producto, $tienda, $tipo_producto)) {
+                DB::commit();
+                return redirect('ventas')->with('success', 'Se agregó de forma exitosa a las ventas');
             } else {
-                return redirect('bateriasP')->with('success', 'Ocurrio algun error');
+                return redirect($redirect)->with('error', 'Ocurrió algún error');
             }
-        }
 
-        if ($tipo_producto == "BateriasGuadalupano") {
-            $bateria = Cat_Baterias_Guadalupano::where('id', $id_producto)->first();
-
-            $venta = new Cat_Ventas();
-            $venta->id_recurso = $bateria->id;
-            $venta->cantidad = $bateria->Cantidad;
-            $venta->descripcion = $bateria->NoBateria . ' ' . $bateria->Marca;
-            $venta->observacion = "";
-            $venta->precio_compra = $bateria->PrecioCompra;
-            $venta->precio_venta = $bateria->PrecioVenta;
-            $venta->forma_pago = 0;
-            $venta->tienda = "Guadalupano";
-            $venta->fecha = now()->toDateString();
-            $venta->estado = 0;
-            $venta->relacion_producto = "BateriasGuadalupano";
-            $validacion = $venta->save();
-
-            if ($validacion) {
-                return redirect('ventas')->with('success', 'Se agrego de forma exitosa a las ventas');
-            } else {
-                return redirect('bateriasG')->with('success', 'Ocurrio algun error');
-            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return redirect('ventas')->with('error', 'No se agregó la venta');
         }
     }
+
+    // Función privada para crear y guardar la venta
+    private function crearVenta($producto, $tienda, $tipo_producto)
+    {
+        $venta = new Cat_Ventas();
+        $venta->id_recurso = $producto->id;
+        $venta->cantidad = $producto->Cantidad;
+        $venta->descripcion = ($tipo_producto === "LlantasPotreros" || $tipo_producto === "LlantasGuadalupano")
+            ? $producto->Medida . ' ' . $producto->Marca
+            : $producto->NoBateria . ' ' . $producto->Marca;
+        $venta->observacion = "";
+        $venta->precio_compra = $producto->PrecioCompra;
+        $venta->precio_venta = $producto->PrecioVenta;
+        $venta->forma_pago = 0;
+        $venta->tienda = $tienda;
+        $venta->fecha = now()->toDateString();
+        $venta->estado = 0;
+        $venta->relacion_producto = $tipo_producto;
+
+        return $venta->save();
+    }
+
 
     public function confirmar_venta(Request $request)
     {
@@ -726,7 +691,7 @@ class AdministradorController extends Controller
         $venta = Cat_Ventas::where('id', $request->id)->first();
         $venta->cantidad = $cantidad;
         $venta->descripcion = $descripcion;
-        $venta->precio_compra =  $precio_compra;
+        $venta->precio_compra = $precio_compra;
         $venta->precio_venta = $precio_venta;
         $venta->forma_pago = $forma_pago;
         $venta->tienda = $tienda;
@@ -799,7 +764,7 @@ class AdministradorController extends Controller
         return view('Administrador.index_sacar_dinero', compact('dinero'));
     }
 
-    public function  sacar_dinero_guardar(Request $request)
+    public function sacar_dinero_guardar(Request $request)
     {
         $validData = $request->validate([
             'descripcion' => 'required',

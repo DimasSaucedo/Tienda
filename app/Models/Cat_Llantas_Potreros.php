@@ -9,4 +9,7 @@ class Cat_Llantas_Potreros extends Model
 {
     use HasFactory;
     protected $table = 'potreros';
+
+
+    protected $guarded = [];
 }

@@ -10,4 +10,6 @@ class Cat_Llantas_Guadalupano extends Model
     use HasFactory;
 
     protected $table = 'guadalupano';
+
+    protected $guarded = [];
 }

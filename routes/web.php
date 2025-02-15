@@ -18,18 +18,21 @@ Auth::routes();
 //Route::get('/home', [App\Http\Controllers\ReporteController::class, 'home']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware(Autenticacion::class);
 
-//Potreros
 Route::get('/llantasP', [App\Http\Controllers\PotrerosController::class, 'index'])->middleware(Autenticacion::class);
-Route::post('/agregarLlanta', [App\Http\Controllers\PotrerosController::class, 'agregarLlanta'])->middleware(Autenticacion::class);
-Route::post('/eliminar_llantap', [App\Http\Controllers\PotrerosController::class, 'eliminarLlanta'])->middleware(Autenticacion::class);
-Route::post('/actualizar_llanta_p', [App\Http\Controllers\PotrerosController::class, 'actualizaLlanta'])->middleware(Autenticacion::class);
+Route::get('/llantasG', [App\Http\Controllers\GuadalupanoController::class, 'index'])->middleware(Autenticacion::class);
+
+Route::post('/agregarLlanta', [App\Http\Controllers\LlantasController::class, 'store'])->middleware(Autenticacion::class);
+Route::post('/eliminarLlanta', [App\Http\Controllers\LlantasController::class, 'delete'])->middleware(Autenticacion::class);
+Route::post('/actualizarLlanta', [App\Http\Controllers\LlantasController::class, 'update'])->middleware(Autenticacion::class);
+
 Route::get('/bateriasP', [App\Http\Controllers\PotrerosController::class, 'baterias'])->middleware(Autenticacion::class);
 Route::post('/agregarBateria', [App\Http\Controllers\PotrerosController::class, 'agregarBateria'])->middleware(Autenticacion::class);
 Route::post('/eliminar_bateriap', [App\Http\Controllers\PotrerosController::class, 'eliminarBateria'])->middleware(Autenticacion::class);
 Route::post('/actualizar_bateria_p', [App\Http\Controllers\PotrerosController::class, 'actualizaBateria'])->middleware(Autenticacion::class);
 
 //Guadalupano
-Route::get('/llantasG', [App\Http\Controllers\GuadalupanoController::class, 'index'])->middleware(Autenticacion::class);
+
+
 Route::post('/agregarLlantaG', [App\Http\Controllers\GuadalupanoController::class, 'agregarLlanta'])->middleware(Autenticacion::class);
 Route::post('/eliminar_llantaG', [App\Http\Controllers\GuadalupanoController::class, 'eliminarLlanta'])->middleware(Autenticacion::class);
 Route::post('/actualizar_llanta_G', [App\Http\Controllers\GuadalupanoController::class, 'actualizaLlanta'])->middleware(Autenticacion::class);
