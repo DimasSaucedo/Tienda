@@ -112,9 +112,9 @@
                             <input class="form-control" type="number" id="modal-precioCompra" name="precioCompra"
                                 step="0.01" required>
                         </div>
-                        <div class="col-md-12" style="display: none" id="modal-precioVentaContainer">
+                        <div class="col-md-12" id="modal-precioVentaContainer">
                             <label class="form-label">Precio de Venta:</label>
-                            <input class="form-control" type="number" id="modal-precioVenta" name="precioVenta" step="0.01">
+                            <input class="form-control" type="number" id="modal-precioVenta" name="precioVenta" step="0.01" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -145,14 +145,7 @@
             document.getElementById('modal-precioCompra').value = precioCompra;
             document.getElementById('modal-precioVenta').value = precioVenta;
 
-            // Mostrar el campo de precio de venta si la marca es "POWER-CONECTION"
-            if (marca === "POWER-CONECTION") {
-                document.getElementById('modal-precioVentaContainer').style.display = 'block';
-                document.getElementById('modal-precioVenta').setAttribute('required', true);
-            } else {
-                document.getElementById('modal-precioVentaContainer').style.display = 'none';
-                document.getElementById('modal-precioVenta').removeAttribute('required');
-            }
+           
 
             // Abrir el modal
             var modal = new bootstrap.Modal(document.getElementById('modal-actualizar'));
