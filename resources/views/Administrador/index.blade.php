@@ -65,7 +65,7 @@
     <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-sm-9">
-                <div class="card">
+                <div class="card" style="height: 100%">
                     <div class="card-body">
                         <div style="display: flex">
                             <i class="fa-solid fa-money-bill-trend-up" style="font-size: 20px; margin-right: 10px"></i>
@@ -74,14 +74,12 @@
                         <figure class="highcharts-figure">
                             <div id="container"></div>
                         </figure>
-
                         <div class="text-center">
                             <a href="/ventas" class="btn btn-primary">Acceder</a>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-3">
                 <div class="row">
                     <div class="col-12 mb-5">
@@ -116,12 +114,84 @@
                             </div>
                         </div>
                     </div>
-
-
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <figure class="highcharts-figure">
+                            <div id="container-line"></div>
+                            <p class="highcharts-description">
+                                Evolición de precios
+                            </p>
+                        </figure>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        var fechas = @json($fechas);
+        var preciosCompra = @json($precios_compra);
+        var preciosVenta = @json($precios_venta);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Highcharts.chart('container-line', {
+                title: {
+                    text: 'Evolución de Precios de Venta y Compra',
+                    align: 'left'
+                },
+    
+                yAxis: {
+                    title: {
+                        text: 'Precio'
+                    }
+                },
+    
+                xAxis: {
+                    categories: fechas, // Fechas desde Laravel
+                    title: {
+                        text: 'Fecha'
+                    }
+                },
+    
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+    
+                series: [{
+                    name: 'Precio de Compra',
+                    data: preciosCompra, // Datos de precio de compra
+                    color: '#FF5733'
+                }, {
+                    name: 'Precio de Venta',
+                    data: preciosVenta, // Datos de precio de venta
+                    color: '#33FF57'
+                }],
+    
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        });
+    </script>
 
 
     <script>
@@ -135,7 +205,7 @@
 
         // Función para llenar el mapa con datos
         function populateMap(dataArray, key) {
-            dataArray.forEach(function(item) {
+            dataArray.forEach(function (item) {
                 const semana = (key === 'dinero_final') ? item.semana : item.semana_ajustada;
                 if (!dataMap[semana]) {
                     dataMap[semana] = {
@@ -153,13 +223,13 @@
 
         // Extraer semanas y series de datos
         var semanas = Object.keys(dataMap);
-        var data_dinero_final = semanas.map(function(semana) {
+        var data_dinero_final = semanas.map(function (semana) {
             return dataMap[semana].dinero_final || 0; // Valor por defecto 0 si no hay dato
         });
-        var data_guadalupano_ganancia = semanas.map(function(semana) {
+        var data_guadalupano_ganancia = semanas.map(function (semana) {
             return dataMap[semana].guadalupano || 0; // Valor por defecto 0 si no hay dato
         });
-        var data_potreros_ganancia = semanas.map(function(semana) {
+        var data_potreros_ganancia = semanas.map(function (semana) {
             return dataMap[semana].potreros || 0; // Valor por defecto 0 si no hay dato
         });
 
@@ -197,117 +267,21 @@
                 }
             },
             series: [{
-                    name: 'Ganancia de potreros',
-                    data: data_potreros_ganancia
-                },
-                {
-                    name: 'Ganancia del guadalupano',
-                    data: data_guadalupano_ganancia
-                },
-                {
-                    name: 'Ganancia total',
-                    data: data_dinero_final
-                }
+                name: 'Ganancia de potreros',
+                data: data_potreros_ganancia
+            },
+            {
+                name: 'Ganancia del guadalupano',
+                data: data_guadalupano_ganancia
+            },
+            {
+                name: 'Ganancia total',
+                data: data_dinero_final
+            }
             ]
         });
     </script>
 
 
-    {{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-            // Datos de PHP convertidos a JavaScript
-            var dinero_final = <?php echo json_encode($dinero_final); ?>;
-            var guadalupano = <?php echo json_encode($guadalupano); ?>;
-            var potreros = <?php echo json_encode($potreros); ?>;
 
-            // Crear un mapa para almacenar los datos por semana
-            var dataMap = {};
-
-            // Función para llenar el mapa con datos
-            function populateMap(dataArray, key) {
-                dataArray.forEach(function(item) {
-                    const semana = (key === 'dinero_final') ? item.semana : item.semana_ajustada;
-                    if (!dataMap[semana]) {
-                        dataMap[semana] = {
-                            semana: semana
-                        }; // Inicializar la semana solo una vez
-                    }
-                    dataMap[semana][key] = parseFloat(item.totalGanancia || item.dinero_final || 0);
-                });
-            }
-
-            // Llenar el mapa con datos de las tres series
-            populateMap(dinero_final, 'dinero_final');
-            populateMap(guadalupano, 'guadalupano');
-            populateMap(potreros, 'potreros');
-
-            // Extraer semanas y series de datos
-            var semanas = Object.keys(dataMap);
-            var data_dinero_final = semanas.map(function(semana) {
-                return dataMap[semana].dinero_final || 0; // Valor por defecto 0 si no hay dato
-            });
-            var data_guadalupano_ganancia = semanas.map(function(semana) {
-                return dataMap[semana].guadalupano || 0; // Valor por defecto 0 si no hay dato
-            });
-            var data_potreros_ganancia = semanas.map(function(semana) {
-                return dataMap[semana].potreros || 0; // Valor por defecto 0 si no hay dato
-            });
-
-            // Crear el gráfico Highcharts
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'spline'
-                },
-                title: {
-                    text: 'Ganancias del Año'
-                },
-                xAxis: {
-                    categories: semanas,
-                    accessibility: {
-                        description: 'Semanas del año'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Dinero'
-                    },
-                    labels: {
-                        format: '$ {value}'
-                    }
-                },
-                tooltip: {
-                    crosshairs: true,
-                    shared: true
-                },
-                plotOptions: {
-                    spline: {
-                        marker: {
-                            radius: 4,
-                            lineColor: '#666666',
-                            lineWidth: 1
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Ganancia Total',
-                    marker: {
-                        symbol: 'square'
-                    },
-                    data: data_dinero_final
-                }, {
-                    name: 'Ganancia Guadalupano',
-                    marker: {
-                        symbol: 'diamond'
-                    },
-                    data: data_guadalupano_ganancia
-                }, {
-                    name: 'Ganancia Potreros',
-                    marker: {
-                        symbol: 'diamond'
-                    },
-                    data: data_potreros_ganancia
-                }]
-            });
-        });
-</script> --}}
 @endsection

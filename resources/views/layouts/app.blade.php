@@ -34,6 +34,26 @@
 
 
     <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .containeer {
+            flex: 1;
+            /* Hace que el contenido principal ocupe el espacio disponible */
+        }
+
+        footer {
+            background: #e9183b;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
         .navbar {
             background: #e9183b;
             padding: 0 15px;
@@ -184,47 +204,46 @@
         </div>
 
         @yield('content')
+    </div>
 
-        <footer class="text-white py-4 mt-5" style="background: #e9183b">
-            <div class="container">
-                <div class="row">
-                    <!-- Logo -->
-                    <div class="col-md-4 d-flex justify-content-center align-items-center mb-3 mb-md-0">
-                        <img src="/assets/img/favicon.ico" alt="Logo" style="max-width: 150px;">
-                    </div>
+    <footer class="text-white py-4 mt-5" style="background: #e9183b">
+        <div class="container">
+            <div class="row">
+                <!-- Logo -->
+                <div class="col-md-4 d-flex justify-content-center align-items-center mb-3 mb-md-0">
+                    <img src="/assets/img/favicon.ico" alt="Logo" style="max-width: 150px;">
+                </div>
 
-                    <!-- Número de Contacto y WhatsApp -->
-                    <div class="col-md-4 text-center mb-3 mb-md-0">
-                        <p class="mb-2">Contáctanos al:</p>
-                        <p class="h5">
-                            <i class="fab fa-whatsapp"></i> +52 449 274 77 72
-                        </p>
-                        <p class="h5">
-                            <i class="fab fa-whatsapp"></i> +52 449 777 44 60
-                        </p>
-                        {{-- <p class="mb-0">
-                            <a href="https://wa.me/123456789" class="text-white" target="_blank">
-                                <i class="fab fa-whatsapp fa-2x"></i> WhatsApp
-                            </a>
-                        </p> --}}
-                    </div>
+                <!-- Número de Contacto y WhatsApp -->
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <p class="mb-2">Contáctanos al:</p>
+                    <p class="h5">
+                        <i class="fab fa-whatsapp"></i> +52 449 274 77 72
+                    </p>
+                    <p class="h5">
+                        <i class="fab fa-whatsapp"></i> +52 449 777 44 60
+                    </p>
+                    {{-- <p class="mb-0">
+                        <a href="https://wa.me/123456789" class="text-white" target="_blank">
+                            <i class="fab fa-whatsapp fa-2x"></i> WhatsApp
+                        </a>
+                    </p> --}}
+                </div>
 
-                    <!-- Redes Sociales -->
-                    <div class="col-md-4 text-center">
-                        <p class="mb-2">Síguenos en nuestras redes sociales:</p>
-                        <div>
-                            <a href="https://www.facebook.com/profile.php?id=100054294079969&locale=es_LA"
-                                class="text-white mx-2" target="_blank">
-                                <i class="fab fa-facebook fa-2x"></i>
-                            </a>
-                        </div>
+                <!-- Redes Sociales -->
+                <div class="col-md-4 text-center">
+                    <p class="mb-2">Síguenos en nuestras redes sociales:</p>
+                    <div>
+                        <a href="https://www.facebook.com/profile.php?id=100054294079969&locale=es_LA"
+                            class="text-white mx-2" target="_blank">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

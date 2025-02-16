@@ -43,12 +43,26 @@ class AdministradorController extends Controller
         $numero_usuarios = User::count();
         $numero_notas = Cat_Notas::where('estado', 1)->count();
 
+        $ventas = Cat_Ventas::select('fecha', DB::raw('AVG(precio_compra) as precio_compra'), DB::raw('AVG(precio_venta) as precio_venta'))
+            ->groupBy('fecha')
+            ->orderBy('fecha', 'asc')
+            ->get();
+
+        // Convierte los datos a un formato JSON para JavaScript
+        $fechas = $ventas->pluck('fecha')->toArray();
+        $precios_compra = $ventas->pluck('precio_compra')->toArray();
+        $precios_venta = $ventas->pluck('precio_venta')->toArray();
+
         return view('Administrador.index', [
             'dinero_final' => $dinero_final,
             'guadalupano' => $guadalupano,
             'potreros' => $potreros,
             'numero_usuarios' => $numero_usuarios,
-            'numero_notas' => $numero_notas
+            'numero_notas' => $numero_notas,
+            'ventas' => $ventas,
+            'fechas' => $fechas,
+            'precios_compra' => $precios_compra,
+            'precios_venta' => $precios_venta
         ]);
     }
 
