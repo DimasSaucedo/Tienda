@@ -4,19 +4,13 @@ use App\Http\Middleware\Autenticacion;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-
-    // $password = '123';
-    // $hashedPassword = Hash::make($password);
-
-    // dd($hashedPassword);
-
-    return redirect('rines');
-});
 
 Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'] );
+
 //Route::get('/home', [App\Http\Controllers\ReporteController::class, 'home']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware(Autenticacion::class);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/llantasP', [App\Http\Controllers\PotrerosController::class, 'index'])->middleware(Autenticacion::class);
 Route::get('/llantasG', [App\Http\Controllers\GuadalupanoController::class, 'index'])->middleware(Autenticacion::class);
