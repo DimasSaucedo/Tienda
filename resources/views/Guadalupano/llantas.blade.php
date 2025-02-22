@@ -134,8 +134,8 @@
     <div class="modal fade" id="modal-actualizar" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar Llanta: <span id="modal-titulo"></span>
+                <div class="modal-header" style="background: #e9183b; color: white">
+                    <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar Llanta<span id="modal-titulo"></span>
                     </h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -193,10 +193,24 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 
     <script>
+        let lastScrollPosition = 0;
+
+        window.addEventListener("beforeunload", function () {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+
+
         // Función para abrir el modal de agregar
         function abrirModalAgregaLlanta() {
+            lastScrollPosition = window.scrollY;
+
             var modal = new bootstrap.Modal(document.getElementById('modal-agregar'));
             modal.show();
+
+             // Restaurar la posición del scroll después de abrir el modal
+            setTimeout(() => {
+                window.scrollTo(0, lastScrollPosition);
+            }, 10); // Pequeño retraso para asegurar que se mantiene la posición
         }
 
 
@@ -228,6 +242,8 @@
 
         // Función para abrir el modal de actualización y llenar los campos
         function abrirModalActualizarLlanta(id, medida, marca, cantidad, letra, precioCompra, precioVenta) {
+            lastScrollPosition = window.scrollY;
+
             document.getElementById('modal-id').value = id;
             document.getElementById('modal-medida').value = medida;
             document.getElementById('modal-marca').value = marca;
@@ -240,25 +256,40 @@
             // Abrir el modal
             var modal = new bootstrap.Modal(document.getElementById('modal-actualizar'));
             modal.show();
+
+
+            // Restaurar la posición del scroll después de abrir el modal
+            setTimeout(() => {
+                window.scrollTo(0, lastScrollPosition);
+            }, 10); // Pequeño retraso para asegurar que se mantiene la posición
         }
 
         // Limpiar el modal al cerrarse
         document.getElementById('modal-actualizar').addEventListener('hidden.bs.modal', function () {
             document.getElementById('actualizarLlantaForm').reset();
         });
-
+        
         // Configuración de DataTables
         $(document).ready(function () {
+        // Restaurar la posición del scroll si existe
+        if (sessionStorage.getItem("scrollPosition")) {
+                window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
+                sessionStorage.removeItem("scrollPosition"); // Limpiar después de restaurar
+            }
+
             $('#example').DataTable({
                 responsive: true,
                 dom: 'Blfrtip',
-                stateSave: false,
+                stateSave: true,
                 language: {
                     "url": "/assets/lib/datatable/es.json"
                 },
                 paging: false,
-                ordering: false
+                ordering: false,
+                buttons:[],
             });
         });
+
+        
     </script>
 @endsection

@@ -14,26 +14,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/llantasP', [App\Http\Controllers\PotrerosController::class, 'index'])->middleware(Autenticacion::class);
 Route::get('/llantasG', [App\Http\Controllers\GuadalupanoController::class, 'index'])->middleware(Autenticacion::class);
-
 Route::post('/agregarLlanta', [App\Http\Controllers\LlantasController::class, 'store'])->middleware(Autenticacion::class);
 Route::post('/eliminarLlanta', [App\Http\Controllers\LlantasController::class, 'delete'])->middleware(Autenticacion::class);
 Route::post('/actualizarLlanta', [App\Http\Controllers\LlantasController::class, 'update'])->middleware(Autenticacion::class);
 
 Route::get('/bateriasP', [App\Http\Controllers\PotrerosController::class, 'baterias'])->middleware(Autenticacion::class);
-Route::post('/agregarBateria', [App\Http\Controllers\PotrerosController::class, 'agregarBateria'])->middleware(Autenticacion::class);
-Route::post('/eliminar_bateriap', [App\Http\Controllers\PotrerosController::class, 'eliminarBateria'])->middleware(Autenticacion::class);
-Route::post('/actualizar_bateria_p', [App\Http\Controllers\PotrerosController::class, 'actualizaBateria'])->middleware(Autenticacion::class);
-
-//Guadalupano
-
-
-Route::post('/agregarLlantaG', [App\Http\Controllers\GuadalupanoController::class, 'agregarLlanta'])->middleware(Autenticacion::class);
-Route::post('/eliminar_llantaG', [App\Http\Controllers\GuadalupanoController::class, 'eliminarLlanta'])->middleware(Autenticacion::class);
-Route::post('/actualizar_llanta_G', [App\Http\Controllers\GuadalupanoController::class, 'actualizaLlanta'])->middleware(Autenticacion::class);
 Route::get('/bateriasG', [App\Http\Controllers\GuadalupanoController::class, 'baterias'])->middleware(Autenticacion::class);
-Route::post('/agregarBateriaG', [App\Http\Controllers\GuadalupanoController::class, 'agregarBateria'])->middleware(Autenticacion::class);
-Route::post('/eliminar_bateriag', [App\Http\Controllers\GuadalupanoController::class, 'eliminarBateria'])->middleware(Autenticacion::class);
-Route::post('/actualizar_bateria_g', [App\Http\Controllers\GuadalupanoController::class, 'actualizaBateria'])->middleware(Autenticacion::class);
+Route::post('/agregarBateria', [App\Http\Controllers\BateriasController::class, 'store'])->middleware(Autenticacion::class);
+Route::post('/actualizarBateria', [App\Http\Controllers\BateriasController::class, 'update'])->middleware(Autenticacion::class);
+Route::post('/eliminarBateria', [App\Http\Controllers\BateriasController::class, 'delete'])->middleware(Autenticacion::class);
 
 //Checador
 Route::get('/checador', [App\Http\Controllers\ChecadorController::class, 'index'])->middleware(Autenticacion::class);

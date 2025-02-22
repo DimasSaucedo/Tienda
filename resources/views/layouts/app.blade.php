@@ -14,13 +14,8 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    {{-- Bootstrap --}}
     {{--
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
-
-    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css">
+    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css">--}}
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -29,6 +24,8 @@
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 
     <script src="https://kit.fontawesome.com/44c015b24b.js" crossorigin="anonymous"></script>
+
+    <link href="/assets/DataTables/datatables.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
@@ -60,8 +57,8 @@
         }
 
         .table thead th {
-            background: #e9183b;
-            color: white;
+            background: #e9183b !important;
+            color: white !important;
         }
 
         .table tbody tr:hover td {
@@ -99,6 +96,11 @@
             z-index: 1000;
             /* Asegura que el botón esté por encima de otros elementos */
             padding: 10px;
+        }
+
+        body.modal-open {
+            position: static !important;
+            overflow: visible !important;
         }
     </style>
 </head>
@@ -245,15 +247,15 @@
     </footer>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {{--
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"> --}}
 
     {{--
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
@@ -264,6 +266,7 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
         </script>
 
+    <script src="/assets/DataTables/datatables.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

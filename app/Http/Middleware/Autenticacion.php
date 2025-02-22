@@ -18,7 +18,7 @@ class Autenticacion
     {
         // Si el usuario no está autenticado o si la sesión ha expirado
         if (!Auth::check() || $request->session()->has('expired')) {
-            return redirect('/rines');
+            return redirect('/home');
         }
 
         return $next($request);

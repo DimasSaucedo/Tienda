@@ -364,7 +364,8 @@
                     "url": "/assets/lib/datatable/es.json"
                 },
                 paging: false,
-                ordering: false
+                ordering: false,
+                buttons:[],
             });
 
             $('#guardar-2').click(function() {

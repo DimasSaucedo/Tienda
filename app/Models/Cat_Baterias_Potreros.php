@@ -10,4 +10,5 @@ class Cat_Baterias_Potreros extends Model
     use HasFactory;
 
     protected $table = 'baterias';
+    protected $guarded = [];
 }
