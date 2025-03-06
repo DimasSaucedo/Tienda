@@ -335,12 +335,9 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+
+
+
 <script>
     // Obtiene la fecha de hoy en el formato YYYY-MM-DD
         const today = new Date().toISOString().split('T')[0];
@@ -356,17 +353,17 @@
                 }
             });
 
-            $('#tabla-ventas').DataTable({
-                responsive: true,
-                dom: 'Blfrtip',
-                stateSave: true,
-                language: {
-                    "url": "/assets/lib/datatable/es.json"
-                },
-                paging: false,
-                ordering: false,
-                buttons:[],
-            });
+            // $('#tabla-ventas').DataTable({
+            //     responsive: true,
+            //     dom: 'Blfrtip',
+            //     stateSave: true,
+            //     language: {
+            //         "url": "/assets/lib/datatable/es.json"
+            //     },
+            //     paging: false,
+            //     ordering: false,
+            //     buttons:[],
+            // });
 
             $('#guardar-2').click(function() {
                 // Evita el envío del formulario tradicional
