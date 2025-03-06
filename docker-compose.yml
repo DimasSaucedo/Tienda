@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-fpm
+    build: .
+    container_name: laravel_app
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - tienda_net
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    networks:
+      - tienda_net
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    command: ["certbot", "certonly", "--webroot", "--webroot-path=/var/www/certbot", "-d", "rinessaucedo.site", "-d", "www.rinessaucedo.site"]
+
+  nginx_webserver:
+    image: nginx:alpine
+    container_name: nginx_webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - tienda_net
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Cambia esta contraseña
+      MYSQL_DATABASE: u442435565_inventario # Nombre de la base de datos
+      MYSQL_USER: u442435565_root1 # Nombre de usuario
+      MYSQL_PASSWORD: Dimassaucedo12 # Cambia esta contraseña
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tienda_net
+
+volumes:
+  mysql_data:
+
+networks:
+  tienda_net:
