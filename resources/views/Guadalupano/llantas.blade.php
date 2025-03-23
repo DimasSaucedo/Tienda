@@ -21,6 +21,7 @@
                             <th class="align-middle text-center">Marca</th>
                             <th class="align-middle text-center" style="width: 100px">Precio Compra</th>
                             <th class="align-middle text-center" style="width: 100px">Precio Venta</th>
+                            <th class="align-middle text-center" style="width: 100px">Precion Venta 3%</th>
                             <th class="align-middle text-center">Opciones</th>
                         </tr>
                     </thead>
@@ -33,6 +34,7 @@
                                 <td class="align-middle">{{ $ll->Marca }}</td>
                                 <td class="align-middle text-center" style="width: 80px">{{ formatearNumero($ll->PrecioCompra) }}</td>
                                 <td class="align-middle text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta) }}</td>
+                                <td class="align-middle text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta * 1.03) }}</td>
                                 <td class="align-middle text-center">
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <div class="btn-group" role="group">
