@@ -18,3 +18,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+certbot/conf/live/
+certbot/conf/archive/
+certbot/conf/renewal/
+
