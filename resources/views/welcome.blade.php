@@ -73,40 +73,40 @@
     <div id="carouselRines" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="/images/carrusel/fondo_1.jpeg" class="d-block w-100" alt="Rin 1">
+                <img src="/images/carrusel/fondo_1.webp" class="d-block w-100" alt="Rin 1">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_2.png" class="d-block w-100" alt="Llanta 1">
+                <img src="/images/carrusel/fondo_2.webp" loading="lazy" class="d-block w-100" alt="Llanta 1">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_3.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_3.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_4.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_4.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_5.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_5.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_6.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_6.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_7.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_7.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_8.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_8.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_9.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_9.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_10.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_10.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_11.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_11.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
             <div class="carousel-item">
-                <img src="/images/carrusel/fondo_12.png" class="d-block w-100" alt="Showroom">
+                <img src="/images/carrusel/fondo_12.webp" loading="lazy" class="d-block w-100" alt="Showroom">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselRines" data-bs-slide="prev">
@@ -143,8 +143,8 @@
         <h3 class="section-title mb-4">Trabajamos con las mejores marcas</h3>
         <div class="d-flex flex-wrap justify-content-center gap-4">
             <img src="/images/marcas/american.webp" alt="BFGoodrich" style="height: 100px;" data-aos="zoom-in" data-aos-delay="100">
-            <img src="/images/marcas/msmotor.png" alt="Michelin" style="height: 100px;" data-aos="zoom-in" data-aos-delay="200">
-            <img src="/images/marcas/saxorines.jfif" alt="" style="height: 100px;" data-aos="zoom-in" data-aos-delay="300">
+            <img src="/images/marcas/msmotor.webp" alt="Michelin" style="height: 100px;" data-aos="zoom-in" data-aos-delay="200">
+            <img src="/images/marcas/saxorines.webp" alt="" style="height: 100px;" data-aos="zoom-in" data-aos-delay="300">
             <img src="/images/marcas/ilink.webp" alt="" style="height: 50px;" data-aos="zoom-in" data-aos-delay="400">
             <img src="/images/marcas/mirage.webp" alt="" style="height: 50px;" data-aos="zoom-in" data-aos-delay="500">
             <img src="/images/marcas/roadclaw.webp" alt="" style="height: 50px;" data-aos="zoom-in" data-aos-delay="600">
