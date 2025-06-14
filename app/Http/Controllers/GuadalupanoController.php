@@ -15,6 +15,7 @@ class GuadalupanoController extends Controller
         $llantasP = Cat_Llantas_Guadalupano::orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", -1) AS UNSIGNED)'))
             ->orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", 1) AS UNSIGNED)'))
             ->orderBy(DB::raw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Medida, "-", 2), "-", -1) AS UNSIGNED)'))
+            ->orderBy('Cantidad')
             ->get();
 
         return view('Guadalupano.llantas', ['llantas' => $llantasP]);
@@ -76,7 +77,9 @@ class GuadalupanoController extends Controller
 
     public function baterias()
     {
-        $baterias = Cat_Baterias_Guadalupano::all();
+        $baterias = Cat_Baterias_Guadalupano::orderBy('Cantidad', 'asc')
+            ->orderBy('NoBateria', 'asc')
+            ->get();
         $cat_marcas = Cat_Marcas_Baterias::where('estado', 1)->get();
 
 

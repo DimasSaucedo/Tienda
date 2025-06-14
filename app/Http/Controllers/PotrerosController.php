@@ -17,6 +17,7 @@ class PotrerosController extends Controller
         $llantasP = Cat_Llantas_Potreros::orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", -1) AS UNSIGNED)'))
             ->orderBy(DB::raw('CAST(SUBSTRING_INDEX(Medida, "-", 1) AS UNSIGNED)'))
             ->orderBy(DB::raw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Medida, "-", 2), "-", -1) AS UNSIGNED)'))
+            ->orderBy('Cantidad')
             ->get();
 
         return view('Poteros.llantas', ['llantas' => $llantasP]);
@@ -108,7 +109,9 @@ class PotrerosController extends Controller
 
     public function baterias()
     {
-        $baterias = Cat_Baterias_Potreros::all();
+        $baterias = Cat_Baterias_Potreros::orderBy('Cantidad', 'asc')
+            ->orderBy('NoBateria', 'asc')
+            ->get();
         $cat_marcas = Cat_Marcas_Baterias::where('estado', 1)->get();
 
         return view('Poteros.baterias', compact(
@@ -191,7 +194,7 @@ class PotrerosController extends Controller
                 $llantaP->PrecioCompra = $request->precioCompra;
                 $llantaP->PrecioVenta = $request->precioVenta;
             }
-            
+
             $llantaP->update();
 
             return redirect()->back()->with('success', 'Bateria actualizada correctamente.');
