@@ -431,8 +431,6 @@
             },
             retina_detect: true
         });
-
-        requestAnimationFrame(update);
     </script>
 
 </body>
