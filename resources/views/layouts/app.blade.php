@@ -324,7 +324,7 @@
         particlesJS("particles-js", {
             particles: {
                 number: {
-                    value: 178,
+                    value: 250,
                     density: {
                         enable: true,
                         value_area: 800
@@ -340,7 +340,7 @@
                         color: "#ff0000"
                     },
                     polygon: {
-                        nb_sides: 5
+                        nb_sides: 3
                     },
                     image: {
                         src: "img/github.svg",
@@ -349,7 +349,7 @@
                     }
                 },
                 opacity: {
-                    value: 0.1,
+                    value: 0.2,
                     random: false,
                     anim: {
                         enable: false,
@@ -359,7 +359,7 @@
                     }
                 },
                 size: {
-                    value: 3,
+                    value: 5,
                     random: true,
                     anim: {
                         enable: false,
@@ -372,7 +372,7 @@
                     enable: true,
                     distance: 150,
                     color: "#ff0000",
-                    opacity: 0.2,
+                    opacity: 0.3,
                     width: 1
                 },
                 move: {
