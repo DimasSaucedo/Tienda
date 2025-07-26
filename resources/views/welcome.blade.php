@@ -123,14 +123,14 @@
         <h2 class="text-center section-title mb-5" data-aos="fade-up">Lo mejor en rines y llantas</h2>
         <div class="row justify-content-center g-4">
             <div class="col-md-5" data-aos="fade-up" data-aos-delay="100">
-                <div class="p-4 border rounded feature-box text-center">
+                <div class="p-4 border rounded feature-box text-center bg-white">
                     <img src="/images/carrusel/rin_corvette.webp" alt="Rin de auto">
                     <h5 class="mt-3">Rines para auto</h5>
                     <p>Estilos deportivos y elegantes para que tu vehículo destaque en cada camino.</p>
                 </div>
             </div>
             <div class="col-md-5" data-aos="fade-up" data-aos-delay="200">
-                <div class="p-4 border rounded feature-box text-center">
+                <div class="p-4 border rounded feature-box text-center bg-white">
                     <img src="/images/carrusel/rin_troca.webp" alt="Rin de troca">
                     <h5 class="mt-3">Rines para troca</h5>
                     <p>Resistencia y presencia en cada rodada, ideales para trabajo y aventura.</p>
