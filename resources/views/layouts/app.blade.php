@@ -331,13 +331,13 @@
                     }
                 },
                 color: {
-                    value: "#ff0000"
+                    value: "#C8FF00"
                 },
                 shape: {
                     type: "circle",
                     stroke: {
                         width: 0,
-                        color: "#ff0000"
+                        color: "#C8FF00"
                     },
                     polygon: {
                         nb_sides: 3
@@ -371,9 +371,9 @@
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: "#ff0000",
-                    opacity: 0.3,
-                    width: 1
+                    color: "#3700FF",
+                    opacity: 0.5,
+                    width: 1.5
                 },
                 move: {
                     enable: true,
