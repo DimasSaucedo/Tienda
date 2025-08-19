@@ -223,8 +223,8 @@
             <div class="loading-text">Cargando...</div>
         </div>
 
-        <div id="particles-js"></div>
-        <div class="count-particles"> <span class="js-count-particles"></span></div>
+        <!-- <div id="particles-js"></div> -->
+        <!-- <div class="count-particles"> <span class="js-count-particles"></span></div> -->
 
 
         @yield('content')
