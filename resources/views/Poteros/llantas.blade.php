@@ -31,9 +31,12 @@
                                 <td class="align-middle text-center" style="width: 10px">{{ $ll->Letra }}</td>
                                 <td class="align-middle">{{ $ll->Medida }}</td>
                                 <td class="align-middle">{{ $ll->Marca }}</td>
-                                <td class="align-middle text-center" style="width: 80px">{{ formatearNumero($ll->PrecioCompra) }}</td>
-                                <td class="align-middle text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta) }}</td>
-                                <td class="align-middle text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta * 1.03) }}</td>
+                                <td class="align-middle text-center" style="width: 80px">
+                                    {{ formatearNumero($ll->PrecioCompra) }}</td>
+                                <td class="align-middle text-center" style="width: 80px">
+                                    {{ formatearNumero($ll->PrecioVenta) }}</td>
+                                <td class="align-middle text-center" style="width: 80px">
+                                    {{ formatearNumero($ll->PrecioVenta * 1.03) }}</td>
                                 <td class="align-middle text-center">
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <div class="btn-group" role="group">
@@ -50,18 +53,26 @@
                                                     @if ($ll->Cantidad > 0)
                                                         <form action="/vender_producto" method="POST">
                                                             @csrf
-                                                            <input hidden value="{{ $ll->id }}" name="id" id="id">
-                                                            <input hidden value="LlantasPotreros" name="producto" id="producto">
+                                                            <input hidden value="{{ $ll->id }}" name="id"
+                                                                id="id">
+                                                            <input hidden value="LlantasPotreros" name="producto"
+                                                                id="producto">
                                                             <button type="submit" class="dropdown-item"
                                                                 style="width: 100px">Vender</button>
                                                         </form>
                                                     @endif
                                                 </li>
                                                 <li>
+                                                    <a class="dropdown-item" href="#"
+                                                        onclick="abrirModalMoverLlanta({{ $ll->id }}, '{{ $ll->Medida }}', '{{ $ll->Marca }}', {{ $ll->Cantidad }}, '{{ $ll->Letra }}', {{ $ll->PrecioCompra }}, {{ $ll->PrecioVenta }})">Mover
+                                                        de Tienda</a>
+                                                </li>
+                                                <li>
                                                     <form action="/eliminarLlanta" method="POST">
                                                         @csrf
                                                         <input hidden value="potreros" name="tienda" id="tienda">
-                                                        <input hidden value="{{ $ll->id }}" name="id" id="id">
+                                                        <input hidden value="{{ $ll->id }}" name="id"
+                                                            id="id">
                                                         <button type="submit" class="dropdown-item"
                                                             style="width: 100px">Eliminar</button>
                                                     </form>
@@ -113,14 +124,14 @@
                         </div>
 
                         <div class="col-md-12 form-floating mb-3">
-                            <input class="form-control" type="number" id="precioCompra" name="precioCompra" step="0.01"
-                                placeholder=" " required>
+                            <input class="form-control" type="number" id="precioCompra" name="precioCompra"
+                                step="0.01" placeholder=" " required>
                             <label for="precioCompra">Precio de compra</label>
                         </div>
 
                         <div class="col-md-12 form-floating mb-3">
-                            <input class="form-control" type="number" id="precioVenta" name="precioVenta" step="0.01"
-                                placeholder=" " required>
+                            <input class="form-control" type="number" id="precioVenta" name="precioVenta"
+                                step="0.01" placeholder=" " required>
                             <label for="precioVenta">Precio de venta</label>
                         </div>
                         <input type="hidden" value="potreros" name="tienda" id="tienda" required>
@@ -138,7 +149,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header" style="background: #e9183b; color: white">
-                    <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar Llanta: <span id="modal-titulo"></span>
+                    <h3 class="modal-title fs-5" id="exampleModalLabel">Actualizar Llanta: <span
+                            id="modal-titulo"></span>
                     </h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -157,7 +169,8 @@
                             <label for="modal-marca">Marca:</label>
                         </div>
                         <div class="col-md-12 form-floating mb-3">
-                            <input class="form-control" type="number" id="modal-cantidad" placeholder=" " name="cantidad">
+                            <input class="form-control" type="number" id="modal-cantidad" placeholder=" "
+                                name="cantidad">
                             <label for="modal-cantidad">Cantidad:</label>
                         </div>
                         <div class="col-md-12 form-floating mb-3">
@@ -187,6 +200,59 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-mover" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #e9183b; color: white">
+                    <h3 class="modal-title fs-5" id="exampleModalLabel">Mover Llantas: <span id="modal-titulo"></span>
+                    </h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" novalidate id="mover_llanta" action="/mover_llanta" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="modal-id-mover">
+                        <div class="col-md-12 form-floating mb-3">
+                            <input class="form-control" name="medida_mover" id="modal-medida-mover" placeholder=" "
+                                required>
+                            <label for="modal-medida">Medida:</label>
+                        </div>
+                        <div class="col-md-12 form-floating mb-3">
+                            <input class="form-control" name="marca_mover" id="modal-marca-mover" placeholder=" "
+                                style="text-transform: uppercase;" required>
+                            <label for="modal-marca">Marca:</label>
+                        </div>
+                        <div class="col-md-12 form-floating mb-3">
+                            <input class="form-control" type="number" name="cantidad_mover" id="modal-cantidad-mover"
+                                placeholder=" ">
+                            <label for="modal-cantidad">Cantidad:</label>
+                        </div>
+                        <div class="col-md-12 form-floating mb-3">
+                            <input class="form-control" id="modal-letra-mover" name="letra_mover" placeholder=" "
+                                style="text-transform: uppercase;">
+                            <label for="modal-letra">Letra:</label>
+                        </div>
+                        <div class="col-md-12 form-floating mb-3">
+                            <input class="form-control" type="number" id="modal-precioCompra-mover" placeholder=" "
+                                name="precioCompra_mover" step="0.01" required>
+                            <label for="modal-precioCompra">Precio de Compra:</label>
+                        </div>
+                        <div class="col-md-12 form-floating mb-3">
+                            <input class="form-control" type="number" id="modal-precioVenta-mover" placeholder=" "
+                                name="precioVenta_mover" step="0.01" required>
+                            <label for="modal-precioVenta">Precio de Venta:</label>
+                        </div>
+                        <input type="hidden" name="tienda_original" id="tienda_original" value="potreros" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Mover</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -197,10 +263,9 @@
     <script>
         let lastScrollPosition = 0;
 
-        window.addEventListener("beforeunload", function () {
+        window.addEventListener("beforeunload", function() {
             sessionStorage.setItem("scrollPosition", window.scrollY);
         });
-
 
         // Función para abrir el modal de agregar
         function abrirModalAgregaLlanta() {
@@ -219,10 +284,10 @@
             var form = document.getElementById('agregarLlantaForm');
 
             if (!form.checkValidity()) {
-                event.preventDefault();  // Evita el envío del formulario si no es válido
+                event.preventDefault(); // Evita el envío del formulario si no es válido
                 event.stopPropagation();
             } else {
-                form.submit();  // Envía el formulario si es válido
+                form.submit(); // Envía el formulario si es válido
             }
 
             form.classList.add('was-validated'); // Agrega la clase de validación visual de Bootstrap
@@ -232,10 +297,10 @@
             var form = document.getElementById('actualizarLlantaForm');
 
             if (!form.checkValidity()) {
-                event.preventDefault();  // Evita el envío del formulario si no es válido
+                event.preventDefault(); // Evita el envío del formulario si no es válido
                 event.stopPropagation();
             } else {
-                form.submit();  // Envía el formulario si es válido
+                form.submit(); // Envía el formulario si es válido
             }
 
             form.classList.add('was-validated'); // Agrega la clase de validación visual de Bootstrap
@@ -244,7 +309,7 @@
         // Función para abrir el modal de actualización y llenar los campos
         function abrirModalActualizarLlanta(id, medida, marca, cantidad, letra, precioCompra, precioVenta) {
             lastScrollPosition = window.scrollY;
-            
+
             document.getElementById('modal-id').value = id;
             document.getElementById('modal-medida').value = medida;
             document.getElementById('modal-marca').value = marca;
@@ -264,12 +329,38 @@
         }
 
         // Limpiar el modal al cerrarse
-        document.getElementById('modal-actualizar').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('modal-actualizar').addEventListener('hidden.bs.modal', function() {
             document.getElementById('actualizarLlantaForm').reset();
         });
 
+        function abrirModalMoverLlanta(id, medida, marca, cantidad, letra, precioCompra, precioVenta) {
+            lastScrollPosition = window.scrollY;
+
+            document.getElementById('modal-id-mover').value = id;
+            document.getElementById('modal-medida-mover').value = medida;
+            document.getElementById('modal-marca-mover').value = marca;
+            document.getElementById('modal-cantidad-mover').value = cantidad;
+            document.getElementById('modal-letra-mover').value = letra;
+            document.getElementById('modal-precioCompra-mover').value = precioCompra;
+            document.getElementById('modal-precioVenta-mover').value = precioVenta;
+
+            // Abrir el modal
+            var modal = new bootstrap.Modal(document.getElementById('modal-mover'));
+            modal.show();
+
+            // Restaurar la posición del scroll después de abrir el modal
+            setTimeout(() => {
+                window.scrollTo(0, lastScrollPosition);
+            }, 10); // Pequeño retraso para asegurar que se mantiene la posición
+        }
+
+        document.getElementById('modal-mover').addEventListener('hidden.bs.modal', function() {
+            document.getElementById('actualizarLlantaForm').reset();
+        });
+
+
         // Configuración de DataTables
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Restaurar la posición del scroll si existe
             if (sessionStorage.getItem("scrollPosition")) {
                 window.scrollTo(0, sessionStorage.getItem("scrollPosition"));
@@ -285,9 +376,8 @@
                 },
                 paging: false,
                 ordering: false,
-                buttons:[],
+                buttons: [],
             });
         });
     </script>
-
 @endsection

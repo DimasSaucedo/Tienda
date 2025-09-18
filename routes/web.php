@@ -24,6 +24,8 @@ Route::post('/agregarBateria', [App\Http\Controllers\BateriasController::class, 
 Route::post('/actualizarBateria', [App\Http\Controllers\BateriasController::class, 'update'])->middleware(Autenticacion::class);
 Route::post('/eliminarBateria', [App\Http\Controllers\BateriasController::class, 'delete'])->middleware(Autenticacion::class);
 
+Route::post('/mover_llanta', [App\Http\Controllers\LlantasController::class, 'mover_llanta'])->middleware(Autenticacion::class);
+
 //Checador
 Route::get('/checador', [App\Http\Controllers\ChecadorController::class, 'index'])->middleware(Autenticacion::class);
 

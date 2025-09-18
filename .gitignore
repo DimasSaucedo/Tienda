@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+.env.example
 .env
 .env.backup
 .env.production
@@ -22,3 +23,5 @@ certbot/conf/live/
 certbot/conf/archive/
 certbot/conf/renewal/
 
+.env.example
+.env.example
