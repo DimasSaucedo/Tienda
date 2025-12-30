@@ -66,6 +66,78 @@ class AdministradorController extends Controller
         ]);
     }
 
+    // public function index_ventas()
+    // {
+    //     $year = Carbon::now()->year;
+    //     $startOfWeek = Carbon::now()->startOfWeek(); // Lunes de la semana actual
+    //     $endOfWeek = Carbon::now()->endOfWeek(); // Domingo de la semana actual
+    //     // Obtener la fecha actual
+    //     $fechaActual = Carbon::now();
+    //     // Obtener el número de la semana del año
+    //     $numeroSemana = $fechaActual->week;
+
+    //     // $ventasGuadalupano = Cat_Ventas::where('Tienda', 1)->get();
+    //     // $ventasPotreros = Cat_Ventas::where('Tienda', 0)->get();
+    //     // dd($numeroSemana);
+    //     $dinero_final = vw_dinero_final::where('semana', $numeroSemana)->where('ano', $year)->first();
+
+    //     // dd($dinero_final);
+    //     if (!$dinero_final) {
+    //         $dinero_final = (object) [
+    //             'dinero_final' => 0
+    //         ];
+    //     }
+
+
+    //     $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)->where('anio_ajustado', $year)->first();
+    //     if (!$detalles_ventas_potreros) {
+    //         $detalles_ventas_potreros = (object) [
+    //             'totalDineroElectronico' => 0,
+    //             'totalEfectivo' => 0,
+    //             'totalPrecioCompra' => 0,
+    //             'totalPrecioVenta' => 0,
+    //             'totalGanancia' => 0
+    //         ];
+    //     }
+    //     $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana', $numeroSemana)->where('anio_ajustado', $year)->first();
+    //     // Proporcionar valores predeterminados si no se encuentran resultados
+    //     if (!$detalles_ventas_guadalupano) {
+    //         $detalles_ventas_guadalupano = (object) [
+    //             'totalDineroElectronico' => 0,
+    //             'totalEfectivo' => 0,
+    //             'totalPrecioCompra' => 0,
+    //             'totalPrecioVenta' => 0,
+    //             'totalGanancia' => 0
+    //         ];
+    //     }
+
+    //     $gastos_detalle = View_gastos_detalle::where('semana', $numeroSemana)->where('ano', $year)->first();
+    //     if (!$gastos_detalle) {
+    //         $gastos_detalle = (object) [
+    //             'total_gastos' => 0
+    //         ];
+    //     }
+
+    //     $ventas = Cat_Ventas::whereBetween('fecha', [$startOfWeek, $endOfWeek])
+    //         ->orderBy('estado', 'asc')
+    //         ->orderBy('fecha', 'desc')
+    //         ->get();
+
+    //     $dinero_sacado = View_sacar_dinero::where('semana', $numeroSemana)->where('ano', $year)->first() ?? (object) ['total_dinero' => 0];
+
+
+    //     return view('Administrador.index_ventas', [
+    //         // 'ventasPotreros' => $ventasPotreros,
+    //         // 'ventasGuadalupano' => $ventasGuadalupano,
+    //         'detalles_ventas_potreros' => $detalles_ventas_potreros,
+    //         'detalles_ventas_guadalupano' => $detalles_ventas_guadalupano,
+    //         'ventas' => $ventas,
+    //         'gastos_detalle' => $gastos_detalle,
+    //         'dinero_final' => $dinero_final,
+    //         'dinero_sacado' => $dinero_sacado
+    //     ]);
+    // }
+
     public function index_ventas()
     {
         $fechaActual = Carbon::now();
@@ -73,14 +145,16 @@ class AdministradorController extends Controller
         $numeroSemana = $fechaActual->isoWeek();       // ✅
         $year = $fechaActual->isoWeekYear();           // ✅
 
-        $startOfWeek = $fechaActual->startOfWeek();    // Lunes ISO
-        $endOfWeek   = $fechaActual->endOfWeek();      // Domingo ISO
+        $startOfWeek = $fechaActual->copy()->startOfWeek(Carbon::MONDAY);
+        $endOfWeek   = $fechaActual->copy()->endOfWeek(Carbon::SUNDAY);
 
         $dinero_final = vw_dinero_final::where('semana', $numeroSemana)
             ->where('ano', $year)
             ->first() ?? (object)['dinero_final' => 0];
 
-        $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana', $numeroSemana)
+        //dd($numeroSemana, $startOfWeek, $endOfWeek, $year);
+
+        $detalles_ventas_potreros = View_ventas_detalle_potreros::where('semana_ajustada', $numeroSemana)
             ->where('anio_ajustado', $year)
             ->first() ?? (object)[
                 'totalDineroElectronico' => 0,
@@ -90,7 +164,7 @@ class AdministradorController extends Controller
                 'totalGanancia' => 0
             ];
 
-        $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana', $numeroSemana)
+        $detalles_ventas_guadalupano = View_ventas_detalle_guadalupano::where('semana_ajustada', $numeroSemana)
             ->where('anio_ajustado', $year)
             ->first() ?? (object)[
                 'totalDineroElectronico' => 0,
@@ -122,7 +196,6 @@ class AdministradorController extends Controller
             'dinero_sacado'
         ));
     }
-
 
     public function vender_producto(Request $request)
     {
