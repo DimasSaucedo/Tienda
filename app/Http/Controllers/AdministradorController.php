@@ -29,7 +29,7 @@ class AdministradorController extends Controller
     public function index()
     {
         $dinero_final = vw_dinero_final::orderBy('semana', 'asc')
-            ->orderBy('año', 'asc')
+            ->orderBy('ano', 'asc')
             ->take(4)
             ->get();
         $guadalupano = View_ventas_detalle_guadalupano::orderBy('semana_ajustada')
