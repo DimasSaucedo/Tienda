@@ -9,7 +9,7 @@ function menu()
 {
     if (Auth::check()) {
         $Menu = Cat_Menu::where('estado', 1)->get();
-    } 
+    }
 
 
     return $Menu;
@@ -65,4 +65,42 @@ function notas_detalle($id_nota)
     $detalle_nota = View_notas_detalle::where('id_nota', $id_nota)->first();
 
     return $detalle_nota;
+}
+
+use Carbon\Carbon;
+
+function mostrarSemanas()
+{
+    $fechaHoy = Carbon::now();
+    $fechaLimite = Carbon::now()->subMonths(3);
+
+    $semanas = [];
+
+    $inicio = $fechaHoy->copy()->startOfWeek(); // lunes de la semana actual
+
+    while ($inicio >= $fechaLimite) {
+        $lunes = $inicio->copy()->format('Y-m-d');
+        $domingo = $inicio->copy()->endOfWeek()->format('Y-m-d');
+        $numSemana = $inicio->copy()->weekOfYear;
+
+        $label = "Semana $numSemana ($lunes - $domingo)";
+        $value = "$lunes|$domingo";
+
+        $semanas[$value] = $label;
+
+        // retroceder una semana
+        $inicio->subWeek();
+    }
+
+    // semana actual para preselección
+    $semanaActual = $fechaHoy->copy()->startOfWeek()->format('Y-m-d') . '|' . $fechaHoy->copy()->endOfWeek()->format('Y-m-d');
+
+    return $semanas;
+}
+
+function semanaActual(){
+    $fechaHoy = Carbon::now();
+    $semanaActual = $fechaHoy->copy()->startOfWeek()->format('Y-m-d') . '|' . $fechaHoy->copy()->endOfWeek()->format('Y-m-d');
+
+    return $semanaActual;
 }

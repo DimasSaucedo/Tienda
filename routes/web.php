@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'] );
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 //Route::get('/home', [App\Http\Controllers\ReporteController::class, 'home']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
@@ -94,3 +94,5 @@ Route::post('/editar_rin', action: [App\Http\Controllers\RinesController::class,
 Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'buscar_rines']);
 // Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'index']);
 
+//Historial de ventas
+Route::get('/historial_ventas', [App\Http\Controllers\HistorialController::class, 'index']);
