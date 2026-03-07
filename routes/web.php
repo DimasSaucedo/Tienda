@@ -95,4 +95,4 @@ Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 
 // Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'index']);
 
 //Historial de ventas
-Route::get('/historial_ventas', [App\Http\Controllers\HistorialController::class, 'index']);
+Route::get('/historial_ventas', [App\Http\Controllers\HistorialController::class, 'index'])->middleware(Autenticacion::class);
