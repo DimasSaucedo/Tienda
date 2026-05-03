@@ -199,7 +199,9 @@ class BateriasController extends Controller
 
         // Cargar precios de cascarones de la BD indexados por tipo
         $cascarones = DB::table('cat_tipo_cascaron_bateria')
-            ->pluck('precio', 'tipo_cascaron')
+            ->get()
+            ->keyBy('tipo_cascaron')
+            ->map(fn($item) => (float) $item->precio)
             ->toArray();
 
         $actualizadas = 0;
