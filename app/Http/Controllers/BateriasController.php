@@ -212,7 +212,7 @@ class BateriasController extends Controller
             foreach ($baterias as $b) {
 
                 // Obtener precio del cascaron según clasificacion
-                $clasificacion  = $b['clasificacion_acumulador'];
+                $clasificacion  = (string) $b['clasificacion_acumulador'];
                 $precioCascaron = isset($cascarones[$clasificacion])
                     ? (float) $cascarones[$clasificacion]
                     : 0;
