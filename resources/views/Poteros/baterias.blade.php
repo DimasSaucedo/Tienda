@@ -24,7 +24,7 @@
                 </div>
             </div>
             <br>
-            
+
             <div class="table-responsive">
                 <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                     <thead>
@@ -32,6 +32,7 @@
                             <th class="text-center" style="width: 10px">Cantidad</th>
                             <th class="text-center" style="width: 10px">No. Bateria</th>
                             <th class="text-center">Marca</th>
+                            <th class="text-center" style="width: 50px">Clasificación</th>
                             <th class="text-center" style="width: 100px">Precio Compra</th>
                             <th class="text-center" style="width: 100px">Precio Venta</th>
                             <th class="text-center">Opciones</th>
@@ -50,14 +51,21 @@
                                         {{ $ll->largo ?? 0 }}, {{ $ll->ancho ?? 0 }}, {{ $ll->alto ?? 0 }},
                                         {{ $ll->peso_humedo ?? 0 }},
                                         '{{ $ll->polaridad_izq }}', '{{ $ll->polaridad_der }}',
-                                        {{ $ll->precio_sin_acumulador ?? 0 }}, 
-                                        {{ $ll->precio_con_acumulador ?? 0 }},
-                                        {{ $ll->PrecioCompraSinAcumulador ?? 0 }},
-                                        {{ $ll->PrecioVentaSinAcumulador ?? 0 }})">
+                                        {{ $ll->precio_con_acumulador ?? 0 }}, 
+                                        {{ $ll->PrecioCompra ?? 0 }},
+                                        {{ $ll->PrecioVenta ?? 0 }},
+                                        {{ $ll->PrecioVentaSinAcumulador ?? 0 }},
+                                        {{ $ll->clasificacion_acumulador }})">
                                         {{ $ll->NoBateria }}
                                     </a>
                                 </td>
                                 <td class="text-center" style="width: 150px">{{ $ll->Marca }}</td>
+                                <td class="text-center">
+                                    <span class="badge rounded-pill text-white fw-bold"
+                                        style="background:#e9183b; font-size: 0.9rem;">
+                                        {{ $ll->clasificacion_acumulador ?? '-' }}
+                                    </span>
+                                </td>
                                 <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioCompra) }}</td>
                                 <td class="text-center" style="width: 80px">{{ formatearNumero($ll->PrecioVenta) }}</td>
                                 <td class="text-center" style="width: 100px">
@@ -232,7 +240,7 @@
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Capacidad Reserva:</td>
-                                    <td id="detalle-reserva"> min</td>
+                                    <td id="detalle-reserva"></td>
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Dimensiones:</td>
@@ -240,25 +248,33 @@
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Peso húmedo:</td>
-                                    <td id="detalle-peso"> kg</td>
+                                    <td id="detalle-peso"></td>
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Polaridad:</td>
                                     <td id="detalle-polaridad"></td>
                                 </tr>
+                                <tr>
+                                    <td class="fw-bold">Clasificación:</td>
+                                    <td>
+                                        <span id="detalle-clasificacion" class="badge rounded-pill text-white fw-bold"
+                                            style="background:#e9183b; font-size:0.95rem;">
+                                        </span>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <!-- Columna derecha: precios -->
                         <div class="col-md-6">
-                            <h6 class="text-muted mb-3">Precios de lista</h6>
+                            <h6 class="text-muted mb-3">Precios</h6>
                             <table class="table table-sm table-borderless">
                                 <tr>
-                                    <td class="fw-bold">Sin acumulador:</td>
-                                    <td id="detalle-precio-sin"></td>
+                                    <td class="fw-bold">Precio de lista:</td>
+                                    <td id="detalle-precio-lista"></td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Con acumulador:</td>
-                                    <td id="detalle-precio-con"></td>
+                                    <td class="fw-bold">Precio final compra:</td>
+                                    <td id="detalle-precio-compra"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
@@ -266,8 +282,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Compra sin acumulador:</td>
-                                    <td id="detalle-compra-sin"></td>
+                                    <td class="fw-bold">Venta con acumulador:</td>
+                                    <td id="detalle-venta-con"></td>
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Venta sin acumulador:</td>
@@ -421,7 +437,12 @@
         @endif
 
         function abrirDetalle(id, noBateria, marca, ca, cca, reserva, largo, ancho, alto,
-            peso, polIzq, polDer, precioSin, precioCon, compraSin, ventaSin) {
+            peso, polIzq, polDer, precioLista, precioCompra, ventaCon, ventaSin, clasificacion) {
+
+            const fmt = val => '$' + parseFloat(val).toLocaleString('es-MX', {
+                minimumFractionDigits: 2
+            });
+
             document.getElementById('detalle-titulo').textContent = noBateria + ' - ' + marca;
             document.getElementById('detalle-ca').textContent = ca + ' Amp';
             document.getElementById('detalle-cca').textContent = cca + ' Amp';
@@ -429,14 +450,10 @@
             document.getElementById('detalle-dimensiones').textContent = largo + ' x ' + ancho + ' x ' + alto + ' mm';
             document.getElementById('detalle-peso').textContent = peso + ' kg';
             document.getElementById('detalle-polaridad').textContent = '(' + polIzq + ') / (' + polDer + ')';
-
-            // Formatear precios
-            const fmt = val => '$' + parseFloat(val).toLocaleString('es-MX', {
-                minimumFractionDigits: 2
-            });
-            document.getElementById('detalle-precio-sin').textContent = fmt(precioSin);
-            document.getElementById('detalle-precio-con').textContent = fmt(precioCon);
-            document.getElementById('detalle-compra-sin').textContent = fmt(compraSin);
+            document.getElementById('detalle-clasificacion').textContent = clasificacion;
+            document.getElementById('detalle-precio-lista').textContent = fmt(precioLista);
+            document.getElementById('detalle-precio-compra').textContent = fmt(precioCompra);
+            document.getElementById('detalle-venta-con').textContent = fmt(ventaCon);
             document.getElementById('detalle-venta-sin').textContent = fmt(ventaSin);
 
             new bootstrap.Modal(document.getElementById('modal-detalle')).show();
