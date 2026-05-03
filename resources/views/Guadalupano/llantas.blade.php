@@ -27,7 +27,7 @@
                     </thead>
                     <tbody style="background: white">
                         @foreach ($llantas as $ll)
-                            <tr>
+                            <tr class="{{ $ll->Cantidad == 0 ? 'table-warning' : '' }}">
                                 <td class="align-middle text-center" style="width: 10px">{{ $ll->Cantidad }}</td>
                                 <td class="align-middle text-center" style="width: 10px">{{ $ll->Letra }}</td>
                                 <td class="align-middle">{{ $ll->Medida }}</td>
@@ -378,6 +378,64 @@
                 paging: false,
                 ordering: false,
                 buttons: [],
+            });
+        });
+
+        // Confirmación para ELIMINAR
+        document.querySelectorAll('form[action="/eliminarLlanta"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formRef = this;
+                Swal.fire({
+                    title: '¿Eliminar llanta?',
+                    text: 'Esta acción no se puede deshacer.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) formRef.submit();
+                });
+            });
+        });
+
+        // Confirmación para VENDER
+        document.querySelectorAll('form[action="/vender_producto"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formRef = this;
+                Swal.fire({
+                    title: '¿Confirmar venta?',
+                    text: '¿Deseas registrar la venta de esta llanta?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#198754',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, vender',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) formRef.submit();
+                });
+            });
+        });
+
+        // Confirmación para MOVER DE TIENDA
+        document.getElementById('mover_llanta').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formRef = this;
+            Swal.fire({
+                title: '¿Mover llanta?',
+                text: '¿Confirmas mover esta llanta a otra tienda?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0d6efd',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, mover',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) formRef.submit();
             });
         });
     </script>

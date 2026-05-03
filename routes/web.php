@@ -23,6 +23,7 @@ Route::get('/bateriasG', [App\Http\Controllers\GuadalupanoController::class, 'ba
 Route::post('/agregarBateria', [App\Http\Controllers\BateriasController::class, 'store'])->middleware(Autenticacion::class);
 Route::post('/actualizarBateria', [App\Http\Controllers\BateriasController::class, 'update'])->middleware(Autenticacion::class);
 Route::post('/eliminarBateria', [App\Http\Controllers\BateriasController::class, 'delete'])->middleware(Autenticacion::class);
+Route::post('/cargar_datos_baterias', [App\Http\Controllers\BateriasController::class, 'cargarDatosBaterias'])->middleware(Autenticacion::class);
 
 Route::post('/mover_llanta', [App\Http\Controllers\LlantasController::class, 'mover_llanta'])->middleware(Autenticacion::class);
 

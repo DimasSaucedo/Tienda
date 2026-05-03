@@ -7,7 +7,7 @@ use App\Models\Cat_Llantas_Potreros;
 use App\Models\Cat_Marcas_Baterias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
 
 class PotrerosController extends Controller
 {
@@ -109,9 +109,10 @@ class PotrerosController extends Controller
 
     public function baterias()
     {
-        $baterias = Cat_Baterias_Potreros::orderBy('Cantidad', 'asc')
-            ->orderBy('NoBateria', 'asc')
+        $baterias = Cat_Baterias_Potreros::orderBy('Cantidad', 'desc')
+            ->orderBy('NoBateria', 'desc')
             ->get();
+
         $cat_marcas = Cat_Marcas_Baterias::where('estado', 1)->get();
 
         return view('Poteros.baterias', compact(
@@ -211,4 +212,5 @@ class PotrerosController extends Controller
 
         return redirect()->back()->with('success', 'Bateria eliminada correctamente.');
     }
+
 }
