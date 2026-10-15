@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Precio_Rines;
 use App\Models\Rines;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RinesController extends Controller
 {
@@ -170,4 +173,82 @@ class RinesController extends Controller
 
     //     return view('Rines.index', compact('rines'));
     // }
+
+    private function reglas()
+    {
+        return [
+            'rin'          => 'required|integer|between:10,32',
+            'ancho' => 'required|numeric|between:5,15',
+            'barrenacion' => 'required',
+            'tipo' => 'required',
+            // 'tienda'       => 'nullable|string|max:255',
+            'precioCompra' => 'required',
+            'precioVenta'  => 'required',
+        ];
+    }
+
+    public function index_precioRinesP(Request $request)
+    {
+        $rines = Precio_Rines::where('estado', 1)
+            ->orderBy('rin', 'asc')
+            ->orderBy('ancho', 'asc')
+            ->get();
+
+        return view('Rines.index_precio_rinesP', compact('rines'));
+    }
+
+    public function guardar_precioRin(Request $request)
+    {
+        try {
+
+
+            $data = $request->validate($this->reglas());
+            $data['estado'] = 1;
+
+            Precio_Rines::updateOrCreate(
+                [
+                    'rin'         => $data['rin'],
+                    'ancho'       => $data['ancho'],
+                    'barrenacion' => $data['barrenacion'],
+                    'tipo'        => $data['tipo']
+                ],
+                $data
+            );
+
+            return back()->with('success', 'Precio guardado');
+        } catch (Exception  $e) {
+            Log::error($e->getMessage());
+            return back()->with('success', 'Precio guardado');
+        }
+    }
+
+    public function eliminar_precioRin($id)
+    {
+        Precio_Rines::findOrFail($id)->update(['estado' => 0]);
+
+        return back()->with('success', 'Precio eliminado');
+    }
+
+    public function actualizar_precioRin(Request $request, $id)
+    {
+        $data = $request->validate($this->reglas());
+
+        // Evita que al editar quede igual a otro registro existente
+        $duplicado = Precio_Rines::where('estado', 1)
+            ->where('id', '!=', $id)
+            ->where('rin', $data['rin'])
+            ->where('ancho', $data['ancho'])
+            ->where('barrenacion', $data['barrenacion'])
+            ->where('tipo', $data['tipo'])
+            ->exists();
+
+        if ($duplicado) {
+            return back()->withErrors(['duplicado' => 'Ya existe un precio con ese rin, ancho, barrenación y tipo.'])
+                ->withInput();
+        }
+
+        Precio_Rines::findOrFail($id)->update($data);
+
+        return back()->with('success', 'Precio actualizado');
+    }
 }

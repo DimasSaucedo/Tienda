@@ -97,3 +97,9 @@ Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 
 
 //Historial de ventas
 Route::get('/historial_ventas', [App\Http\Controllers\HistorialController::class, 'index'])->middleware(Autenticacion::class);
+
+//Precio Rines  
+Route::get('/precio_rinesP', [App\Http\Controllers\RinesController::class, 'index_precioRinesP'])->middleware(Autenticacion::class);
+Route::post('/precio-rines', [App\Http\Controllers\RinesController::class, 'guardar_precioRin'])->name('precio_rines.store');
+Route::put('/precio-rines/{id}', [App\Http\Controllers\RinesController::class, 'actualizar_precioRin'])->name('precio_rines.update');
+Route::delete('/precio-rines/{id}', [App\Http\Controllers\RinesController::class, 'eliminar_precioRin'])->name('precio_rines.destroy');
