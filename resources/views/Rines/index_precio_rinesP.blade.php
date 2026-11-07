@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
     <div class="container">
 
         <div class="d-flex justify-content-between mt-3 mb-3">
@@ -12,9 +14,8 @@
         </div>
 
         {{-- Tabla --}}
-        <div class="table-responsive;" style="height: max-content">
-            <table class="table table-striped table-hover align-middle">
-
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle tabla-rines">
                 <thead class="table-dark">
                     <tr>
                         <th>Imagen</th>
