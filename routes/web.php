@@ -99,7 +99,14 @@ Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 
 Route::get('/historial_ventas', [App\Http\Controllers\HistorialController::class, 'index'])->middleware(Autenticacion::class);
 
 //Precio Rines  
-Route::get('/precio_rinesP', [App\Http\Controllers\RinesController::class, 'index_precioRinesP'])->middleware(Autenticacion::class);
-Route::post('/precio-rines', [App\Http\Controllers\RinesController::class, 'guardar_precioRin'])->name('precio_rines.store');
-Route::put('/precio-rines/{id}', [App\Http\Controllers\RinesController::class, 'actualizar_precioRin'])->name('precio_rines.update');
-Route::delete('/precio-rines/{id}', [App\Http\Controllers\RinesController::class, 'eliminar_precioRin'])->name('precio_rines.destroy');
+Route::middleware(Autenticacion::class)->group(function () {
+    Route::get('/precio_rinesP', [App\Http\Controllers\RinesController::class, 'index_precioRinesP']);
+
+    Route::prefix('precio-rines')->name('precio_rines.')->controller(App\Http\Controllers\RinesController::class)->group(function () {
+        Route::post('/', 'guardar_precioRin')->name('store');
+        Route::put('/{id}', 'actualizar_precioRin')->name('update');
+        Route::delete('/{id}', 'eliminar_precioRin')->name('destroy');
+        Route::post('/{id}/imagen', 'guardarImagen')->name('imagen.store');
+        Route::delete('/{id}/imagen', 'eliminarImagen')->name('imagen.destroy');
+    });
+});

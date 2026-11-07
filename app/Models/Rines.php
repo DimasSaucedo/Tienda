@@ -9,4 +9,6 @@ class Rines extends Model
 {
     use HasFactory;
     protected $table = 'rines';
+
+    protected $guarded = [];
 }
