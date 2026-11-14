@@ -70,10 +70,7 @@ class RinesController extends Controller
 
         try {
             DB::transaction(function () use ($data, $request) {
-                $precio = Precio_Rines::updateOrCreate(
-                    Arr::only($data, ['rin', 'ancho', 'barrenacion', 'tipo']),
-                    $data
-                );
+                $precio = Precio_Rines::create($data);   // siempre crea uno nuevo
 
                 if ($request->hasFile('imagen_rin')) {
                     $this->guardarImagenRin($precio, $request->file('imagen_rin'));
@@ -125,38 +122,24 @@ class RinesController extends Controller
     }
 
     public function actualizar_precioRin(Request $request, $id)
-{
-    $data = $request->validate($this->reglas());
+    {
+        $data = $request->validate($this->reglas());
 
-    $precio = Precio_Rines::where('estado', 1)->findOrFail($id);
+        try {
+            Precio_Rines::where('estado', 1)->findOrFail($id)->update($data);
 
-    // Evita que al editar quede igual a otro registro existente
-    $duplicado = Precio_Rines::where('estado', 1)
-        ->where('id', '!=', $precio->id)
-        ->where(Arr::only($data, ['rin', 'ancho', 'barrenacion', 'tipo']))
-        ->exists();
+            return back()->with('success', 'Precio actualizado');
+        } catch (\Throwable $e) {
+            Log::error('Error al actualizar precio de rin', ['mensaje' => $e->getMessage(), 'linea' => $e->getLine()]);
 
-    if ($duplicado) {
-        return back()
-            ->withErrors(['duplicado' => 'Ya existe un precio con ese rin, ancho, barrenación y tipo.'])
-            ->withInput();
+            return back()->with('error', 'No se pudo actualizar el precio')->withInput();
+        }
     }
 
-    try {
-        $precio->update($data);
+    public function eliminar_precioRin($id)
+    {
+        Precio_Rines::where('estado', 1)->findOrFail($id)->update(['estado' => 0]);
 
-        return back()->with('success', 'Precio actualizado');
-    } catch (\Throwable $e) {
-        Log::error('Error al actualizar precio de rin', ['mensaje' => $e->getMessage(), 'linea' => $e->getLine()]);
-
-        return back()->with('error', 'No se pudo actualizar el precio')->withInput();
+        return back()->with('success', 'Precio eliminado');
     }
-}
-
-public function eliminar_precioRin($id)
-{
-    Precio_Rines::where('estado', 1)->findOrFail($id)->update(['estado' => 0]);
-
-    return back()->with('success', 'Precio eliminado');
-}
 }
