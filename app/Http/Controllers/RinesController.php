@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Precio_Rines;
 use App\Models\Rines;
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Format;
 
 class RinesController extends Controller
 {
-
     private function reglas(): array
     {
         return [
@@ -29,26 +31,66 @@ class RinesController extends Controller
 
     private function reglaImagen(bool $requerida = false): string
     {
-        return ($requerida ? 'required' : 'nullable') . '|image|mimes:png,jpg,jpeg,webp|max:2048';
+        // 10 MB: se aceptan fotos de celular porque luego se optimizan
+        return ($requerida ? 'required' : 'nullable') . '|image|mimes:png,jpg,jpeg,webp|max:10240';
     }
 
-    /** Guarda (o reemplaza) la imagen y borra la anterior. Una sola lógica para todo. */
+    /** Optimiza y guarda imagen + miniatura. Devuelve la ruta de la imagen principal. */
+    private function optimizarYGuardar(UploadedFile $archivo): string
+    {
+        $manager = new ImageManager(new Driver());
+        $nombre  = Str::uuid() . '.webp';
+        $ruta    = "rines/{$nombre}";
+        $thumb   = "rines/thumbs/{$nombre}";
+        $disco   = Storage::disk('public');
+
+        // Principal: máx. 1600px por lado, sin ampliar, WebP calidad 80
+        $principal = $manager->decodePath($archivo->getRealPath())
+            ->scaleDown(width: 1600, height: 1600)
+            ->encodeUsingFormat(Format::WEBP, quality: 80);
+
+        // Miniatura para la tabla: máx. 400px, calidad 75
+        $mini = $manager->decodePath($archivo->getRealPath())
+            ->scaleDown(width: 400, height: 400)
+            ->encodeUsingFormat(Format::WEBP, quality: 75);
+
+        try {
+            $disco->put($ruta, (string) $principal);
+            $disco->put($thumb, (string) $mini);
+        } catch (\Throwable $e) {
+            $disco->delete([$ruta, $thumb]);
+            throw $e;
+        }
+
+        return $ruta;
+    }
+
+    /** Borra la imagen y su miniatura (si existe). */
+    private function borrarArchivosImagen(string $ruta): void
+    {
+        Storage::disk('public')->delete([
+            $ruta,
+            dirname($ruta) . '/thumbs/' . basename($ruta),
+        ]);
+    }
+
+    /** Guarda (o reemplaza) la imagen y borra la anterior. */
     private function guardarImagenRin(Precio_Rines $precio, UploadedFile $archivo): void
     {
         $rin      = Rines::firstOrNew(['id_precio_rines' => $precio->id, 'estado' => 1]);
         $anterior = $rin->imagen;
-        $nueva    = $archivo->store('rines', 'public');
+        $nueva    = $this->optimizarYGuardar($archivo);
 
         try {
             $rin->imagen = $nueva;
             $rin->save();
         } catch (\Throwable $e) {
-            Storage::disk('public')->delete($nueva); // evita huérfanos
+            $this->borrarArchivosImagen($nueva); // evita huérfanos
             throw $e;
         }
 
         if ($anterior) {
-            Storage::disk('public')->delete($anterior);
+            $this->borrarArchivosImagen($anterior);
         }
     }
 
@@ -70,7 +112,7 @@ class RinesController extends Controller
 
         try {
             DB::transaction(function () use ($data, $request) {
-                $precio = Precio_Rines::create($data);   // siempre crea uno nuevo
+                $precio = Precio_Rines::create($data); // siempre crea uno nuevo
 
                 if ($request->hasFile('imagen_rin')) {
                     $this->guardarImagenRin($precio, $request->file('imagen_rin'));
@@ -94,7 +136,7 @@ class RinesController extends Controller
 
             return back()->with('success', 'Imagen guardada correctamente');
         } catch (\Throwable $e) {
-            Log::error('Error al guardar imagen del rin', ['mensaje' => $e->getMessage()]);
+            Log::error('Error al guardar imagen del rin', ['mensaje' => $e->getMessage(), 'linea' => $e->getLine()]);
             return back()->with('error', 'No se pudo guardar la imagen');
         }
     }
@@ -112,7 +154,7 @@ class RinesController extends Controller
             $rin->imagen = null;
             $rin->save();
 
-            Storage::disk('public')->delete($ruta); // primero BD, luego archivo
+            $this->borrarArchivosImagen($ruta); // primero BD, luego archivos
 
             return back()->with('success', 'Imagen eliminada correctamente');
         } catch (\Throwable $e) {
@@ -131,7 +173,6 @@ class RinesController extends Controller
             return back()->with('success', 'Precio actualizado');
         } catch (\Throwable $e) {
             Log::error('Error al actualizar precio de rin', ['mensaje' => $e->getMessage(), 'linea' => $e->getLine()]);
-
             return back()->with('error', 'No se pudo actualizar el precio')->withInput();
         }
     }

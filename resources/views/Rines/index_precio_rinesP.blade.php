@@ -1,8 +1,5 @@
 @extends('layouts.app')
-
 @section('content')
-
-
     <div class="container">
 
         <div class="d-flex justify-content-between mt-3 mb-3">
@@ -47,14 +44,14 @@
                         <tr>
                             {{-- Imagen --}}
                             <td>
-                                @if ($imagen)
-                                    <img src="{{ asset('storage/' . $imagen) }}" alt="Rin {{ $r->rin }}"
-                                        width="85" height="70" class="img-thumbnail img-zoom"
-                                        style="object-fit: contain; cursor: zoom-in;"
-                                        data-src="{{ asset('storage/' . $imagen) }}"
-                                        data-titulo="Rin {{ $r->rin }}'' x {{ $r->ancho }}"
+                                @if ($r->imagenRin?->imagen)
+                                    <img src="{{ $r->imagenRin->thumb_url }}"
+                                        data-src="{{ Storage::url($r->imagenRin->imagen) }}"
+                                        data-titulo="{{ $r->rin }}x{{ $r->ancho }}"
                                         data-detalle="{{ $r->barrenacion }} · {{ $r->tipo }}"
-                                        data-venta="${{ number_format($r->precioVenta, 2) }}">
+                                        data-venta="${{ number_format($r->precioVenta, 2) }}" loading="lazy"
+                                        decoding="async" width="56" height="56" class="img-zoom rounded"
+                                        style="object-fit: cover; cursor: pointer;">
                                 @else
                                     <span class="text-muted small">Sin imagen</span>
                                 @endif
