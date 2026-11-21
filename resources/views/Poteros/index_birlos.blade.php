@@ -10,89 +10,83 @@
             </button>
         </div>
 
-        {{-- Tabla --}}
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle tabla-rines">
-                <thead class="table-dark">
+        {{-- Tabla (DataTables Responsive: en celular oculta columnas y muestra el botón "+") --}}
+        <table id="tablaBirlos" class="table table-striped table-hover align-middle nowrap" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">Imagen</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-center">Juego</th>
+                    <th class="text-center">Medida</th>
+                    <th class="text-center">Tipo</th>
+                    <th class="text-center">Estilo</th>
+                    <th class="text-center">Compra</th>
+                    <th class="text-center">Venta</th>
+                    <th class="text-center">Ganancia</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($birlos as $br)
                     <tr>
-                        <th class="text-center">Imagen</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">Juego</th>
-                        <th class="text-center">Medida</th>
-                        <th class="text-center">Tipo</th>
-                        <th class="text-center">Estilo</th>
-                        <th class="text-center">Compra</th>
-                        <th class="text-center">Venta</th>
-                        <th class="text-center">Ganancia</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($birlos as $br)
-                        <tr>
-                            <td class="text-center">
-                                @if ($br->imagen)
-                                    <img src="{{ asset('storage/' . $br->imagen) }}" alt="Birlo" class="img-thumbnail"
-                                        style="width:60px;height:60px;object-fit:cover;" loading="lazy">
-                                @else
-                                    <span class="text-muted small">Sin imagen</span>
-                                @endif
-                            </td>
-                            <td class="text-center">{{ $br->cantidad }}</td>
-                            <td class="text-center">
-                                @if ($br->juego == 1)
-                                    <span class="badge text-bg-success">Si</span>
-                                @else
-                                    <span class="badge text-bg-danger">No</span>
-                                @endif
-                            </td>
-                            <td class="text-center">{{ $br->medida }}</td>
-                            <td class="text-center">{{ $br->tipo }}</td>
-                            <td class="text-center">{{ $br->estilo }}</td>
-                            <td class="text-center">$ {{ $br->precio_compra }}</td>
-                            <td class="text-center">$ {{ $br->precio_venta }}</td>
-                            <td class="text-center text-success">
-                                ${{ number_format($br->precio_venta - $br->precio_compra, 2) }}
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-gear"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <button type="button" class="dropdown-item btn-editar"
-                                                    data-registro="{{ json_encode($br->only(['id', 'cantidad', 'medida', 'tipo', 'estilo', 'precio_compra', 'precio_venta', 'juego', 'imagen'])) }}">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Editar
+                        <td class="text-center">
+                            @if ($br->imagen)
+                                <img src="{{ asset('storage/' . $br->imagen) }}" alt="Birlo" class="img-thumbnail"
+                                    style="width:60px;height:60px;object-fit:cover;" loading="lazy">
+                            @else
+                                <span class="text-muted small">Sin imagen</span>
+                            @endif
+                        </td>
+                        <td class="text-center">{{ $br->cantidad }}</td>
+                        <td class="text-center">
+                            @if ($br->juego == 1)
+                                <span class="badge text-bg-success">Si</span>
+                            @else
+                                <span class="badge text-bg-danger">No</span>
+                            @endif
+                        </td>
+                        <td class="text-center">{{ $br->medida }}</td>
+                        <td class="text-center">{{ $br->tipo }}</td>
+                        <td class="text-center">{{ $br->estilo }}</td>
+                        <td class="text-center">$ {{ $br->precio_compra }}</td>
+                        <td class="text-center">$ {{ $br->precio_venta }}</td>
+                        <td class="text-center text-success">
+                            ${{ number_format($br->precio_venta - $br->precio_compra, 2) }}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa-solid fa-gear"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <button type="button" class="dropdown-item btn-editar"
+                                                data-registro="{{ json_encode($br->only(['id', 'cantidad', 'medida', 'tipo', 'estilo', 'precio_compra', 'precio_venta', 'juego', 'imagen'])) }}">
+                                                <i class="bi bi-pencil me-2"></i>
+                                                Editar
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <form action="/eliminar_birlo" method="POST" class="form-eliminar">
+                                                @csrf
+                                                <input type="hidden" value="{{ $br->id }}" name="id">
+                                                <input type="hidden" value="Potreros" name="tienda">
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    <i class="bi bi-trash me-2"></i>
+                                                    Eliminar registro
                                                 </button>
-                                            </li>
-                                            <li>
-                                                <form action="/eliminar_birlo" method="POST" class="form-eliminar">
-                                                    @csrf
-                                                    <input type="hidden" value="{{ $br->id }}" name="id">
-                                                    <input type="hidden" value="Potreros" name="tienda">
-                                                    <button type="submit" class="dropdown-item text-danger">
-                                                        <i class="bi bi-trash me-2"></i>
-                                                        Eliminar registro
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="10" class="text-center text-muted">Sin registro</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
     {{-- Modal crear/editar --}}
@@ -203,20 +197,103 @@
     </div>
 
 
+    {{-- Librerías DataTables (si tu layouts.app ya carga jQuery, quita la línea de jQuery) --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
+
+
     {{-- JavaScript --}}
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Texto Sí / No del switch "¿Es juego?"
-            const toggle = document.getElementById('f_juego');
-            const label = document.getElementById('es_juego_label');
-
-            toggle.addEventListener('change', () => {
-                label.textContent = toggle.checked ? 'Sí' : 'No';
+        // Tabla responsive
+        $(document).ready(function() {
+            $('#tablaBirlos').DataTable({
+                responsive: true,
+                paging: false,
+                ordering: false,
+                stateSave: true,
+                language: {
+                    url: "/assets/lib/datatable/es.json"
+                },
+                columnDefs: [
+                    // Menor número = se oculta al último en pantallas chicas
+                    {
+                        responsivePriority: 1,
+                        targets: -1
+                    }, // Acciones (siempre visible)
+                    {
+                        responsivePriority: 2,
+                        targets: 3
+                    }, // Medida
+                    {
+                        responsivePriority: 3,
+                        targets: 1
+                    }, // Cantidad
+                    {
+                        responsivePriority: 4,
+                        targets: 7
+                    }, // Venta
+                    {
+                        responsivePriority: 5,
+                        targets: 0
+                    }, // Imagen
+                    {
+                        responsivePriority: 6,
+                        targets: 4
+                    }, // Tipo
+                    {
+                        responsivePriority: 7,
+                        targets: 5
+                    }, // Estilo
+                    {
+                        responsivePriority: 8,
+                        targets: 2
+                    }, // Juego
+                    {
+                        responsivePriority: 9,
+                        targets: 6
+                    }, // Compra
+                    {
+                        responsivePriority: 10,
+                        targets: 8
+                    } // Ganancia
+                ]
             });
+        });
 
-            // Botones "Editar"
-            document.querySelectorAll('.btn-editar').forEach(btn => {
-                btn.addEventListener('click', () => abrirModal(JSON.parse(btn.dataset.registro)));
+        // Texto Sí / No del switch "¿Es juego?"
+        document.getElementById('f_juego').addEventListener('change', function() {
+            document.getElementById('es_juego_label').textContent = this.checked ? 'Sí' : 'No';
+        });
+
+        // Editar (delegado: funciona también en filas colapsadas/redibujadas por DataTables)
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-editar');
+            if (btn) abrirModal(JSON.parse(btn.dataset.registro));
+        });
+
+        // Confirmar eliminación (delegado)
+        document.addEventListener('submit', e => {
+            const form = e.target.closest('.form-eliminar');
+            if (!form) return;
+
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Eliminar?',
+                text: 'Se eliminará el registro y su imagen.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) form.submit();
             });
         });
 
@@ -262,30 +339,6 @@
 
             bootstrap.Modal.getOrCreateInstance(document.getElementById('modalBirlos')).show();
         }
-
-        // Confirmaciones SweetAlert
-        function confirmarEnvio(selector, titulo, texto) {
-            document.querySelectorAll(selector).forEach(form => {
-                form.addEventListener('submit', e => {
-                    e.preventDefault();
-
-                    Swal.fire({
-                        title: titulo,
-                        text: texto,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc3545',
-                        cancelButtonColor: '#6c757d',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
-                    }).then(result => {
-                        if (result.isConfirmed) form.submit();
-                    });
-                });
-            });
-        }
-
-        confirmarEnvio('.form-eliminar', '¿Eliminar?', 'Se eliminará el registro y su imagen.');
     </script>
 
 
