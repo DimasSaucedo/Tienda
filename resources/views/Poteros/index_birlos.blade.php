@@ -120,6 +120,7 @@
                             <option value="14x1.50">14x1.50</option>
                             <option value="14x2.00">14x2.00</option>
                             <option value="9/16">9/16</option>
+                             <option value="1/2x20">1/2x20</option>
                         </select>
                     </div>
 
