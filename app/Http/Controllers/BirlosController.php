@@ -172,7 +172,8 @@ class BirlosController extends Controller
             "precio_venta"  => "required|numeric|min:0",
             "tienda"        => "required",
             "es_juego"      => "required|boolean",
-            "imagen"        => "nullable|image|mimes:jpeg,png,webp|max:10240",
+            // El navegador ya reduce las fotos de cámara; este límite es solo un respaldo
+            "imagen"        => "nullable|image|mimes:jpeg,png,webp|max:15360",
         ];
     }
 
@@ -189,6 +190,17 @@ class BirlosController extends Controller
     {
         $maxLado = 1200;
         $calidad = 80;
+
+        // Decodificar una foto grande de celular consume bastante memoria
+        @ini_set('memory_limit', '256M');
+
+        $info = @getimagesize($archivo->getRealPath());
+        if (!$info) {
+            throw new Exception('El archivo no es una imagen válida.');
+        }
+        if ($info[0] * $info[1] > 60_000_000) {
+            throw new Exception('La imagen es demasiado grande.');
+        }
 
         $img = @imagecreatefromstring(file_get_contents($archivo->getRealPath()));
         if (!$img) {

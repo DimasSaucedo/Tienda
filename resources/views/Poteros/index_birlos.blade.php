@@ -158,7 +158,7 @@
                             class="form-control" required>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-12">
                         <label for="f_juego" class="form-label">¿Es juego?</label>
                         <div class="form-check form-switch">
                             {{-- Para que se envíe "0" cuando el switch está apagado --}}
@@ -169,15 +169,37 @@
                         </div>
                     </div>
 
-                    <div class="col-6">
-                        <label for="f_imagen" class="form-label">Imagen del producto</label>
-                        <input class="form-control" type="file" id="f_imagen" name="imagen"
+                    {{-- Imagen: tomar foto con la cámara o elegir de la galería --}}
+                    <div class="col-12">
+                        <label class="form-label">Imagen del producto</label>
+
+                        {{-- Input real (oculto). Los botones le activan o quitan "capture" antes de abrirlo --}}
+                        <input class="d-none" type="file" id="f_imagen" name="imagen"
                             accept="image/png, image/jpeg, image/webp">
 
-                        <div id="preview_imagen_wrap" class="mt-2 d-none">
-                            <img id="preview_imagen" class="img-thumbnail"
-                                style="width:80px;height:80px;object-fit:cover;" alt="Imagen actual">
-                            <div class="form-text">Déjalo vacío para conservar esta imagen.</div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-primary flex-fill"
+                                onclick="elegirImagen(true)">
+                                <i class="bi bi-camera me-2"></i>Tomar foto
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary flex-fill"
+                                onclick="elegirImagen(false)">
+                                <i class="bi bi-images me-2"></i>Galería
+                            </button>
+                        </div>
+
+                        <div id="preview_imagen_wrap" class="mt-3 d-none">
+                            <div class="d-flex align-items-center gap-3">
+                                <img id="preview_imagen" class="img-thumbnail"
+                                    style="width:90px;height:90px;object-fit:cover;" alt="Vista previa">
+                                <div>
+                                    <div id="preview_texto" class="small text-muted"></div>
+                                    <button type="button" id="btn_quitar_imagen"
+                                        class="btn btn-sm btn-link text-danger p-0 d-none" onclick="quitarImagenNueva()">
+                                        Quitar selección
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -188,7 +210,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Cancelar
                     </button>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="btn_guardar">
                         Guardar
                     </button>
                 </div>
@@ -265,18 +287,126 @@
             });
         });
 
-        // Texto Sí / No del switch "¿Es juego?"
+        // ---------- Imagen: cámara / galería ----------
+        const inputImagen = document.getElementById('f_imagen');
+        let imagenActualUrl = null; // imagen que ya tiene el registro (al editar)
+        let urlPreviewNueva = null; // object URL de la foto recién elegida
+
+        // Abre la cámara (capture) o la galería, según el botón
+        function elegirImagen(usarCamara) {
+            if (usarCamara) {
+                inputImagen.setAttribute('capture', 'environment'); // cámara trasera
+            } else {
+                inputImagen.removeAttribute('capture');
+            }
+            inputImagen.click();
+        }
+
+        // Reduce la foto en el navegador (máx. 1600 px, JPEG 85 %) para que suba rápido
+        async function comprimirImagen(file, maxLado = 1600, calidad = 0.85) {
+            const url = URL.createObjectURL(file);
+            try {
+                const img = await new Promise((resolve, reject) => {
+                    const i = new Image();
+                    i.onload = () => resolve(i);
+                    i.onerror = reject;
+                    i.src = url;
+                });
+
+                const escala = Math.min(1, maxLado / Math.max(img.naturalWidth, img.naturalHeight));
+
+                // Si ya es chica, no la tocamos
+                if (escala === 1 && file.size < 1.5 * 1024 * 1024) return file;
+
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.round(img.naturalWidth * escala);
+                canvas.height = Math.round(img.naturalHeight * escala);
+                canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', calidad));
+                if (!blob || blob.size >= file.size) return file;
+
+                return new File([blob], 'foto.jpg', {
+                    type: 'image/jpeg'
+                });
+            } finally {
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Muestra la vista previa (imagen actual o recién elegida)
+        function mostrarPreview(url, esNueva) {
+            const wrap = document.getElementById('preview_imagen_wrap');
+            const preview = document.getElementById('preview_imagen');
+
+            if (!url) {
+                preview.removeAttribute('src');
+                wrap.classList.add('d-none');
+                return;
+            }
+
+            preview.src = url;
+            document.getElementById('preview_texto').textContent = esNueva ?
+                'Imagen nueva seleccionada.' :
+                'Imagen actual (se conserva si no eliges otra).';
+            document.getElementById('btn_quitar_imagen').classList.toggle('d-none', !esNueva);
+            wrap.classList.remove('d-none');
+        }
+
+        // Cuando eligen o toman una foto
+        inputImagen.addEventListener('change', async () => {
+            const file = inputImagen.files[0];
+            if (!file) return;
+
+            let final = file;
+
+            // Solo comprimimos JPEG (fotos de cámara); los PNG se envían tal cual para no perder transparencia
+            if (file.type === 'image/jpeg') {
+                try {
+                    final = await comprimirImagen(file);
+                    if (final !== file) {
+                        const dt = new DataTransfer();
+                        dt.items.add(final);
+                        inputImagen.files = dt.files;
+                    }
+                } catch (err) {
+                    final = file; // si algo falla, se sube la original
+                }
+            }
+
+            if (urlPreviewNueva) URL.revokeObjectURL(urlPreviewNueva);
+            urlPreviewNueva = URL.createObjectURL(final);
+            mostrarPreview(urlPreviewNueva, true);
+        });
+
+        // Quitar la foto recién elegida y volver a la imagen actual (si existe)
+        function quitarImagenNueva() {
+            inputImagen.value = '';
+            if (urlPreviewNueva) {
+                URL.revokeObjectURL(urlPreviewNueva);
+                urlPreviewNueva = null;
+            }
+            mostrarPreview(imagenActualUrl, false);
+        }
+
+        // ---------- Switch "¿Es juego?" ----------
         document.getElementById('f_juego').addEventListener('change', function() {
             document.getElementById('es_juego_label').textContent = this.checked ? 'Sí' : 'No';
         });
 
-        // Editar (delegado: funciona también en filas colapsadas/redibujadas por DataTables)
+        // Evita doble envío mientras sube la imagen
+        document.getElementById('formBirlos').addEventListener('submit', () => {
+            const btn = document.getElementById('btn_guardar');
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+        });
+
+        // ---------- Editar / eliminar (delegados) ----------
         document.addEventListener('click', e => {
             const btn = e.target.closest('.btn-editar');
             if (btn) abrirModal(JSON.parse(btn.dataset.registro));
         });
 
-        // Confirmar eliminación (delegado)
         document.addEventListener('submit', e => {
             const form = e.target.closest('.form-eliminar');
             if (!form) return;
@@ -297,12 +427,22 @@
             });
         });
 
-        // Modal crear / editar
+        // ---------- Modal crear / editar ----------
         function abrirModal(r = null) {
             const form = document.getElementById('formBirlos');
             const editando = r !== null;
 
             form.reset();
+
+            // Restablecer el botón Guardar y la imagen
+            const btnGuardar = document.getElementById('btn_guardar');
+            btnGuardar.disabled = false;
+            btnGuardar.textContent = 'Guardar';
+
+            if (urlPreviewNueva) {
+                URL.revokeObjectURL(urlPreviewNueva);
+                urlPreviewNueva = null;
+            }
 
             form.action = editando ?
                 "{{ url('/editar_birlo') }}" :
@@ -318,15 +458,8 @@
             document.getElementById('es_juego_label').textContent = juego ? 'Sí' : 'No';
 
             // Vista previa de la imagen actual
-            const wrap = document.getElementById('preview_imagen_wrap');
-            const preview = document.getElementById('preview_imagen');
-            if (editando && r.imagen) {
-                preview.src = "{{ asset('storage') }}/" + r.imagen;
-                wrap.classList.remove('d-none');
-            } else {
-                preview.removeAttribute('src');
-                wrap.classList.add('d-none');
-            }
+            imagenActualUrl = (editando && r.imagen) ? "{{ asset('storage') }}/" + r.imagen : null;
+            mostrarPreview(imagenActualUrl, false);
 
             if (editando) {
                 document.getElementById('f_cantidad').value = r.cantidad;
