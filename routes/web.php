@@ -87,14 +87,6 @@ Route::post('/editar_datos_cliente_nota', [App\Http\Controllers\ApartadosControl
 Route::post('/saldar_nota', [App\Http\Controllers\ApartadosController::class, 'saldar_nota'])->middleware(Autenticacion::class);
 Route::post('/eliminar_nota', [App\Http\Controllers\ApartadosController::class, 'eliminar_nota'])->middleware(Autenticacion::class);
 
-//Rines
-// Route::get('/rines', [App\Http\Controllers\RinesController::class, 'index']);
-// Route::post('/agregar_rin', [App\Http\Controllers\RinesController::class, 'guardar_rin'])->middleware(Autenticacion::class);
-// Route::post('/eliminar_rin', [App\Http\Controllers\RinesController::class, 'eliminar_rin'])->middleware(Autenticacion::class);
-// Route::post('/editar_rin', action: [App\Http\Controllers\RinesController::class, 'editar_rin'])->middleware(Autenticacion::class);
-// Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'buscar_rines']);
-// Route::get('/buscar_rines', action: [App\Http\Controllers\RinesController::class, 'index']);
-
 //Historial de ventas
 Route::get('/historial_ventas', [App\Http\Controllers\HistorialController::class, 'index'])->middleware(Autenticacion::class);
 
@@ -109,4 +101,12 @@ Route::middleware(Autenticacion::class)->group(function () {
         Route::post('/{id}/imagen', 'guardarImagen')->name('imagen.store');
         Route::delete('/{id}/imagen', 'eliminarImagen')->name('imagen.destroy');
     });
+});
+
+Route::middleware(Autenticacion::class)->group(function () {
+    Route::get('/birlos_P', [App\Http\Controllers\BirlosController::class, 'index_potreros']);
+
+    Route::post('/guardar_birlo', [App\Http\Controllers\BirlosController::class, "guardar_birlo"]);
+    Route::post('/eliminar_birlo', [App\Http\Controllers\BirlosController::class, "eliminar_birlo"]);
+    Route::put('/editar_birlo', [App\Http\Controllers\BirlosController::class, 'editar_birlo']);
 });
