@@ -31,8 +31,14 @@
                     <tr>
                         <td class="text-center">
                             @if ($br->imagen)
-                                <img src="{{ asset('storage/' . $br->imagen) }}" alt="Birlo" class="img-thumbnail"
-                                    style="width:60px;height:60px;object-fit:cover;" loading="lazy">
+                                {{-- Al hacer click se abre en grande (modal #modalImagen) --}}
+                                <img src="{{ asset('storage/' . $br->imagen) }}"
+                                    data-src="{{ asset('storage/' . $br->imagen) }}" data-titulo="{{ $br->medida }}"
+                                    data-detalle="{{ $br->tipo }} · {{ $br->estilo }}"
+                                    data-venta="${{ number_format($br->precio_venta, 2) }}" alt="Birlo"
+                                    class="img-thumbnail img-zoom"
+                                    style="width:60px;height:60px;object-fit:cover;cursor:pointer;" loading="lazy"
+                                    decoding="async">
                             @else
                                 <span class="text-muted small">Sin imagen</span>
                             @endif
@@ -89,6 +95,31 @@
         </table>
     </div>
 
+    {{-- Modal vista previa de imagen --}}
+    <div class="modal fade" id="modalImagen" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg overflow-hidden">
+
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3 bg-white rounded-circle p-2"
+                    data-bs-dismiss="modal" aria-label="Cerrar"></button>
+
+                <div class="bg-light d-flex justify-content-center align-items-center p-3">
+                    <img id="imgGrande" src="" alt="" class="img-fluid rounded"
+                        style="max-height: 70vh; object-fit: contain;">
+                </div>
+
+                <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1 fw-bold" id="imgTitulo"></h5>
+                        <span class="text-muted" id="imgDetalle"></span>
+                    </div>
+                    <span class="badge bg-success fs-6" id="imgVenta"></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     {{-- Modal crear/editar --}}
     <div class="modal fade" id="modalBirlos" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -120,7 +151,7 @@
                             <option value="14x1.50">14x1.50</option>
                             <option value="14x2.00">14x2.00</option>
                             <option value="9/16">9/16</option>
-                             <option value="1/2x20">1/2x20</option>
+                            <option value="1/2x20">1/2x20</option>
                         </select>
                     </div>
 
@@ -402,12 +433,29 @@
             btn.textContent = 'Guardando...';
         });
 
-        // ---------- Editar / eliminar (delegados) ----------
+        // ---------- Clicks delegados (funcionan también en filas colapsadas por DataTables) ----------
         document.addEventListener('click', e => {
-            const btn = e.target.closest('.btn-editar');
-            if (btn) abrirModal(JSON.parse(btn.dataset.registro));
+            // Editar
+            const btnEditar = e.target.closest('.btn-editar');
+            if (btnEditar) {
+                abrirModal(JSON.parse(btnEditar.dataset.registro));
+                return;
+            }
+
+            // Ver imagen en grande
+            const img = e.target.closest('.img-zoom');
+            if (img) {
+                document.getElementById('imgGrande').src = img.dataset.src;
+                document.getElementById('imgGrande').alt = img.dataset.titulo;
+                document.getElementById('imgTitulo').innerText = img.dataset.titulo;
+                document.getElementById('imgDetalle').innerText = img.dataset.detalle;
+                document.getElementById('imgVenta').innerText = img.dataset.venta;
+
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalImagen')).show();
+            }
         });
 
+        // Confirmar eliminación (delegado)
         document.addEventListener('submit', e => {
             const form = e.target.closest('.form-eliminar');
             if (!form) return;
