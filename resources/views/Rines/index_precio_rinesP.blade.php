@@ -10,149 +10,134 @@
             </button>
         </div>
 
-        {{-- Tabla --}}
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle tabla-rines">
-                <thead class="table-dark">
+        {{-- Tabla (DataTables Responsive: en celular oculta columnas y muestra el botón "+") --}}
+        <table id="tablaRines" class="table table-striped table-hover align-middle tabla-rines nowrap" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>Imagen</th>
+                    <th>Medida</th>
+                    <th>Barrenación</th>
+                    <th>Tipo</th>
+                    <th class="text-end">Compra</th>
+                    <th class="text-end">Venta</th>
+                    <th class="text-end">Ganancia</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($rines as $r)
+                    @php
+                        $imagen = $r->imagenRin?->imagen;
+                        $datos = $r->only(['id', 'rin', 'ancho', 'barrenacion', 'tipo', 'precioCompra', 'precioVenta']);
+                    @endphp
+
                     <tr>
-                        <th>Imagen</th>
-                        <th>Medida</th>
-                        <th>Barrenación</th>
-                        <th>Tipo</th>
-                        <th class="text-end">Compra</th>
-                        <th class="text-end">Venta</th>
-                        <th class="text-end">Ganancia</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
+                        {{-- Imagen --}}
+                        <td>
+                            @if ($r->imagenRin?->imagen)
+                                <img src="{{ $r->imagenRin->thumb_url }}"
+                                    data-src="{{ Storage::url($r->imagenRin->imagen) }}"
+                                    data-titulo="{{ $r->rin }}x{{ $r->ancho }}"
+                                    data-detalle="{{ $r->barrenacion }} · {{ $r->tipo }}"
+                                    data-venta="${{ number_format($r->precioVenta, 2) }}" loading="lazy" decoding="async"
+                                    width="56" height="56" class="img-zoom rounded"
+                                    style="object-fit: cover; cursor: pointer;">
+                            @else
+                                <span class="text-muted small">Sin imagen</span>
+                            @endif
+                        </td>
 
-                <tbody>
-                    @forelse($rines as $r)
-                        @php
-                            $imagen = $r->imagenRin?->imagen;
-                            $datos = $r->only([
-                                'id',
-                                'rin',
-                                'ancho',
-                                'barrenacion',
-                                'tipo',
-                                'precioCompra',
-                                'precioVenta',
-                            ]);
-                        @endphp
+                        <td>{{ $r->rin }}'' x {{ $r->ancho }}</td>
+                        <td>{{ $r->barrenacion }}</td>
+                        <td>{{ $r->tipo }}</td>
+                        <td class="text-end">${{ number_format($r->precioCompra, 2) }}</td>
+                        <td class="text-end">${{ number_format($r->precioVenta, 2) }}</td>
+                        <td class="text-end text-success">
+                            ${{ number_format($r->precioVenta - $r->precioCompra, 2) }}
+                        </td>
 
-                        <tr>
-                            {{-- Imagen --}}
-                            <td>
-                                @if ($r->imagenRin?->imagen)
-                                    <img src="{{ $r->imagenRin->thumb_url }}"
-                                        data-src="{{ Storage::url($r->imagenRin->imagen) }}"
-                                        data-titulo="{{ $r->rin }}x{{ $r->ancho }}"
-                                        data-detalle="{{ $r->barrenacion }} · {{ $r->tipo }}"
-                                        data-venta="${{ number_format($r->precioVenta, 2) }}" loading="lazy"
-                                        decoding="async" width="56" height="56" class="img-zoom rounded"
-                                        style="object-fit: cover; cursor: pointer;">
-                                @else
-                                    <span class="text-muted small">Sin imagen</span>
-                                @endif
-                            </td>
+                        {{-- Acciones --}}
+                        <td class="text-nowrap">
 
-                            <td>{{ $r->rin }}'' x {{ $r->ancho }}</td>
-                            <td>{{ $r->barrenacion }}</td>
-                            <td>{{ $r->tipo }}</td>
-                            <td class="text-end">${{ number_format($r->precioCompra, 2) }}</td>
-                            <td class="text-end">${{ number_format($r->precioVenta, 2) }}</td>
-                            <td class="text-end text-success">
-                                ${{ number_format($r->precioVenta - $r->precioCompra, 2) }}
-                            </td>
+                            {{-- Menú de acciones --}}
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-gear"></i>
+                                </button>
 
-                            {{-- Acciones --}}
-                            <td class="text-nowrap">
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
 
-                                {{-- Menú de acciones --}}
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-gear"></i>
-                                    </button>
+                                    {{-- Editar precio --}}
+                                    <li>
+                                        <button type="button" class="dropdown-item btn-editar"
+                                            data-registro="{{ json_encode($datos) }}">
+                                            <i class="bi bi-pencil text-warning me-2"></i>
+                                            Editar
+                                        </button>
+                                    </li>
 
-                                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    {{-- Agregar o cambiar imagen --}}
+                                    <li>
+                                        <form action="{{ route('precio_rines.imagen.store', $r->id) }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
 
-                                        {{-- Editar precio --}}
+                                            <input type="file" name="imagen_rin" accept=".png,.jpg,.jpeg,.webp"
+                                                class="d-none" id="imagen_rin_{{ $r->id }}"
+                                                onchange="this.form.submit()">
+
+                                            <label for="imagen_rin_{{ $r->id }}" class="dropdown-item mb-0">
+                                                <i class="bi bi-image text-success me-2"></i>
+                                                {{ $imagen ? 'Cambiar imagen' : 'Agregar imagen' }}
+                                            </label>
+                                        </form>
+                                    </li>
+
+                                    {{-- Eliminar imagen --}}
+                                    @if ($imagen)
                                         <li>
-                                            <button type="button" class="dropdown-item btn-editar"
-                                                data-registro="{{ json_encode($datos) }}">
-                                                <i class="bi bi-pencil text-warning me-2"></i>
-                                                Editar
-                                            </button>
-                                        </li>
-
-                                        {{-- Agregar o cambiar imagen --}}
-                                        <li>
-                                            <form action="{{ route('precio_rines.imagen.store', $r->id) }}" method="POST"
-                                                enctype="multipart/form-data">
-                                                @csrf
-
-                                                <input type="file" name="imagen_rin" accept=".png,.jpg,.jpeg,.webp"
-                                                    class="d-none" id="imagen_rin_{{ $r->id }}"
-                                                    onchange="this.form.submit()">
-
-                                                <label for="imagen_rin_{{ $r->id }}" class="dropdown-item mb-0">
-                                                    <i class="bi bi-image text-success me-2"></i>
-                                                    {{ $imagen ? 'Cambiar imagen' : 'Agregar imagen' }}
-                                                </label>
-                                            </form>
-                                        </li>
-
-                                        {{-- Eliminar imagen --}}
-                                        @if ($imagen)
-                                            <li>
-                                                <form action="{{ route('precio_rines.imagen.destroy', $r->id) }}"
-                                                    method="POST" class="form-eliminar-imagen">
-                                                    @csrf
-                                                    @method('DELETE')
-
-                                                    <button type="submit" class="dropdown-item">
-                                                        <i class="bi bi-image-fill text-danger me-2"></i>
-                                                        Eliminar imagen
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        @endif
-
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-
-                                        {{-- Eliminar registro --}}
-                                        <li>
-                                            <form action="{{ route('precio_rines.destroy', $r->id) }}" method="POST"
-                                                class="form-eliminar">
+                                            <form action="{{ route('precio_rines.imagen.destroy', $r->id) }}"
+                                                method="POST" class="form-eliminar-imagen">
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button type="submit" class="dropdown-item text-danger">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Eliminar registro
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="bi bi-image-fill text-danger me-2"></i>
+                                                    Eliminar imagen
                                                 </button>
                                             </form>
                                         </li>
+                                    @endif
 
-                                    </ul>
-                                </div>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
 
-                            </td>
-                        </tr>
+                                    {{-- Eliminar registro --}}
+                                    <li>
+                                        <form action="{{ route('precio_rines.destroy', $r->id) }}" method="POST"
+                                            class="form-eliminar">
+                                            @csrf
+                                            @method('DELETE')
 
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted">Sin registros</td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="bi bi-trash me-2"></i>
+                                                Eliminar registro
+                                            </button>
+                                        </form>
+                                    </li>
 
-            </table>
-        </div>
+                                </ul>
+                            </div>
+
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+
+        </table>
     </div>
 
     {{-- Modal vista previa de imagen --}}
@@ -198,8 +183,8 @@
                     <div class="col-6">
                         <label class="form-label">Rin (diámetro)</label>
                         <select name="rin" id="f_rin" class="form-select" required>
-                            @foreach (range(10, 32) as $r)
-                                <option value="{{ $r }}">{{ $r }}</option>
+                            @foreach (range(10, 32) as $d)
+                                <option value="{{ $d }}">{{ $d }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -299,8 +284,66 @@
     </div>
 
 
+    {{-- Librerías DataTables (si tu layouts.app ya carga jQuery, quita la línea de jQuery) --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
+
+
     {{-- JavaScript --}}
     <script>
+        // Tabla responsive
+        $(document).ready(function() {
+            $('#tablaRines').DataTable({
+                responsive: true,
+                paging: false,
+                ordering: false,
+                stateSave: true,
+                language: {
+                    url: "/assets/lib/datatable/es.json"
+                },
+                columnDefs: [
+                    // Menor número = se oculta al último en pantallas chicas
+                    {
+                        responsivePriority: 1,
+                        targets: -1
+                    }, // Acciones (siempre visible)
+                    {
+                        responsivePriority: 2,
+                        targets: 1
+                    }, // Medida
+                    {
+                        responsivePriority: 3,
+                        targets: 5
+                    }, // Venta
+                    {
+                        responsivePriority: 4,
+                        targets: 0
+                    }, // Imagen
+                    {
+                        responsivePriority: 5,
+                        targets: 2
+                    }, // Barrenación
+                    {
+                        responsivePriority: 6,
+                        targets: 3
+                    }, // Tipo
+                    {
+                        responsivePriority: 7,
+                        targets: 4
+                    }, // Compra
+                    {
+                        responsivePriority: 8,
+                        targets: 6
+                    } // Ganancia
+                ]
+            });
+        });
+
         // Modal crear / editar
         function abrirModal(r = null) {
             const form = document.getElementById('formPrecio');
@@ -318,59 +361,69 @@
             document.getElementById('grupoImagen').classList.toggle('d-none', editando);
 
             if (editando) {
-                f_rin.value = r.rin;
-                f_ancho.value = parseFloat(r.ancho);
-                f_barrenacion.value = r.barrenacion ?? '';
-                f_tipo.value = r.tipo ?? 'Carro';
-                f_compra.value = r.precioCompra;
-                f_venta.value = r.precioVenta;
+                document.getElementById('f_rin').value = r.rin;
+                document.getElementById('f_ancho').value = parseFloat(r.ancho);
+                document.getElementById('f_barrenacion').value = r.barrenacion ?? '';
+                document.getElementById('f_tipo').value = r.tipo ?? 'Carro';
+                document.getElementById('f_compra').value = r.precioCompra;
+                document.getElementById('f_venta').value = r.precioVenta;
             }
 
             bootstrap.Modal.getOrCreateInstance(document.getElementById('modalPrecio')).show();
         }
 
-        // Botones "Editar"
-        document.querySelectorAll('.btn-editar').forEach(btn => {
-            btn.addEventListener('click', () => abrirModal(JSON.parse(btn.dataset.registro)));
+        // Editar (delegado: funciona también en filas colapsadas/redibujadas por DataTables)
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-editar');
+            if (btn) abrirModal(JSON.parse(btn.dataset.registro));
         });
 
-        // Confirmaciones SweetAlert
-        function confirmarEnvio(selector, titulo, texto) {
-            document.querySelectorAll(selector).forEach(form => {
-                form.addEventListener('submit', e => {
-                    e.preventDefault();
+        // Vista previa de imagen (delegado)
+        document.addEventListener('click', e => {
+            const img = e.target.closest('.img-zoom');
+            if (!img) return;
 
-                    Swal.fire({
-                        title: titulo,
-                        text: texto,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc3545',
-                        cancelButtonColor: '#6c757d',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
-                    }).then(result => {
-                        if (result.isConfirmed) form.submit();
-                    });
-                });
-            });
-        }
+            document.getElementById('imgGrande').src = img.dataset.src;
+            document.getElementById('imgGrande').alt = img.dataset.titulo;
+            document.getElementById('imgTitulo').innerText = img.dataset.titulo;
+            document.getElementById('imgDetalle').innerText = img.dataset.detalle;
+            document.getElementById('imgVenta').innerText = img.dataset.venta;
 
-        // Vista previa de imagen
-        document.querySelectorAll('.img-zoom').forEach(img => {
-            img.addEventListener('click', () => {
-                document.getElementById('imgGrande').src = img.dataset.src;
-                document.getElementById('imgGrande').alt = img.dataset.titulo;
-                document.getElementById('imgTitulo').innerText = img.dataset.titulo;
-                document.getElementById('imgDetalle').innerText = img.dataset.detalle;
-                document.getElementById('imgVenta').innerText = img.dataset.venta;
-
-                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalImagen')).show();
-            });
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalImagen')).show();
         });
 
-        confirmarEnvio('.form-eliminar', '¿Eliminar este precio?', 'Dejará de mostrarse en la lista.');
-        confirmarEnvio('.form-eliminar-imagen', '¿Eliminar imagen?', 'La imagen se eliminará permanentemente.');
+        // Confirmaciones SweetAlert (delegado)
+        const confirmaciones = {
+            'form-eliminar': {
+                titulo: '¿Eliminar este precio?',
+                texto: 'Dejará de mostrarse en la lista.'
+            },
+            'form-eliminar-imagen': {
+                titulo: '¿Eliminar imagen?',
+                texto: 'La imagen se eliminará permanentemente.'
+            }
+        };
+
+        document.addEventListener('submit', e => {
+            const clase = Object.keys(confirmaciones).find(c => e.target.classList.contains(c));
+            if (!clase) return;
+
+            e.preventDefault();
+            const form = e.target;
+
+            Swal.fire({
+                title: confirmaciones[clase].titulo,
+                text: confirmaciones[clase].texto,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.isConfirmed) form.submit();
+            });
+        });
     </script>
 
 
